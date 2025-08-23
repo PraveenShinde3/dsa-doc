@@ -5,8 +5,8 @@ import type { Metadata } from "next";
 import NotificationBanner from "@/components/ui/notification-banner";
 
 export const metadata: Metadata = {
-  title: "AriaDocs - Template",
-  metadataBase: new URL("https://ariadocs.vercel.app/"),
+  title: "Dsa - Docs",
+  metadataBase: new URL("https://dsa-docs.vercel.app/"),
   description:
     "This comprehensive documentation template, crafted with Next.js and available as open-source, delivers a sleek and responsive design, tailored to meet all your project documentation requirements.",
 };

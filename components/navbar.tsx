@@ -1,13 +1,12 @@
 "use client";
 import { ModeToggle } from "@/components/theme-toggle";
-import { GithubIcon, TwitterIcon, GripIcon, Search } from "lucide-react";
+import { GithubIcon, TwitterIcon, Search } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import Anchor from "./anchor";
 import { SheetLeftbar } from "./leftbar";
-// import { page_routes } from "@/lib/routes-config";
+import Logo from "./logo";
 import { SheetClose } from "@/components/ui/sheet";
-// import AlgoliaSearch from "./algolia-search";
 import { SearchDialog } from "./ui/search-dialog";
 import { useState } from "react";
 
@@ -40,7 +39,7 @@ export function Navbar() {
             <SheetLeftbar />
             <div className="flex items-center gap-6">
               <div className="lg:flex hidden">
-                <Logo />
+                <LogoDiv />
               </div>
               <p className="lg:flex hidden">|</p>
               <div className="md:flex hidden items-center gap-4 text-sm font-medium text-muted-foreground">
@@ -97,10 +96,10 @@ export function Navbar() {
   );
 }
 
-export function Logo() {
+export function LogoDiv() {
   return (
     <Link href="/" className="flex items-center gap-2.5">
-      <GripIcon className="w-6 h-6 text-muted-foreground" strokeWidth={2} />
+      <Logo />
       <h2 className="text-md font-bold font-code">
         DSA<span className="text-muted-foreground text-sm">.docs</span>
       </h2>
