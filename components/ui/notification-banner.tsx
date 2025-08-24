@@ -2,8 +2,8 @@ import { ChevronRight } from "lucide-react";
 
 export default function NotificationBanner() {
   return (
-    <div className="mb-8 flex text-foreground items-center gap-3 p-1 bg-background border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-      <span className="text-sm  font-medium border  border-border  rounded-sm px-3 oy-1">
+    <div className="mb-8 text-xs sm:text-sm truncate flex text-foreground items-center gap-3 p-1 bg-background border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+      <span className="hidden sm:block font-medium border  border-border  rounded-sm px-3 py-1">
         What&apos;s new?
       </span>
 
