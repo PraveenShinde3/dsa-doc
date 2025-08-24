@@ -61,7 +61,7 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        code: ["var(----font-jetbrains-mono)"],
+        code: ["var(--font-jetbrains-mono)"],
         regular: ["var(--font-geist-sans)"],
         inter: ["var(--font-inter)"],
         lexend: ["var(--font-lexend)"],

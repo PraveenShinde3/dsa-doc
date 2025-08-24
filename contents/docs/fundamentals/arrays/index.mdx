@@ -3,6 +3,99 @@ title: Arrays
 description: Learn about arrays, a powerful data structure in JavaScript.
 ---
 
-## Declaring Arrays
+## Introduction to Arrays
 
-You can create an array using square brackets `[]` or the `Array` constructor.
+An array is a simple data structure that stores a collection of elements of the same type in contiguous memory locations. Each element can be accessed directly using its index, usually starting from 0. Arrays allow fast access to elements and are used to organize related data efficiently.
+
+### Time Complexity
+
+| Operation                        | Time Complexity | Explanation                                                        |
+| -------------------------------- | --------------- | ------------------------------------------------------------------ |
+| Access by index                  | O(1)            | Direct access using index is constant time.                        |
+| Insert at end (if space)         | O(1) amortized  | Adding at the end is usually constant time unless resizing occurs. |
+| Insert/delete at start or middle | O(n)            | Requires shifting elements, so linear time.                        |
+| Search for element               | O(n)            | Linear search through the array.                                   |
+| Delete last element              | O(1)            | Simply removes the last element.                                   |
+| Resize array (when needed)       | O(n)            | Copying elements takes linear time.                                |
+
+### Benefits of Arrays
+
+- Efficient and fast access to elements using an index **`(O(1)`** time complexity).
+- Memory efficient as elements are stored in contiguous memory locations.
+- Simple and easy to use for storing multiple values of the same data type.
+- Support multi-dimensional arrays for complex data representation like matrices.
+- Used as the underlying structure for implementing other data structures such as **stacks** and **queues**.
+- Facilitate various algorithms like searching, sorting, and dynamic programming.
+
+### Limitations of Arrays
+
+- Fixed size; the size must be defined at creation and cannot be changed dynamically.
+- Insertion and deletion operations are costly `(O(n))` due to the need to shift elements.
+- Can cause memory wastage if allocated size is larger than needed.
+- Support only one data type per array, limiting flexibility.
+- Expanding an array requires creating a new larger array and copying elements, which is time-consuming.
+- Limited flexibility compared to dynamic data structures like linked lists.
+- Lack of built-in bounds checking in some languages can lead to errors or unexpected behavior.
+
+### When to Use Arrays?
+
+- **Fast Access Needs:** Choose arrays when you need quick, direct access to elements using their index.
+- **Known Size:** Ideal when the number of elements is fixed or known ahead of time.
+- **Uniform Data:** Best suited for storing multiple values of the same data type.
+- **Multi-Dimensional Data:** Perfect for representing complex data structures like matrices or tables.
+- **Foundation for Other Structures:** Useful as the base for stacks, queues, and other data structures.
+- **Algorithmic Operations:** Great for tasks involving searching, sorting, or dynamic programming.
+- **Efficient Memory Use:** Stores data in contiguous blocks of memory for better performance.
+- **Data Buffering:** Effective for buffering or processing large streams of data requiring fast access.
+
+Arrays provide a simple, efficient way to handle stable, predictable data where size and type consistency are expected.
+
+## How to Create an Array
+
+Here is a simple example of how to create an array in different programming languages:
+
+<Tabs defaultValue="java" className=" pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="javascript">Javascript</TabsTrigger>
+
+  </TabsList>
+  <TabsContent value="java">
+    ```java showLineNumbers {2,5,8}
+        // Integer array
+        int[] numbers = {1, 2, 3, 4, 5};
+
+        // String array
+        String[] fruits = {"Apple", "Banana", "Cherry"};
+
+        // Declaring with size (default values = 0 or null)
+        int[] arr = new int[5]; // [0, 0, 0, 0, 0]
+    ```
+    </TabsContent>
+    <TabsContent value="python">
+    ```python showLineNumbers {2,5,8}
+        # Integer list
+        numbers = [1, 2, 3, 4, 5]
+
+        # String list
+        fruits = ["Apple", "Banana", "Cherry"]
+
+        # Empty list
+        arr = []
+    ```
+    </TabsContent>
+    <TabsContent value="javascript">
+    ```javascript showLineNumbers {2,5,8}
+        // Integer array
+        let numbers = [1, 2, 3, 4, 5];
+
+        // String array
+        let fruits = ["Apple", "Banana", "Cherry"];
+
+        // Empty array
+        let arr = [];
+    ```
+    </TabsContent>
+
+</Tabs>

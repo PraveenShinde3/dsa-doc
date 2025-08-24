@@ -133,6 +133,10 @@
   margin: 0 !important;
 }
 
+.prose table {
+  margin: 0 !important; /* or whatever you want */
+}
+
 pre {
   padding: 2px 0 !important;
   width: inherit !important;
@@ -143,6 +147,8 @@ pre > code {
   display: grid;
   max-width: inherit !important;
   padding: 14px 0 !important;
+  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }
 
 .code-line {
@@ -153,7 +159,7 @@ pre > code {
 .line-number::before {
   display: inline-block;
   width: 1rem;
-  margin-right: 22px;
+  margin-right: 0px;
   margin-left: -2px;
   color: rgb(110, 110, 110);
   content: attr(line);
@@ -166,7 +172,7 @@ pre > code {
 }
 
 .rehype-code-title {
-  @apply px-2 -mb-10 w-full text-sm pb-5 font-medium mt-5 font-code;
+  @apply px-2 -mb-10 w-full text-sm pb-5 font-medium mt-5 font-code py-2 rounded-md border;
 }
 
 .highlight-comp > code {

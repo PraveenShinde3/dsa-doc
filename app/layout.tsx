@@ -1,18 +1,11 @@
 "use client";
 import { ThemeProvider } from "@/components/contexts/theme-provider";
 import { Navbar } from "@/components/navbar";
-import { JetBrains_Mono, Lexend, Space_Grotesk } from "next/font/google";
+import { JetBrains_Mono, Lexend } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import "@/styles/globals.css";
-
-const sansFont = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-  display: "swap",
-  weight: "400",
-});
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -52,7 +45,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${sansFont.variable} ${monoFont.variable} ${lexend.variable} font-lexend antialiased tracking-wide min-h-screen flex flex-col`}
+        className={` ${monoFont.variable} ${lexend.variable} font-lexend antialiased tracking-wide min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
         <ThemeProvider
