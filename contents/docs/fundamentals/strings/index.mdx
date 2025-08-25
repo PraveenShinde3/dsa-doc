@@ -1,0 +1,88 @@
+---
+title: Strings
+description: Learn about strings, their properties, and common operations in programming.
+---
+
+## Introduction to Strings
+
+A string in Data Structures and Algorithms (DSA) is a linear data structure used to represent and manipulate a sequence of characters, such as text, words, or sentences. Strings are found in nearly all programming languages and play a key role in both everyday coding tasks and algorithmic problem-solving
+
+### What Is a String?
+
+A string is an ordered sequence of characters stored in contiguous memory locations. It can include letters, numbers, symbols, and spaces, and strings are usually enclosed in quotation marks when represented in source code. In most languages, strings are implemented as arrays of characters.
+
+### Time Complexity
+
+| Operation            | Time Complexity | Explanation                                                          |
+| -------------------- | --------------- | -------------------------------------------------------------------- |
+| Access by index      | O(1)            | Direct access using index is constant time.                          |
+| Concatenation        | O(n + m)        | Combining two strings of lengths n and m requires copying both.      |
+| Substring extraction | O(k)            | Extracting a substring of length k requires copying k characters.    |
+| Search for substring | O(n \* m)       | Naive search checks each position, leading to O(n\*m) in worst case. |
+| Comparison           | O(n)            | Comparing two strings of length n requires checking each character.  |
+| Insertion            | O(n)            | Inserting a character requires shifting elements, so linear time.    |
+| Deletion             | O(n)            | Deleting a character requires shifting elements, so linear time.     |
+
+### Benefits of Strings
+
+- Strings are easy to use and understand, making them a fundamental data type in programming.
+- They provide a way to represent and manipulate text data effectively.
+- Strings support various built-in functions and methods for common operations like searching, slicing, and formatting.
+- They can be concatenated, split, and transformed using a variety of algorithms.
+- Strings are immutable in many languages, which can lead to safer and more predictable code.
+
+### Limitations of Strings
+
+- Strings can be memory-intensive, especially when dealing with large texts or frequent modifications.
+- Insertion and deletion operations are costly **`(O(n))`** due to the need to shift characters
+- Strings are immutable in many languages, meaning any modification creates a new string, which can lead to performance overhead.
+- Handling multi-byte characters (like Unicode) can complicate string manipulation and indexing.
+- Strings can lead to security vulnerabilities if not handled properly, such as buffer overflows or injection attacks.
+
+### When to Use Strings?
+
+<ListCard
+  link={false}
+  patterns={[
+    {
+      id: 1,
+      title: "Text Representation",
+      des: "Use strings to represent and manipulate text data, such as names, messages, or documents.",
+    },
+    {
+      id: 2,
+      title: "Data Parsing",
+      des: "Ideal for parsing structured data formats like JSON, XML, or CSV.",
+    },
+    {
+      id: 3,
+      title: "Search and Pattern Matching",
+      des: "Useful for searching substrings or patterns within larger texts using algorithms like KMP or Rabin-Karp.",
+    },
+    {
+      id: 4,
+      title: "Input Handling",
+      des: "Commonly used for handling user input in applications, such as form data or command-line arguments.",
+    },
+    {
+      id: 5,
+      title: "Immutable Data",
+      des: "When you need immutable sequences of characters that should not change after creation.",
+    },
+    {
+      id: 6,
+      title: "String Manipulation",
+      des: "For tasks involving string manipulation, such as formatting, trimming, or case conversion.",
+    },
+  ]}
+/>
+
+## How to Implement Strings in Different Languages
+
+| Language | Implementation              | Mutability | Example Declaration        |
+| -------- | --------------------------- | ---------- | -------------------------- |
+| C        | Char array, null-terminated | Mutable    | `char str[] = "hello";`    |
+| C++      | std::string class           | Mutable    | `std::string s = "hello";` |
+| Java     | String class (object)       | Immutable  | `String s = "hello";`      |
+| Python   | str object                  | Immutable  | `s = "hello"`              |
+| JS       | String primitive/object     | Immutable  | `let s = "hello";`         |

@@ -19,7 +19,7 @@ export default function ListCard({
 }) {
   return (
     <div className="text-foreground ">
-      <div className="grid grid-cols-1 w-full md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 pt-2 w-full md:grid-cols-2 xl:grid-cols-3 gap-4">
         {patterns.map((pattern, index) =>
           link && pattern.link ? (
             <Link
