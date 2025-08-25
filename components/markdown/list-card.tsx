@@ -26,7 +26,7 @@ export default function ListCard({
               href={pattern.link}
               key={pattern.id}
               target="_blank"
-              className="bg-white no-underline p-2 w-full rounded-md border border-gray-200 cursor-pointer group"
+              className="bg-background no-underline p-2 w-full rounded-md border border-border cursor-pointer group"
             >
               <div className="flex items-start gap-2 ">
                 <Clipboard className="w-4 h-4 text-sm mt-0.5" />
@@ -46,7 +46,7 @@ export default function ListCard({
           ) : (
             <div
               key={pattern.id}
-              className="bg-white p-3 w-full rounded-md border border-gray-200 cursor-default group"
+              className="bg-background p-3 w-full rounded-md border border-border cursor-default group"
             >
               <div className="flex items-center gap-2 relative">
                 {/* <Clipboard className="w-4 h-4 text-sm mt-0.5" />
