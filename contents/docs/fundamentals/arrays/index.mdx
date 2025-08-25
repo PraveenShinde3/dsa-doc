@@ -5,7 +5,7 @@ description: Learn about arrays, a powerful data structure in JavaScript.
 
 ## Introduction to Arrays
 
-An array is a simple data structure that stores a collection of elements of the same type in contiguous memory locations. Each element can be accessed directly using its index, usually starting from 0. Arrays allow fast access to elements and are used to organize related data efficiently.
+An array is a simple data structure that stores a collection of elements of the same type in contiguous memory locations. Each element can be accessed directly using its index, starting from index 0. Arrays allow fast access to elements and are used to organize related data efficiently.
 
 ### Time Complexity
 
@@ -39,14 +39,51 @@ An array is a simple data structure that stores a collection of elements of the 
 
 ### When to Use Arrays?
 
-- **Fast Access Needs:** Choose arrays when you need quick, direct access to elements using their index.
-- **Known Size:** Ideal when the number of elements is fixed or known ahead of time.
-- **Uniform Data:** Best suited for storing multiple values of the same data type.
-- **Multi-Dimensional Data:** Perfect for representing complex data structures like matrices or tables.
-- **Foundation for Other Structures:** Useful as the base for stacks, queues, and other data structures.
-- **Algorithmic Operations:** Great for tasks involving searching, sorting, or dynamic programming.
-- **Efficient Memory Use:** Stores data in contiguous blocks of memory for better performance.
-- **Data Buffering:** Effective for buffering or processing large streams of data requiring fast access.
+<ListCard
+  link={false}
+  patterns={[
+    {
+      id: 1,
+      title: "Fast Access Needs",
+      des: "Choose arrays when you need quick, direct access to elements using their index.",
+    },
+    {
+      id: 2,
+      title: "Known Size",
+      des: "Ideal when the number of elements is fixed or known ahead of time.",
+    },
+    {
+      id: 3,
+      title: "Uniform Data",
+      des: "Best suited for storing multiple values of the same data type.",
+    },
+    {
+      id: 4,
+      title: "Multi-Dimensional Data",
+      des: "Perfect for representing complex data structures like matrices or tables.",
+    },
+    {
+      id: 5,
+      title: "Foundation for Other Structures",
+      des: "Useful as the base for stacks, queues, and other data structures.",
+    },
+    {
+      id: 6,
+      title: "Algorithmic Operations",
+      des: "Great for tasks involving searching, sorting, or dynamic programming.",
+    },
+    {
+      id: 7,
+      title: "Efficient Memory Use",
+      des: "Stores data in contiguous blocks of memory for better performance.",
+    },
+    {
+      id: 8,
+      title: "Data Buffering",
+      des: "Effective for buffering or processing large streams of data requiring fast access.",
+    },
+  ]}
+/>
 
 Arrays provide a simple, efficient way to handle stable, predictable data where size and type consistency are expected.
 
@@ -99,3 +136,46 @@ Here is a simple example of how to create an array in different programming lang
     </TabsContent>
 
 </Tabs>
+
+### Common Patterns
+
+<ListCard
+  patterns={[
+    {
+      id: 1,
+      title: "Two Pointers",
+      des: "Use two indices to iterate over an array to find pairs or process elements efficiently, commonly used in sorted arrays, palindrome checks, or removing duplicates.",
+      link: "https://blog.algomaster.io/i/146649626/two-pointers",
+    },
+    {
+      id: 2,
+      title: "Sliding Window",
+      des: "Keep a running window over a subarray to optimize finding maximum/minimum sum, or subarrays/strings that meet certain criteria.",
+      link: "https://blog.algomaster.io/p/15-leetcode-patterns",
+    },
+    {
+      id: 3,
+      title: "Overlapping Intervals",
+      des: "Merge, insert, or find intersections in arrays of interval pairs, commonly seen in scheduling or calendar problems.",
+      link: "https://blog.algomaster.io/p/15-leetcode-patterns",
+    },
+    {
+      id: 4,
+      title: "Modified Binary Search",
+      des: "Apply binary search on sorted or rotated arrays, or to find boundaries, indexes, and satisfy specific conditions.",
+      link: "https://blog.codeinmotion.io/p/leetcode-patterns",
+    },
+    {
+      id: 5,
+      title: "Cyclic Sort",
+      des: "Place elements in their correct indices in O(n) time for arrays containing numbers in a specific range, useful for finding missing or duplicate numbers.",
+      link: "https://blog.algomaster.io/p/15-leetcode-patterns",
+    },
+    {
+      id: 6,
+      title: "Traversing from Right or Both Ends",
+      des: "Process arrays from one or both ends at once to simplify logic, often for merging problems or finding elements quickly.",
+      link: "https://blog.algomaster.io/p/15-leetcode-patterns",
+    },
+  ]}
+/>

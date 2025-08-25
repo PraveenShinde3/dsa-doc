@@ -23,6 +23,10 @@ export const ROUTES: EachRoute[] = [
     noLink: true,
     items: [
       {
+        title: "Python, C++ or Java?",
+        href: "/dsa-python-cpp-or-java",
+      },
+      {
         title: "Mathematics for DSA",
         href: "/mathematics-for-dsa",
       },

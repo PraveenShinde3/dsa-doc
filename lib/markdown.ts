@@ -23,6 +23,7 @@ import Files from "@/components/markdown/files";
 import CardGrid from "@/components/markdown/card-grid";
 import Card from "@/components/markdown/card";
 import Callout from "@/components/markdown/callout";
+import ListCard from "@/components/markdown/list-card";
 import {
   Table,
   TableBody,
@@ -49,6 +50,7 @@ const components = {
   Card,
   CardGrid,
   Callout,
+  ListCard,
   table: Table,
   thead: TableHeader,
   th: TableHead,
