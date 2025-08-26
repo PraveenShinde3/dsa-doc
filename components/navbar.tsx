@@ -52,13 +52,13 @@ export function Navbar() {
             <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
               <div className="w-full flex-1 md:w-auto md:flex-none">
                 <button
-                  className="relative h-9 w-full flex items-center justify-start rounded-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-normal text-gray-500 dark:text-gray-400 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors sm:pr-12 md:w-40 lg:w-64 px-3"
+                  className="relative h-9 w-full flex items-center justify-start rounded-md bg-background border border-muted text-sm font-normal text-muted-foreground shadow-sm hover:bg-muted/50 transition-colors sm:pr-12 md:w-40 lg:w-64 px-3"
                   onClick={() => setSearchOpen(true)}
                 >
                   <Search className="h-4 w-4 mr-2" />
                   <span className="hidden lg:inline-flex">Search..</span>
                   <span className="inline-flex lg:hidden">Search...</span>
-                  <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 rounded border bg-gray-100 dark:bg-gray-700 px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+                  <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
                     <span className="text-xs">⌘</span>K
                   </kbd>
                 </button>
@@ -116,7 +116,7 @@ export function NavMenu({ isSheet = false }) {
             key={item.title + item.href}
             activeClassName="!text-primary dark:font-medium font-semibold"
             absolute
-            className="flex items-center gap-1 sm:text-sm text-[14.5px] dark:text-stone-300/85 text-stone-800"
+            className="flex items-center gap-1 sm:text-sm text-[14.5px] text-muted-foreground hover:text-foreground"
             href={item.href}
           >
             {item.title}

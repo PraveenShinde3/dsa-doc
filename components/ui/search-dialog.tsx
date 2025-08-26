@@ -174,18 +174,18 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
         className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
         onClick={() => onOpenChange(false)}
       />
-      <div className="fixed left-1/2 top-1/2 z-50 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 rounded-lg shadow-lg border">
+      <div className="fixed left-1/2 top-1/2 z-50 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border">
         <div className="flex items-center border-b px-4 py-3">
-          <Search className="h-4 w-4 text-gray-500 mr-3" />
+          <Search className="h-4 w-4 text-muted-foreground mr-3" />
           <input
             type="text"
             placeholder="Search documentation..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="flex-1 bg-transparent border-0 outline-none text-base text-gray-900 dark:text-gray-100 placeholder-gray-500"
+            className="flex-1 bg-transparent border-0 outline-none text-base text-foreground placeholder-muted-foreground"
             autoFocus
           />
-          <div className="text-xs text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+          <div className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
             ESC
           </div>
         </div>
@@ -198,22 +198,20 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                   key={`${result.href}-${index}`}
                   href={result.href}
                   onClick={() => onOpenChange(false)}
-                  className={`block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
-                    index === selectedIndex
-                      ? "bg-gray-100 dark:bg-gray-800"
-                      : ""
+                  className={`block p-3 rounded-lg hover:bg-muted/50 transition-colors ${
+                    index === selectedIndex ? "bg-background" : ""
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className="mt-1">
                       {result.type === "section" ? (
-                        <FileText className="h-4 w-4 text-gray-500" />
+                        <FileText className="h-4 w-4 text-muted" />
                       ) : (
-                        <Hash className="h-4 w-4 text-orange-500" />
+                        <Hash className="h-4 w-4 text-foreground" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
                         {result.breadcrumb.map((crumb, i) => (
                           <span key={i} className="flex items-center gap-2">
                             {crumb}
@@ -223,12 +221,12 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                           </span>
                         ))}
                       </div>
-                      <div className="font-medium text-gray-900 dark:text-gray-100 mb-1">
+                      <div className="font-medium text-foreground mb-1">
                         <Hash className="inline h-3 w-3 mr-1" />
                         {result.title}
                       </div>
                       {result.description && (
-                        <div className="text-sm text-gray-500 line-clamp-2">
+                        <div className="text-sm text-muted-foreground line-clamp-2">
                           {result.description}
                         </div>
                       )}
@@ -240,7 +238,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
           )}
 
           {query.trim() && searchResults.length === 0 && (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-muted">
               <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
               <p>No results found for query:{query}</p>
             </div>
@@ -248,19 +246,19 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 
           {/* AI Assistant Section */}
           <div className="border-t p-4">
-            <div className="text-sm font-medium text-gray-500 mb-2">
+            <div className="text-sm font-medium text-muted-foreground mb-2">
               Ask AI assistant
             </div>
             <button
-              className="w-full flex items-center justify-start text-left p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              className="w-full flex items-center justify-start text-left p-3 hover:bg-muted/50 rounded-lg transition-colors"
               onClick={() => {
                 // You can implement AI assistant functionality here
                 console.log(`AI query: Can you tell me about ${query}?`);
                 onOpenChange(false);
               }}
             >
-              <Sparkles className="h-4 w-4 mr-2 text-orange-500" />
-              <span className="text-gray-900 dark:text-gray-100">
+              <Sparkles className="h-4 w-4 mr-2 text-foreground" />
+              <span className="text-foreground">
                 Can you tell me about {query || "this topic"}?
               </span>
             </button>
