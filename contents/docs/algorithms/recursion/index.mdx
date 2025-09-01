@@ -1,0 +1,65 @@
+## What is Recursion?
+
+Recursion is a technique where a function calls itself to solve a smaller instance of the same problem.
+
+It is typically used when:
+
+- The problem can be broken down into smaller subproblems.
+- Each decision reduces the input size until a base case is reached.
+
+### How to Identify Recursion?
+
+A problem is recursive if:
+
+- We need to make `decisions` based on `choices`.
+- Each choice leads to a smaller input or simpler version of the problem.
+- There is a `clear base case` (a stopping condition) where recursion ends.
+- The subproblems can be combined to form the `final solution`.
+
+<Callout>👉 Choices + Decisions = Recursion</Callout>
+
+## Example: Subsequence / Substring Generation
+
+Consider the string: `const s = "abc";`
+
+Recursion is about making binary choices at each step: `include` or `exclude` each character from the original string. Exploring all such decision paths results in all possible subsequences.
+
+**Recursive Decision**
+
+For each character in the string, we recursively decide to:
+
+- `Include` the character.
+- `Exclude` the character.
+
+Generating All Subsequences: Recursive Tree Approach
+
+| Output | a   | b   | c   |
+| ------ | --- | --- | --- |
+| ""     | ✗   | ✗   | ✗   |
+| a      | ✓   | ✗   | ✗   |
+| b      | ✗   | ✓   | ✗   |
+| c      | ✗   | ✗   | ✓   |
+| ab     | ✓   | ✓   | ✗   |
+| bc     | ✗   | ✓   | ✓   |
+| ac     | ✓   | ✗   | ✓   |
+| abc    | ✓   | ✓   | ✓   |
+
+✔ = character included  
+✗ = character excluded
+
+## Recursion LeetCode Problems
+
+| #   | Problem                 | Difficulty | Link                                                               |
+| --- | ----------------------- | ---------- | ------------------------------------------------------------------ |
+| 22  | Generate Parentheses    | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/generate-parentheses/)    |
+| 46  | Permutations            | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/permutations/)            |
+| 47  | Permutations II         | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/permutations-ii/)         |
+| 77  | Combinations            | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/combinations/)            |
+| 78  | Subsets                 | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/subsets/)                 |
+| 90  | Subsets II              | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/subsets-ii/)              |
+| 39  | Combination Sum         | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/combination-sum/)         |
+| 40  | Combination Sum II      | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/combination-sum-ii/)      |
+| 216 | Combination Sum III     | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/combination-sum-iii/)     |
+| 131 | Palindrome Partitioning | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/palindrome-partitioning/) |
+| 93  | Restore IP Addresses    | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/restore-ip-addresses/)    |
+| 401 | Binary Watch            | 🟠 Medium  | [LeetCode](https://leetcode.com/problems/binary-watch/)            |
