@@ -13,13 +13,13 @@ const typeStyles: Record<string, string> = {
 };
 
 interface CalloutProps {
-  type?: "info" | "success" | "warning" | "danger";
+  type?: "info" | "success" | "warning" | "danger" | "default";
   title?: string;
   children: React.ReactNode;
 }
 
 export default function Callout({
-  type = "info",
+  type = "default",
   title,
   children,
 }: CalloutProps) {
