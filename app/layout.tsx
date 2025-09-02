@@ -1,11 +1,9 @@
-"use client";
 import { ThemeProvider } from "@/components/contexts/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { JetBrains_Mono, Lexend } from "next/font/google";
 import { Footer } from "@/components/footer";
-import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
 import "@/styles/globals.css";
+import ClientPageWrapper from "@/components/ClientPageWrapper";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -21,20 +19,11 @@ const monoFont = JetBrains_Mono({
   weight: "400",
 });
 
-// const inter = Inter({
-//   subsets: ["latin"],
-//   variable: "--font-inter",
-//   display: "swap",
-//   weight: "400",
-// });
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const firstSegment = pathname?.split("/")[1] || "root";
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -56,16 +45,7 @@ export default function RootLayout({
         >
           <Navbar />
           <main className="sm:container flex-1 mx-auto w-[90vw] h-auto scroll-smoothn">
-            <AnimatePresence initial={false} mode="wait">
-              <motion.div
-                key={firstSegment} // triggers animation when route changes
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-              >
-                {children}
-              </motion.div>
-            </AnimatePresence>
+            <ClientPageWrapper>{children}</ClientPageWrapper>
           </main>
           <Footer />
         </ThemeProvider>
