@@ -2,6 +2,7 @@ import { ThemeProvider } from "@/components/contexts/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { JetBrains_Mono, Lexend } from "next/font/google";
 import { Footer } from "@/components/footer";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "@/styles/globals.css";
 import ClientPageWrapper from "@/components/ClientPageWrapper";
 
@@ -50,6 +51,7 @@ export default function RootLayout({
           <Footer />
         </ThemeProvider>
       </body>
+      <GoogleAnalytics gaId="G-PYXY69YBZL" />
     </html>
   );
 }
