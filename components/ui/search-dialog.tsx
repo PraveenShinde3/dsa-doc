@@ -171,10 +171,10 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   return (
     <>
       <div
-        className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 z-50 bg-muted/50 backdrop-blur-sm"
         onClick={() => onOpenChange(false)}
       />
-      <div className="fixed left-1/2 top-1/2 z-50 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border">
+      <div className="fixed left-1/2 top-1/2 z-50 w-full max-w-xs sm:max-w-2xl -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border">
         <div className="flex items-center border-b px-4 py-3">
           <Search className="h-4 w-4 text-muted-foreground mr-3" />
           <input
