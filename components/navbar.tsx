@@ -8,7 +8,7 @@ import { SheetLeftbar } from "./leftbar";
 import Logo from "./logo";
 import { SheetClose } from "@/components/ui/sheet";
 import { SearchDialog } from "./ui/search-dialog";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const NAVLINKS = [
   {
@@ -31,6 +31,19 @@ export const NAVLINKS = [
 
 export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const isMac = /Mac/i.test(navigator.userAgent);
+      if ((isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <>
       <nav className="w-full border-b h-16 sticky top-0 z-50 bg-background">
