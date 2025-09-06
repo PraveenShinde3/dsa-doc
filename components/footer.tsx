@@ -15,7 +15,7 @@ export function Footer({ className = "" }: FooterProps) {
       aria-label="Site footer"
     >
       <div className="container mx-auto px-4 py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-muted-foreground text-sm">
+        <div className="flex flex-row items-start sm:items-center justify-between gap-4 text-muted-foreground text-sm">
           {/* Brand Section */}
           <div className="flex items-center gap-3">
             <LogoDiv />
@@ -28,7 +28,7 @@ export function Footer({ className = "" }: FooterProps) {
           </div>
 
           {/* Copyright and Credits Section */}
-          <div className="flex flex-col sm:flex-row items-center gap-2 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:text-left">
             <span>© {currentYear}</span>
             <span className="hidden sm:inline" aria-hidden="true">
               ·
