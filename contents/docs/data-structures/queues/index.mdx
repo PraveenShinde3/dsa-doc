@@ -1,0 +1,62 @@
+---
+title: "Queues"
+description: "A comprehensive guide to the queue data structure, its operations, implementations, and real-world applications."
+---
+
+![Queues Example](/images/queue-diagram.png)
+
+## Introduction to Queues
+
+A **queue** is a linear data structure based on the First-In-First-Out (FIFO) principle, meaning the first element added is the first to be removed. Queues have broad applications in computer programming, operating systems, and networking due to their systematic way of managing sequential data.
+
+## Structure and Key Concepts
+
+A queue has two main pointers:
+
+- **Front (Head):** The position from which elements are removed.
+- **Rear (Tail/Back):** The position where new elements are inserted.
+
+Elements are enqueued (added) at the rear and dequeued (removed) from the front. Unlike arrays or linked lists, direct access to elements in between is not allowed—operations only happen at the ends.
+
+## Basic Operations
+
+- **Enqueue:**
+  - Add an element at the rear.
+  - Before insertion, a check is made to see if the queue is full (in static implementation).
+- **Dequeue:**
+  - Remove and return the element at the front.
+  - If the queue is empty, an underflow occurs.
+- **Peek/Front:**
+  - Get the front element without removing it.
+- **isEmpty:**
+  - Check whether the queue has no elements.
+- **isFull:**
+  - In fixed-size queues, check if the queue is at its capacity.
+
+## Types of Queues
+
+- **Simple (Linear) Queue:**
+  - Follows FIFO strictly; insertion at rear, deletion from the front.
+- **Circular Queue:**
+  - Rear connects back to the front to utilize storage efficiently, avoiding wasted space when the array is full but has space at the head.
+- **Priority Queue:**
+  - Elements are ordered by priority; removal happens based on priority rather than strictly FIFO.
+- **Double-Ended Queue (Deque):** Insertion and removal operate at both ends, offering greater flexibility.
+
+## Implementation Methods
+
+Queues can be implemented using:
+
+- **Arrays:** Simple and static, but may suffer from wasted space or overflow issues.
+- **Linked Lists:**
+  - Dynamic, allowing growth/shrinkage as needed.
+- **Circular Arrays:**
+  - Improve space utilization in static implementations.
+
+## Real-World Applications
+
+- **Resource Scheduling:**
+  - Operating systems use queues for task scheduling (like CPU or print jobs).
+- **Buffer Management:**
+  - Network routers, communication systems, and job queues use queues to ensure smooth data flow.
+- **Simulation:** Useful in event-driven programs and modeling real-world waiting lines.
