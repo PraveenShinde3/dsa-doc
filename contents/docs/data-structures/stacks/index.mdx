@@ -1,0 +1,165 @@
+---
+title: "Stack"
+description: "A comprehensive guide to the stack data structure, its operations, implementations, and real-world applications."
+date: "2025-09-08"
+---
+
+![Stacks Example](/images/stack-diagram.png)
+
+## Introduction to Stacks
+
+A **stack** is a fundamental linear data structure that follows a particular order for operations. The order is **LIFO (Last-In, First-Out)**. Think of it like a stack of plates: you can only add a new plate to the top, and you can only take a plate from the top. The last plate you put on is the first one you take off.
+
+This "last-in, first-out" principle makes stacks incredibly useful for managing tasks and data in a specific sequence.
+
+## Core Operations
+
+A stack is defined by a few primary operations that allow you to interact with it. All these operations happen at the "top" of the stack.
+
+### 1. Push
+
+The **push** operation adds a new element to the top of the stack.
+
+```javascript
+stack.push("A"); // Adds 'A'
+stack.push("B"); // Adds 'B' on top of 'A'
+```
+
+### 2. Pop
+
+The pop operation removes the topmost element from the stack and returns it. Trying to pop from an empty stack results in an error known as a "stack underflow."
+
+```javascript
+stack.pop(); // Removes and returns 'B'
+stack.pop(); // Removes and returns 'A'
+```
+
+### 3. Peek
+
+The peek operation returns the topmost element without removing it from the stack.
+
+```javascript
+stack.peek(); // Returns 'A'
+```
+
+### 4. Is Empty
+
+The isEmpty operation checks if the stack is empty.
+
+```javascript
+stack.isEmpty(); // Returns true
+```
+
+### 5. Size
+
+The size operation returns the number of elements in the stack.
+
+```javascript
+stack.size(); // Returns 0
+```
+
+## How Stacks are Implemented
+
+Stacks can be implemented using various underlying data structures. The two most common ways are using arrays and linked lists.
+
+### Using an Array (or List)
+
+This is the simplest implementation. An array can be used to store the stack elements, and a variable (often called top) can keep track of the index of the last inserted element.
+
+- Pros: Easy to implement and memory-efficient (no pointers).
+
+- Cons: Can have a fixed size, leading to a "stack overflow" if you push too many elements. Dynamic arrays can solve this but may have performance costs for resizing.
+
+JavaScript
+
+```javascript
+// A simple array-based stack implementation in JavaScript
+class Stack {
+  constructor() {
+    this.items = [];
+  }
+
+  push(element) {
+    this.items.push(element);
+  }
+
+  pop() {
+    if (this.isEmpty()) {
+      return "Underflow";
+    }
+    return this.items.pop();
+  }
+
+  peek() {
+    return this.items[this.items.length - 1];
+  }
+
+  isEmpty() {
+    return this.items.length === 0;
+  }
+}
+```
+
+### Using a Linked List
+
+In this approach, each element is a node that contains data and a pointer to the next node. The top of the stack is the head of the linked list.
+
+- Pros: The stack can grow dynamically, so there's no fixed size limit (besides available memory).
+
+- Cons: Requires slightly more memory due to the storage of pointers in each node.
+
+### Complexity Analysis
+
+The efficiency of stack operations is one of its greatest advantages.
+
+| Operation | Time Complexity | Space Complexity |
+| --------- | --------------- | ---------------- |
+| Push      | O(1)            | O(n)             |
+| Pop       | O(1)            | O(n)             |
+| Peek      | O(1)            | O(n)             |
+| isEmpty   | O(1)            | O(n)             |
+
+### Real-World Applications
+
+You interact with the stack data structure every day without realizing it!
+
+<ListCard
+  link={false}
+  patterns={[
+    {
+      id: 1,
+      title: "Browser History",
+      des: "Clicking the 'back' button in your web browser pops the previous page from a stack of visited URLs.",
+    },
+    {
+      id: 2,
+      title: "Undo/Redo Functionality",
+      des: "In text editors or image software, each action you take is pushed onto a stack. Clicking 'undo' pops the last action off the stack.",
+    },
+    {
+      id: 3,
+      title: "Function Call Stack",
+      des: "When you run a program, function calls are managed using a call stack. When a function is called, it's pushed onto the stack. When it returns, it's popped off. This is how your program knows where to return after a function finishes.",
+    },
+    {
+      id: 4,
+      title: "Expression Evaluation",
+      des: "Stacks are used to convert expressions (like (5 + 6) * 2) from infix to postfix notation and then evaluate them.",
+    },
+  ]}
+/>
+
+## Stacks LeetCode Problems
+
+| Problem Title                    | Difficulty | Key Concept / Pattern                     | Link                                                                    |
+| -------------------------------- | ---------- | ----------------------------------------- | ----------------------------------------------------------------------- |
+| Valid Parentheses                | Easy       | Parentheses Matching, Basic Stack Usage   | [Link](https://leetcode.com/problems/valid-parentheses/)                |
+| Min Stack                        | Easy       | Augmented Stack (Tracking Min Value)      | [Link](https://leetcode.com/problems/min-stack/)                        |
+| Implement Queue using Stacks     | Easy       | Two-Stack Implementation                  | [Link](https://leetcode.com/problems/implement-queue-using-stacks/)     |
+| Next Greater Element I           | Easy       | Monotonic Stack (Introduction)            | [Link](https://leetcode.com/problems/next-greater-element-i/)           |
+| Daily Temperatures               | Medium     | Monotonic Stack (Finding next warmer day) | [Link](https://leetcode.com/problems/daily-temperatures/)               |
+| Evaluate Reverse Polish Notation | Medium     | Expression Evaluation                     | [Link](https://leetcode.com/problems/evaluate-reverse-polish-notation/) |
+| Simplify Path                    | Medium     | Path Manipulation, Simulation             | [Link](https://leetcode.com/problems/simplify-path/)                    |
+| Decode String                    | Medium     | State Management with Multiple Stacks     | [Link](https://leetcode.com/problems/decode-string/)                    |
+| Largest Rectangle in Histogram   | Hard       | Monotonic Stack (Advanced Application)    | [Link](https://leetcode.com/problems/largest-rectangle-in-histogram/)   |
+| Basic Calculator                 | Hard       | Expression Evaluation with Parentheses    | [Link](https://leetcode.com/problems/basic-calculator/)                 |

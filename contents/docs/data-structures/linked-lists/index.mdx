@@ -1,0 +1,57 @@
+---
+title: Linked Lists
+description: Learn about linked lists, a powerful data structure in Data Structures and Algorithms.
+---
+
+![Linked Lists Example](/images/linked-lists-diagram.png)
+
+## Linked Lists: An Introduction
+
+A **linked list** is a linear data structure where elements are not stored at contiguous memory locations. Instead, each element, called a **node**, points to the next node in the sequence. This structure makes linked lists a powerful and flexible alternative to arrays, especially when frequent insertions and deletions are needed.
+
+## The Structure of a Node
+
+At its core, a linked list is a collection of nodes. Each node typically contains two parts:
+
+- **Data**: The value stored in the node.
+- **Next**: A pointer or reference to the next node in the list. The final node's `next` pointer is usually `null` to mark the end.
+
+The first node in a linked list is called the **head**, and it serves as the entry point for traversing the list.
+
+## Types of Linked Lists
+
+- **Singly Linked List**
+
+  - This is the most basic form, where each node has a pointer to the next one, allowing traversal in only one direction.
+
+- **Doubly Linked List**
+
+  - In a **doubly linked list**, each node has an additional pointer, `prev`, which points to the previous node. This allows for bidirectional traversal, but it uses more memory per node.
+
+- **Circular Linked List**
+  - A **circular linked list** is one where the last node's `next` pointer points back to the head of the list, creating a loop. This can be either singly or doubly linked.
+
+## Why Use Linked Lists?
+
+### Advantages
+
+- **Dynamic Size**: Linked lists can easily grow or shrink, as memory is allocated dynamically.
+- **Efficient Insertions and Deletions**: Adding or removing a node is fast (O(1)) if you have a reference to the node's predecessor. You simply update a few pointers.
+
+### Disadvantages
+
+- **No Random Access**: To get to the nth node, you must traverse the list from the head, which takes O(n) time.
+- **Extra Memory Overhead**: Each node requires additional memory to store the pointer to the next node.
+
+---
+
+## LeetCode Problems for Linked Lists
+
+| Problem Name                                                                                        | Difficulty | Description                                                                                               |
+| :-------------------------------------------------------------------------------------------------- | :--------- | :-------------------------------------------------------------------------------------------------------- |
+| [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)                           | Easy       | Reverse a singly linked list.                                                                             |
+| [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/)                     | Easy       | Merge two sorted linked lists into a single sorted list.                                                  |
+| [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)                               | Easy       | Detect if a linked list contains a cycle.                                                                 |
+| [Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/) | Medium     | Given the head of a linked list, remove the nth node from the end.                                        |
+| [Add Two Numbers](https://leetcode.com/problems/add-two-numbers/)                                   | Medium     | Add two numbers represented by two linked lists where each node contains a single digit in reverse order. |
+| [Odd Even Linked List](https://leetcode.com/problems/odd-even-linked-list/)                         | Medium     | Group nodes with odd indices together, followed by nodes with even indices.                               |
