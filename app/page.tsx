@@ -2,7 +2,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { page_routes } from "@/lib/routes-config";
 import Link from "next/link";
 import type { Metadata } from "next";
-import NotificationBanner from "@/components/ui/notification-banner";
+// import NotificationBanner from "@/components/ui/notification-banner";
 
 export const metadata: Metadata = {
   title: "Dsa - Docs",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="flex sm:min-h-[87.5vh] mx-8 min-h-[82vh] flex-col gap-3 sm:items-center justify-center text-center sm:py-8 py-14">
-      <NotificationBanner />
+      {/* <NotificationBanner /> */}
       <h1 className="text-[1.45rem] leading-8 sm:px-32 lg:px-[30%] md:leading-[2.5rem] font-bold mb-4 sm:text-3xl text-left sm:text-center">
         Master Data Structures & Algorithms with Curated Resources and
         Explanations
