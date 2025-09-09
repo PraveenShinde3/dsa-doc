@@ -29,8 +29,8 @@ export default function Callout({
         typeStyles[type] || typeStyles.default
       }`}
     >
-      {title && <div className="font-semibold mb-1">{title}</div>}
-      <div>{children}</div>
+      {title && <div className="font-semibold mb-1 ">{title}</div>}
+      <div className="text-sm">{children}</div>
     </div>
   );
 }
