@@ -151,6 +151,10 @@ pre > code {
     Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }
 
+li > p {
+  margin: 0 !important;
+}
+
 .code-line {
   padding: 0.75px 16px;
   @apply border-l-2 border-transparent;
