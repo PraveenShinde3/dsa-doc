@@ -1,0 +1,366 @@
+---
+title: "Tree Data Structure"
+description: "An in-depth guide to tree data structures, their types, operations, and applications in computer science."
+---
+
+A **tree** is a hierarchical, non-linear data structure consisting of nodes connected by edges, where each element can have multiple 'next' elements, allowing the data structure to branch out in various directions. Unlike linear structures (arrays, linked lists), trees organize data hierarchically with one root node and sub-nodes as branches.
+
+## Core Terminology and Structure
+
+### Basic Components
+
+- **Root:** The topmost node from which all other nodes originate. Every tree must have exactly one root node.
+- **Edge:** The connecting link between any two nodes. In a tree with N nodes, there are exactly N-1 edges.
+- **Parent:** A node that has branches to other nodes (children).
+- **Child:** A node that descends from a parent node.
+- **Siblings:** Nodes that share the same parent.
+- **Leaf/Terminal Node:** A node with no children (degree zero).
+
+### Tree Properties
+
+- **Height:** The total number of edges from a leaf node to a particular node in the longest path. The height of the root node represents the height of the entire tree.
+- **Depth:** The total number of edges from the root node to a particular node.
+- **Level:** Each step from top to bottom, starting with level 0 (or 1) at the root.
+- **Path:** The sequence of nodes and edges from one node to another.
+- **Subtree:** Each child from a node forms a subtree recursively.
+
+## Types of Trees
+
+### Binary Tree
+
+Each node has at most two children (left and right child). Properties include:
+
+- Either empty or consists of root node, left subtree, and right subtree
+- Height measured as longest distance between root and leaf node
+
+### Binary Search Tree (BST)
+
+A special binary tree where:
+
+- Left child's value < parent's value
+- Right child's value > parent's value
+- Enables efficient searching, insertion, and deletion operations
+
+### AVL Tree
+
+A self-balancing BST where the height difference between left and right subtrees is at most one, maintained through rotations.
+
+### N-ary Tree
+
+Each node can have at most N children, providing more flexibility than binary trees.
+
+## Basic Operations and Code Examples
+
+### Tree Node Structure
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="c++">C++</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+  ```java
+  public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        public TreeNode(int val) {
+            this.val = val;
+            this.left = null;
+            this.right = null;
+        }
+    }
+  ```
+  </TabsContent>
+  <TabsContent value="c++">
+  
+    ```cpp
+    struct TreeNode {
+        int data;
+        TreeNode* left;
+        TreeNode* right;
+
+        TreeNode(int val) {
+            data = val;
+            left = right = nullptr;
+        }
+    };
+    ```
+
+  </TabsContent>
+  <TabsContent value="python">
+  
+    ```Python
+    class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val          # Data stored in the node
+        self.left = left        # Reference to left child
+        self.right = right      # Reference to right child
+    ```
+
+  </TabsContent>
+</Tabs>
+
+### Tree Traversal Algorithms
+
+#### 1. Inorder Traversal (Left-Root-Right)
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="c++">C++</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+    ```java
+    // Inorder Traversal (Left → Root → Right)
+    public void inorderTraversal(TreeNode root) {
+        if (root != null) {
+            inorderTraversal(root.left);
+            System.out.print(root.val + " ");
+            inorderTraversal(root.right);
+        }
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="c++">
+  
+    ```cpp
+    void inorderTraversal(TreeNode* root) {
+        if (root != nullptr) {
+            inorderTraversal(root->left);
+            cout << root->data << " ";
+            inorderTraversal(root->right);
+        }
+    }
+    ```
+
+  </TabsContent>
+  <TabsContent value="python">
+  
+    ```Python
+    # Inorder Traversal (Left → Root → Right)
+    def inorder_traversal(root):
+        if root is not None:
+            inorder_traversal(root.left)
+            print(root.val, end=" ")
+            inorder_traversal(root.right)
+    ```
+
+  </TabsContent>
+</Tabs>
+
+**Use Case:** Returns nodes in sorted order for BSTs.
+
+#### 2. Preorder Traversal (Root-Left-Right)
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="c++">C++</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+    ```java
+    public void preorderTraversal(TreeNode root) {
+        if (root != null) {
+            System.out.print(root.val + " ");
+            preorderTraversal(root.left);
+            preorderTraversal(root.right);
+        }
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="c++">
+    ```cpp
+    void preorderTraversal(TreeNode* root) {
+        if (root != nullptr) {
+            cout << root->data << " ";
+            preorderTraversal(root->left);
+            preorderTraversal(root->right);
+        }
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="python">
+  
+    ```Python
+    def preorder_traversal(root):
+        if root is not None:
+            print(root.val, end=" ")
+            preorder_traversal(root.left)
+            preorder_traversal(root.right)
+    ```
+
+  </TabsContent>
+</Tabs>
+
+**Use Case:** Used for creating tree copies and prefix expressions.
+
+#### 3. Postorder Traversal (Left-Right-Root)
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="c++">C++</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+    ```java
+    public void postorderTraversal(TreeNode root) {
+        if (root != null) {
+            postorderTraversal(root.left);
+            postorderTraversal(root.right);
+            System.out.print(root.val + " ");
+        }
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="c++">
+    ```cpp
+    void postorderTraversal(TreeNode* root) {
+        if (root != nullptr) {
+            postorderTraversal(root->left);
+            postorderTraversal(root->right);
+            cout << root->data << " ";
+        }
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="python">
+  
+    ```Python
+    def postorder_traversal(root):
+        if root is not None:
+            postorder_traversal(root.left)
+            postorder_traversal(root.right)
+            print(root.val, end=" ")
+    ```
+
+  </TabsContent>
+</Tabs>
+
+#### 4. Level Order Traversal (BFS)
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="c++">C++</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+    ```java
+    public List<Integer> levelOrderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+        
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            result.add(node.val);
+            
+            if (node.left != null) queue.offer(node.left);
+            if (node.right != null) queue.offer(node.right);
+        }
+        return result;
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="c++">
+    ```cpp
+    void levelOrderTraversal(TreeNode* root) {
+    if (!root) return;
+    queue<TreeNode*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        TreeNode* current = q.front();
+        q.pop();
+        cout << current->data << " ";
+
+        if (current->left) q.push(current->left);
+        if (current->right) q.push(current->right);
+        }
+    }
+    ```
+
+  </TabsContent>
+  <TabsContent value="python">
+  
+    ```Python
+    from collections import deque
+    
+    def level_order_traversal(root):
+        if not root:
+            return []
+        
+        queue = deque([root])
+        result = []
+        
+        while queue:
+            node = queue.popleft()
+            result.append(node.val)
+            
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        
+        return result
+    ```
+
+  </TabsContent>
+</Tabs>
+
+## Time and Space Complexity Analysis
+
+### Tree Operations Complexity
+
+| Operation | Binary Tree | Binary Search Tree | AVL Tree  |
+| --------- | ----------- | ------------------ | --------- |
+| Search    | O(n)        | O(h), worst O(n)   | O(\log n) |
+| Insertion | O(n)        | O(h), worst O(n)   | O(\log n) |
+| Deletion  | O(n)        | O(h), worst O(n)   | O(\log n) |
+
+### Traversal Complexity
+
+| Traversal Type | Time Complexity | Space Complexity              |
+| -------------- | --------------- | ----------------------------- |
+| Inorder        | O(n)            | O(h)                          |
+| Preorder       | O(n)            | O(h)                          |
+| Postorder      | O(n)            | O(h)                          |
+| Level Order    | O(n)            | O(w) where w is maximum width |
+
+<br></br>
+<Callout type="default" title="Note">
+  Space complexity is O(h) where h is tree height. For balanced trees, h = O(log
+  n); for skewed trees, h = O(n).
+</Callout>
+
+### Complexity Analysis Details
+
+The time complexity function for tree traversal can be defined as:
+T(n) = T(k) + T(n-k-1) + c
+where k is nodes on one side and n-k-1 on the other.
+
+For skewed trees: T(n) = O(n)
+For balanced trees: T(n) = O(n) but with better constants.
+
+## Applications
+
+- **File Systems:** Hierarchical directory structures
+- **Database Indexing:** B-trees and B+ trees for efficient data retrieval
+- **Expression Parsing:** Abstract syntax trees for compilers
+- **Network Routing:** Routing tables and decision trees
+- **Priority Queues:** Binary heaps implementation
+- **Searching and Sorting:** Binary search trees for efficient operations
+
+Trees provide efficient hierarchical data organization with logarithmic time complexity for balanced structures, making them fundamental for many computer science applications.
