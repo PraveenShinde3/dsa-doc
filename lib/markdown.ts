@@ -24,6 +24,7 @@ import CardGrid from "@/components/markdown/card-grid";
 import Card from "@/components/markdown/card";
 import Callout from "@/components/markdown/callout";
 import ListCard from "@/components/markdown/list-card";
+import Indent from "@/components/markdown/indent";
 import {
   Table,
   TableBody,
@@ -51,6 +52,7 @@ const components = {
   CardGrid,
   Callout,
   ListCard,
+  Indent,
   table: Table,
   thead: TableHeader,
   th: TableHead,
