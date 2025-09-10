@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 
 export function Typography({ children }: PropsWithChildren) {
   return (
-    <div className="prose sm:prose-base prose-sm prose-zinc dark:prose-invert prose-code:font-normal prose-code:font-code dark:prose-code:bg-stone-900/25 prose-code:bg-stone-50 prose-pre:bg-background prose-headings:scroll-m-20 w-[85vw] sm:w-full sm:mx-auto prose-code:text-sm prose-code:leading-6 dark:prose-code:text-white prose-code:text-stone-800 prose-code:p-[0.085rem]  prose-code:rounded-md prose-code:border pt-2 !min-w-full prose-img:rounded-md prose-img:border prose-code:before:content-none prose-code:after:content-none prose-code:px-2 prose-code:py-1 prose-code:overflow-x-auto !max-w-[500px] prose-img:my-3 prose-h2:my-3 prose-h2:text-lg prose-h3:text-base prose-li:m-0.5 prose-h2:mt-6 prose-code:break-all md:prose-code:break-normal  prose-td:px-4">
+    <div className="prose sm:prose-base prose-sm prose-zinc dark:prose-invert prose-code:font-normal prose-code:font-code dark:prose-code:bg-stone-900/25 prose-code:bg-stone-50 prose-pre:bg-background prose-headings:scroll-m-20 w-[85vw] sm:w-full sm:mx-auto prose-code:text-sm prose-code:leading-6 dark:prose-code:text-white prose-code:text-stone-800 prose-code:p-[0.085rem]  prose-code:rounded-md prose-code:border pt-2 !min-w-full prose-img:rounded-md prose-img:border prose-code:before:content-none prose-code:after:content-none prose-code:px-2 prose-code:py-1 prose-code:overflow-x-auto !max-w-[500px] prose-img:my-3 prose-h2:my-3 prose-h2:text-xl prose-h3:text-lg prose-li:m-0.5 prose-h2:mt-6 prose-code:break-all md:prose-code:break-normal  prose-td:px-4">
       {children}
     </div>
   );
