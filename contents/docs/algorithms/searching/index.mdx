@@ -1,0 +1,188 @@
+---
+title: Searching Algorithms
+description: Explore various searching algorithms, their implementations, and use cases.
+---
+
+## Introduction
+
+Searching is one of the most fundamental operations in computer science, defined as the process of locating a specific element within a collection of data. Whether you're finding a contact in your phone, locating a book in a library, or retrieving data from a database, searching algorithms power these everyday operations
+
+The efficiency of searching algorithms directly impacts system performance, making algorithm selection crucial for optimal software design. From simple linear searches to sophisticated hash-based lookups, different searching techniques offer varying trade-offs between implementation complexity and performance
+
+## Fundamental Searching Techniques
+
+### Linear Search (Sequential Search)
+
+Linear search represents the most straightforward searching approach, examining each element sequentially until the target is found or the entire collection is traversed
+
+**Algorithm Process:**
+
+<Indent>
+
+1. Start from the first element of the array.
+
+   `i = 0`
+
+2. Compare each element with the target value.
+
+   `if array[i] == target: return i`
+
+3. If no match is found after checking all elements, return -1.
+
+   `return -1`
+
+**Complexity**
+
+- **Time:** `O(n)` in the worst case, where n is the number of elements
+- **Space:** `O(1)` (constant space)
+
+</Indent>
+
+<Tabs defaultValue="java" className=" pb-1">
+    <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="c++">C++</TabsTrigger>
+
+  </TabsList>
+    <TabsContent value="java">
+    ```java
+    public static int linearSearch(int[] arr, int target) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                return i; // Target found at index i
+            }
+        }
+        return -1; // Target not found
+    }
+    ```
+    </TabsContent>
+    <TabsContent value="python">
+
+    ```python
+    def linear_search(arr, target):
+        for i in range(len(arr)):
+            if arr[i] == target:
+                return i  # Target found at index i
+        return -1  # Target not found
+    ```
+
+    </TabsContent>
+    <TabsContent value="c++">
+    ```cpp
+    int linearSearch(int arr[], int size, int target) {
+        for (int i = 0; i < size; i++) {
+            if (arr[i] == target) {
+                return i; // Target found at index i
+            }
+        }
+        return -1; // Target not found
+    }
+    ```
+    </TabsContent>
+
+</Tabs>
+
+### Binary Search
+
+Binary search is a highly efficient divide-and-conquer algorithm that works exclusively on sorted datasets. By repeatedly dividing the search space in half, it achieves logarithmic time complexity
+
+**Algorithm Process:**
+
+<Indent>
+1. Initialize Pointers
+
+- `low = 0` (start of array)
+- `high = array.length - 1` (end of array)
+
+2. Search Loop
+
+- Calculate middle: `mid = low + (high - low) / 2`
+
+<Callout type="info" title="Why `low + (high - low) / 2`?">
+  This formula prevents potential overflow that can occur with `(low + high) /
+  2` in some programming languages when `low` and `high` are large integers. It
+  ensures that the calculation stays within the bounds of integer
+  representation.
+</Callout>
+
+3. Compare Target with `array[mid]`
+
+- **Equal** → Return `mid`
+- **Less** → `high = mid - 1` (search left)
+- **Greater** → `low = mid + 1` (search right)
+
+4. Repeat until found or `low > high`.
+
+**Complexity**
+
+- **Time:** `O(log n)`
+- **Space:** `O(1)`
+
+</Indent>
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="c++">C++</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+    ```java
+    public static int binarySearch(int[] arr, int target) {
+        int low = 0, high = arr.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (arr[mid] == target) {
+                return mid; // Target found at index mid
+            } else if (arr[mid] < target) {
+                low = mid + 1; // Search right half
+            } else {
+                high = mid - 1; // Search left half
+            }
+        }
+        return -1; // Target not found
+    }
+    ```
+
+  </TabsContent>
+  <TabsContent value="python">
+    ```python
+    def binary_search(arr, target):
+        low, high = 0, len(arr) - 1
+        while low <= high:
+            mid = (low + high) // 2
+
+            if arr[mid] == target:
+                return mid  # Target found at index mid
+            elif arr[mid] < target:
+                low = mid + 1  # Search right half
+            else:
+                high = mid - 1  # Search left half
+        return -1  # Target not found
+    ```
+
+  </TabsContent>
+    <TabsContent value="c++">
+    ```cpp
+    int binarySearch(int arr[], int size, int target) {
+        int low = 0, high = size - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (arr[mid] == target) {
+                return mid; // Target found at index mid
+            } else if (arr[mid] < target) {
+                low = mid + 1; // Search right half
+            } else {
+                high = mid - 1; // Search left half
+            }
+        }
+        return -1; // Target not found
+    }
+    ```
+    </TabsContent>
+
+</Tabs>
