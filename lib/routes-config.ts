@@ -32,7 +32,6 @@ export const ROUTES: EachRoute[] = [
       },
       { title: "Arrays", href: "/arrays" },
       { title: "Strings", href: "/strings" },
-      { title: "Searching", href: "/searching" },
       { title: "Hashing", href: "/hashing" },
     ],
   },
@@ -56,6 +55,7 @@ export const ROUTES: EachRoute[] = [
     href: "/algorithms",
     noLink: true,
     items: [
+      { title: "Searching", href: "/searching" },
       { title: "Recursion", href: "/recursion" },
       { title: "Backtracking", href: "/backtracking" },
       { title: "Sorting", href: "/sorting" },
