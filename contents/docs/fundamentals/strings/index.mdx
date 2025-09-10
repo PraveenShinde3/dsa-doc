@@ -5,13 +5,30 @@ description: Learn about strings, their properties, and common operations in pro
 
 ## Introduction to Strings
 
-A string in Data Structures and Algorithms (DSA) is a linear data structure used to represent and manipulate a sequence of characters, such as text, words, or sentences. Strings are found in nearly all programming languages and play a key role in both everyday coding tasks and algorithmic problem-solving
+A string is a fundamental linear data structure that represents a sequence of characters. Unlike primitive data types such as integers or floats, strings handle textual information and can contain letters, numbers, spaces, symbols, and special characters. Strings are essentially character arrays with additional properties and built-in functionality that make text processing more convenient and powerful.
 
-### What Is a String?
+In most programming languages, strings are enclosed in double quotes (e.g., "Hello World"), though some languages also support single quotes.
 
-A string is an ordered sequence of characters stored in contiguous memory locations. It can include letters, numbers, symbols, and spaces, and strings are usually enclosed in quotation marks when represented in source code. In most languages, strings are implemented as arrays of characters.
+## String Representation and Memory Layout
 
-### Time Complexity
+### Internal Structure
+
+Strings are typically implemented as contiguous memory blocks containing character data. The exact representation varies by programming language and implementation:
+
+### Character Array Representation:
+
+- Each character occupies one memory position
+
+- Characters are indexed starting from 0
+
+- Sequential storage enables efficient access
+
+<Callout type="info" title="Memory Address Calculation">
+  For accessing any character in a string:
+  <b>str[i] = Base Address + (i × sizeof(char))</b>
+</Callout>
+
+## Time Complexity
 
 | Operation            | Time Complexity | Explanation                                                          |
 | -------------------- | --------------- | -------------------------------------------------------------------- |
@@ -23,7 +40,7 @@ A string is an ordered sequence of characters stored in contiguous memory locati
 | Insertion            | O(n)            | Inserting a character requires shifting elements, so linear time.    |
 | Deletion             | O(n)            | Deleting a character requires shifting elements, so linear time.     |
 
-### Benefits of Strings
+## Benefits of Strings
 
 - Strings are easy to use and understand, making them a fundamental data type in programming.
 - They provide a way to represent and manipulate text data effectively.
@@ -31,7 +48,7 @@ A string is an ordered sequence of characters stored in contiguous memory locati
 - They can be concatenated, split, and transformed using a variety of algorithms.
 - Strings are immutable in many languages, which can lead to safer and more predictable code.
 
-### Limitations of Strings
+## Limitations of Strings
 
 - Strings can be memory-intensive, especially when dealing with large texts or frequent modifications.
 - Insertion and deletion operations are costly **`(O(n))`** due to the need to shift characters
@@ -39,7 +56,7 @@ A string is an ordered sequence of characters stored in contiguous memory locati
 - Handling multi-byte characters (like Unicode) can complicate string manipulation and indexing.
 - Strings can lead to security vulnerabilities if not handled properly, such as buffer overflows or injection attacks.
 
-### When to Use Strings?
+## When to Use Strings?
 
 <ListCard
   link={false}
