@@ -44,7 +44,6 @@ export const ROUTES: EachRoute[] = [
       { title: "Stacks", href: "/stacks" },
       { title: "Queues", href: "/queues" },
       { title: "Trees", href: "/trees" },
-      { title: "Binary Search Trees", href: "/binary-search-trees" },
       { title: "Heaps", href: "/heaps" },
       { title: "Tries", href: "/tries" },
       { title: "Graphs", href: "/graphs" },
