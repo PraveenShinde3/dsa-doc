@@ -37,34 +37,96 @@ Understanding Big O, Big Θ, and Big Ω notations to describe algorithm efficien
 
 ## Important Mathematical Concepts
 
-### 1. Number Theory
+### Number Theory
 
-Understanding properties like:
+<Indent>
+Number theory forms the foundation of many algorithms and computational problems in computer science. Understanding these concepts helps optimize algorithms and solve complex computational challenges.
 
-- Greatest Common Divisor (GCD) and Least Common Multiple (LCM)
-- Prime numbers and prime factorization
-- Modular arithmetic (useful in hashing and cryptography)
+#### Greatest Common Divisor (GCD)
 
-### 2. Combinatorics
+GCD is the largest positive integer that divides two or more numbers without leaving a remainder. The Least Common Multiple (LCM) is the smallest positive integer that is divisible by both numbers.
 
-- Counting principles, permutations, and combinations
-- Useful in problems involving arrangements and probability
+**Key Relationship:** For any two numbers `a` and `b`: `a × b = GCD(a, b) × LCM(a, b)`
 
-### 3. Recurrence Relations & Series
+**Methods to find GCD:**
 
-- Handling recursive algorithms by solving recurrence relations
-- Summation of series such as arithmetic and geometric progressions
+- **Euclidean Algorithm**: This is the most efficient method. It is based on the principle that the GCD of two numbers does not change if the larger number is replaced by its difference with the smaller number. This process continues until one of the numbers becomes zero, and the other number is the GCD.
 
-### 4. Probability and Statistics
+  ```javascript
+  // Function to calculate the Greatest Common Divisor (GCD) of two numbers
+  function gcd(a, b) {
+    // Repeat the process until the remainder becomes 0
+    while (b !== 0) {
+      let temp = b; // Store the current value of b in a temporary variable
+      b = a % b; // Update b to the remainder of a divided by b
+      a = temp; // Update a to the previous value of b (stored in temp)
+    }
+    return a; // When b becomes 0, 'a' contains the GCD
+  }
+  ```
+
+#### Least Common Multiple (LCM)
+
+LCM of two integers is the smallest positive integer that is divisible by both numbers. It can be calculated using the relationship between GCD and LCM:
+
+```javascript
+function lcm(a, b) {
+  return (a * b) / gcd(a, b); // LCM is calculated using the formula: (a * b) / GCD(a, b)
+}
+```
+
+</Indent>
+
+### Combinatorics
+
+<Indent>
+  Combinatorics deals with counting, arranging, and selecting objects from sets.
+  Crucial for analyzing algorithm complexity and solving optimization problems.
+
+#### Fundamental Counting Principles
+
+- Multiplication Principle (**Product Rule**): If event A can occur in m ways and event B in n ways independently, total = m × n.
+
+- Addition Principle (**Sum Rule**):
+  If event A can occur in m ways and event B in n ways (mutually exclusive), total = m + n.
+- Example: Choosing a dessert from 3 cakes or 2 ice creams = 3 + 2 = 5 ways.
+
+#### Permutations
+
+- Arrangements of objects where order matters.
+- Formula: `P(n, r) = n! / (n - r)!`
+- Example: Arranging 3 books (A, B, C) on a shelf = 3! = 6 ways (ABC, ACB, BAC, BCA, CAB, CBA).
+
+#### Combinations
+
+- Selections of objects where order does not matter.
+- Formula: `C(n, r) = n! / (r! (n - r)!)`
+- Example: Choosing 2 fruits from (Apple, Banana, Cherry) = C(3, 2) = 3 ways (AB, AC, BC).
+
+</Indent>
+
+### Recurrence Relations & Series
+
+<Indent>
+  Recurrence relations express sequences where each term depends on previous
+  terms. Essential for recursive algorithm analysis.
+
+#### Common Recurrence Relations:
+
+- **Fibonacci Sequence**: `F(n) = F(n-1) + F(n-2)` with base cases `F(0) = 0`, `F(1) = 1`
+- **Factorial**: `n! = n × (n-1)!` with base case `0! = 1`
+- **Geometric Series**: Sum of a series where each term is a constant multiple of the previous term. Formula: `S = a(1 - r^n) / (1 - r)` for `r ≠ 1`, where `a` is the first term, `r` is the common ratio, and `n` is the number of terms.
+- **Arithmetic Series**: Sum of a series where each term increases by a constant difference. Formula: `S = n/2 * (a + l)`, where `n` is the number of terms, `a` is the first term, and `l` is the last term.
+
+#### Solving Recurrence Relations:
+
+- **Substitution Method**: Guess the form of the solution and use mathematical induction to prove
+- **Recursion Tree Method**: Visualize the recurrence as a tree and sum the costs at each level
+- **Master Theorem**: Provides a direct way to solve recurrences of the form `T(n) = aT(n/b) + f(n)`, where `a ≥ 1` and `b > 1`
+
+</Indent>
+
+### Probability and Statistics
 
 - Analyzing randomized algorithms
 - Understanding expected values, conditional probability, independence
-
-### 5. Graph Theory Basics
-
-- Representing relationships with nodes and edges
-- Concepts like connectivity, path, cycles, and graph traversal.
-
----
-
-## Example: Euclidean Algorithm for GCD
