@@ -32,7 +32,7 @@ export const ROUTES: EachRoute[] = [
       },
       { title: "Arrays", href: "/arrays" },
       { title: "Strings", href: "/strings" },
-      { title: "Hashing", href: "/hashing" },
+      // { title: "Hashing", href: "/hashing" },
     ],
   },
   {
