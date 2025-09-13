@@ -38,6 +38,7 @@ export const ROUTES: EachRoute[] = [
   {
     title: "Data Structures",
     href: "/data-structures",
+    noLink: true,
     tag: "New",
     items: [
       { title: "Linked Lists", href: "/linked-lists" },
