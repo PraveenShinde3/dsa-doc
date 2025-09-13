@@ -95,7 +95,13 @@ export async function getCompiledDocsForSlug(slug: string) {
   try {
     const contentPath = getDocsContentPath(slug);
     const rawMdx = await fs.readFile(contentPath, "utf-8");
-    return await parseMdx<BaseMdxFrontmatter>(rawMdx);
+
+    const parsed = await parseMdx<BaseMdxFrontmatter>(rawMdx);
+
+    return {
+      ...parsed, // includes content + frontmatter
+      rawContent: rawMdx, // ✅ keep raw markdown string
+    };
   } catch (err) {
     console.log(err);
   }
