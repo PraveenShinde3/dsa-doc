@@ -25,6 +25,7 @@ DocActionsDropdownProps) {
   //   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [copyStatus, setCopyStatus] = useState("Copy page");
+  const docHostName = process.env.NEXT_PUBLIC_HOSTNAME + "/docs/";
 
   const copyPageAsMarkdown = async () => {
     try {
@@ -65,7 +66,7 @@ DocActionsDropdownProps) {
   const openInChatGPT = () => {
     const prompt = encodeURIComponent(
       `Please help me with this documentation page:\n\n${
-        pageUrl.length == 0 ? pageContent : pageUrl
+        pageUrl.length == 0 ? pageContent : docHostName + pageUrl
       }`
     );
     window.open(`https://chatgpt.com/?hints=search&prompt=${prompt}`, "_blank");
@@ -75,7 +76,7 @@ DocActionsDropdownProps) {
   const openInClaude = () => {
     const prompt = encodeURIComponent(
       `Please help me with this documentation page:\n\n${
-        pageUrl.length == 0 ? pageContent : pageUrl
+        pageUrl.length == 0 ? pageContent : docHostName + pageUrl
       }`
     );
 
