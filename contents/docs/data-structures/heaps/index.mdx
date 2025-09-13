@@ -1,0 +1,140 @@
+---
+title: Heap
+description: Heaps in Data Structures and Algorithms
+---
+
+A heap is a specialized tree-based data structure that satisfies the heap property. It is typically implemented as a complete binary tree, meaning all levels are fully filled except possibly the last, which is filled from left to right
+
+The heap property enforces an ordering between each node and its children: in a **max-heap**, every parent’s key is greater than or equal to its children’s keys, and the largest element is at the root. In a **min-heap**, every parent’s key is less than or equal to its children’s keys, and the smallest element is at the root
+
+In other words, each node dominates (≥ or ≤) all nodes in its subtree, so the root always holds the global maximum (for a max-heap) or minimum (for a min-heap)
+
+### Properties of Heaps
+
+- **Complete Binary Tree**:
+
+  A heap must be complete: every level of the tree is filled with nodes except possibly the last level, which is filled left-to-right. This ensures the tree is balanced (minimum height) and can be efficiently stored in an array.
+
+- **Heap Order Property**:
+
+  The keys satisfy a local ordering at each parent-child link. In a max-heap, each parent’s key is ≥ its children’s keys; in a min-heap, each parent’s key is ≤ its children’s keys. There is no global order across siblings or across subtrees, only this parent-child order. Because of this, heaps allow duplicate keys and do not support sorted-order traversal like a binary search tree
+
+### Types of Heaps: Min-Heap and Max-Heap
+
+Heaps come in two flavors depending on the ordering:
+
+- **Max-Heap**:
+
+      Each parent’s key is greater than or equal to its children’s keys. The largest element in the heap is at the root. Max-heaps are often used when one needs quick access to the maximum element (e.g. for priority scheduling of high-priority tasks).
+
+- **Min-Heap**:
+
+  Each parent’s key is less than or equal to its children’s keys. The smallest element is at the root. Min-heaps are used when the minimum element should be accessed quickly (for example, in Dijkstra’s shortest-path algorithm, where one repeatedly extracts the smallest-distance node).
+
+### Array Representation of Binary Heaps
+
+One of the most significant advantages of heaps is their efficient array representation, which eliminates the need for explicit pointers.
+
+For a node at index i in a 0-based array:
+
+| Relationship | Formula    | Condition      |
+| ------------ | ---------- | -------------- |
+| Parent       | (i - 1)/2  | i ≠ 0          |
+| Left Child   | 2 \_ i + 1 | 2 \_ i + 1 < n |
+| Right Child  | 2 \_ i + 2 | 2 \_ i + 2 < n |
+
+**Example Array Representation:**
+
+```text
+Array: [90, 80, 70, 20, 10, 50, 60]
+index->  0  1   2    3   4   5   6
+Tree Structure:
+        90
+       /  \
+      80   70
+     / \   / \
+    20 10 50 60
+```
+
+#### Advantages of Array Representation:
+
+- Space Efficiency: No storage overhead for pointers
+
+- Cache Performance: Better memory locality due to sequential storage
+
+- Simple Navigation: Parent-child relationships computed using arithmetic operations
+
+### Fundamental Heap Operations
+
+1.  **Insertion (Up-Heap/Bubble-Up)**
+
+    Insertion maintains the heap property by adding the new element at the end and then "bubbling up" to restore ordering.
+
+    <Indent>
+
+    **Algorithm Steps**:
+
+        - Add new element at the next available position (end of array)
+
+        - Compare with parent node
+
+        - If heap property is violated, swap with parent
+
+        - Repeat until heap property is satisfied or root is reached
+
+    **Implementation Example**
+
+    ```python
+    def insert(heap, key):
+        # Add element at end
+        heap.append(key)
+        index = len(heap) - 1
+
+        # Bubble up
+        while index > 0:
+            parent_index = (index - 1) // 2
+            if heap[parent_index] >= heap[index]:  # Max heap
+                break
+            heap[parent_index], heap[index] = heap[index], heap[parent_index]
+            index = parent_index
+    ```
+
+    **Time Complexity**: O(log n) - maximum height of complete binary tree
+
+    </Indent>
+
+2.  **Deletion (Extract-Max/Min)**
+
+    Deletion removes the root element (maximum in max heap, minimum in min heap) and restructures the heap
+
+    <Indent>
+
+    **Algorithm Steps:**
+
+        - Replace root with last element
+
+        - Remove last element (reduce heap size)
+
+        - Apply heapify operation from root downward
+
+        - Continue until heap property is restored
+
+    **Implementation Example**
+
+    ```python
+    def extract_max(heap):
+        if len(heap) == 0:
+            return None
+        if len(heap) == 1:
+            return heap.pop()
+
+        # Store root value
+        max_val = heap
+        # Replace root with last element
+        heap = heap.pop()
+        # Heapify down from root
+        heapify_down(heap, 0)
+        return max_val
+    ```
+
+    </Indent>
