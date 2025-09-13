@@ -88,7 +88,7 @@ DocActionsDropdownProps) {
       <Button
         variant="outline"
         size="xs"
-        className="gap-2 rounded-r-none bg-transparent"
+        className="gap-2 rounded-r-none border-r-0 bg-transparent"
         onClick={copyPageAsMarkdown}
       >
         <Copy className="h-3 w-3" />

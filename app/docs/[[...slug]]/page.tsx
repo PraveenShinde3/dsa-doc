@@ -25,7 +25,7 @@ export default async function DocsPage(props: PageProps) {
         <div className="w-full mx-auto">
           <DocsBreadcrumb paths={slug} />
           <Typography>
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between ">
               <h1 className="sm:text-2xl text-xl !-mt-0.5">
                 {res.frontmatter.title}
               </h1>
