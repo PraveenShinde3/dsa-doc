@@ -25,7 +25,7 @@ export default function Callout({
 }: CalloutProps) {
   return (
     <div
-      className={`border-l-4 px-4 py-2  ${
+      className={`border-l-4 px-4 py-2 my-2  ${
         typeStyles[type] || typeStyles.default
       }`}
     >
