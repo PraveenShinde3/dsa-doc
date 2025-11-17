@@ -1,188 +1,1014 @@
 ---
-title: Searching Algorithms
-description: Explore various searching algorithms, their implementations, and use cases.
+title: "Searching Algorithms"
+description: "A comprehensive guide to understanding and implementing searching algorithms with must-do LeetCode problems"
+author: "Technical Documentation"
+date: "2025-11-17"
+tags: ["algorithms", "searching", "binary-search", "leetcode"]
 ---
 
 ## Introduction
 
-Searching is one of the most fundamental operations in computer science, defined as the process of locating a specific element within a collection of data. Whether you're finding a contact in your phone, locating a book in a library, or retrieving data from a database, searching algorithms power these everyday operations
+**Searching algorithms** are fundamental techniques used to find specific elements or data within a collection. They are among the most frequently used algorithms in computer science, appearing in databases, operating systems, web applications, and virtually every software system.
 
-The efficiency of searching algorithms directly impacts system performance, making algorithm selection crucial for optimal software design. From simple linear searches to sophisticated hash-based lookups, different searching techniques offer varying trade-offs between implementation complexity and performance
+The efficiency of a searching algorithm can dramatically impact application performance, especially when dealing with large datasets. Understanding when and how to use different searching algorithms is crucial for writing efficient code.
 
-## Fundamental Searching Techniques
+## Linear Search
 
-### Linear Search (Sequential Search)
+### Overview
 
-Linear search represents the most straightforward searching approach, examining each element sequentially until the target is found or the entire collection is traversed
+Linear search (also called sequential search) is the simplest searching algorithm. It checks every element in the collection sequentially until the target is found or the end is reached.
 
-**Algorithm Process:**
+### How It Works
 
-<Indent>
+1. Start from the first element
+2. Compare each element with the target
+3. If found, return the index
+4. If end is reached without finding, return -1
 
-1. Start from the first element of the array.
+### Visual Example
 
-   `i = 0`
+Searching for 7 in array: [3, 1, 7, 9, 2]
 
-2. Compare each element with the target value.
+```
+Step 1: Compare 3 with 7 → Not match
+Step 2: Compare 1 with 7 → Not match
+Step 3: Compare 7 with 7 → Match! Return index 2
+```
 
-   `if array[i] == target: return i`
+### When to Use
 
-3. If no match is found after checking all elements, return -1.
+- **Unsorted data**: Works on any collection
+- **Small datasets**: Overhead of other algorithms not worth it
+- **Single search**: When searching only once
+- **Linked lists**: When random access is expensive
 
-   `return -1`
+### Advantages
 
-**Complexity**
+1. Simple to implement
+2. Works on unsorted data
+3. Works on any data structure
+4. No preprocessing required
+5. Best for small datasets
 
-- **Time:** `O(n)` in the worst case, where n is the number of elements
-- **Space:** `O(1)` (constant space)
+### Disadvantages
 
-</Indent>
+1. Slow for large datasets: O(n) time complexity
+2. Inefficient for multiple searches
+3. No optimization possible for sorted data
 
-<Tabs defaultValue="java" className=" pb-1">
-    <TabsList>
-    <TabsTrigger value="java">Java</TabsTrigger>
+## Binary Search
+
+### Overview
+
+Binary search is an efficient algorithm for searching **sorted** arrays. It repeatedly divides the search interval in half, eliminating half of the remaining elements with each comparison.
+
+### Prerequisites
+
+- **Data must be sorted**
+- **Random access** to elements (works best with arrays)
+
+### How It Works
+
+1. Compare target with middle element
+2. If target equals middle, return the index
+3. If target is less than middle, search left half
+4. If target is greater than middle, search right half
+5. Repeat until found or search space is empty
+
+### Visual Example
+
+Searching for 7 in sorted array: [1, 3, 5, 7, 9, 11, 13]
+
+```
+Step 1: [1, 3, 5, 7, 9, 11, 13]
+        Middle = 7 → Match! Return index 3
+
+Alternative: Searching for 11
+Step 1: [1, 3, 5, 7, 9, 11, 13]
+        Middle = 7, target > 7, search right
+
+Step 2: [9, 11, 13]
+        Middle = 11 → Match! Return index 5
+```
+
+### Key Concepts
+
+**Search Space**: The portion of the array currently being considered.
+
+**Invariant**: After each iteration, if the target exists, it must be within the current search space.
+
+**Termination**: When `left > right`, the search space is empty.
+
+## Binary Search Variations
+
+### 1. Find Exact Match
+
+Standard binary search to find if element exists.
+
+```python
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+
+    while left <= right:
+        mid = left + (right - left) // 2
+
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1
+```
+
+### 2. Find First Occurrence (Lower Bound)
+
+Find the leftmost position where target can be inserted to maintain sorted order.
+
+```python
+def lower_bound(arr, target):
+    left, right = 0, len(arr)
+
+    while left < right:
+        mid = left + (right - left) // 2
+
+        if arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+
+    return left
+```
+
+### 3. Find Last Occurrence (Upper Bound)
+
+Find the rightmost position where target can be inserted.
+
+```python
+def upper_bound(arr, target):
+    left, right = 0, len(arr)
+
+    while left < right:
+        mid = left + (right - left) // 2
+
+        if arr[mid] <= target:
+            left = mid + 1
+        else:
+            right = mid
+
+    return left
+```
+
+### 4. Find Peak Element
+
+Find any element that is greater than its neighbors.
+
+```python
+def find_peak(arr):
+    left, right = 0, len(arr) - 1
+
+    while left < right:
+        mid = left + (right - left) // 2
+
+        if arr[mid] < arr[mid + 1]:
+            left = mid + 1
+        else:
+            right = mid
+
+    return left
+```
+
+### 5. Search in Rotated Sorted Array
+
+Binary search on array that was sorted then rotated.
+
+```python
+def search_rotated(arr, target):
+    left, right = 0, len(arr) - 1
+
+    while left <= right:
+        mid = left + (right - left) // 2
+
+        if arr[mid] == target:
+            return mid
+
+        # Left half is sorted
+        if arr[left] <= arr[mid]:
+            if arr[left] <= target < arr[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        # Right half is sorted
+        else:
+            if arr[mid] < target <= arr[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+    return -1
+```
+
+## Advanced Searching Techniques
+
+### 1. Binary Search on Answer
+
+Search for optimal value in a range where you can verify if a value works.
+
+**Template:**
+
+```python
+def binary_search_answer(lo, hi):
+    result = -1
+
+    while lo <= hi:
+        mid = lo + (hi - lo) // 2
+
+        if is_feasible(mid):
+            result = mid
+            # Try for better answer
+            hi = mid - 1  # or lo = mid + 1
+        else:
+            lo = mid + 1  # or hi = mid - 1
+
+    return result
+```
+
+**Use Cases:**
+
+- Minimizing maximum value
+- Maximizing minimum value
+- Finding threshold values
+
+### 2. Ternary Search
+
+Find maximum/minimum in unimodal function (single peak/valley).
+
+```python
+def ternary_search(left, right, func):
+    while right - left > 2:
+        mid1 = left + (right - left) // 3
+        mid2 = right - (right - left) // 3
+
+        if func(mid1) < func(mid2):
+            left = mid1
+        else:
+            right = mid2
+
+    # Check remaining elements
+    result = left
+    for i in range(left + 1, right + 1):
+        if func(i) > func(result):
+            result = i
+
+    return result
+```
+
+**Time Complexity:** O(log₃ n)
+
+### 3. Exponential Search
+
+Useful when target is closer to beginning of unbounded/infinite array.
+
+```python
+def exponential_search(arr, target):
+    if arr[0] == target:
+        return 0
+
+    # Find range for binary search
+    i = 1
+    while i < len(arr) and arr[i] <= target:
+        i *= 2
+
+    # Binary search in found range
+    return binary_search(arr, target, i // 2, min(i, len(arr) - 1))
+```
+
+**Time Complexity:** O(log n)  
+**Use Cases:** Unbounded arrays, searching near beginning
+
+### 4. Interpolation Search
+
+Improved variant for uniformly distributed sorted data.
+
+```python
+def interpolation_search(arr, target):
+    left, right = 0, len(arr) - 1
+
+    while left <= right and arr[left] <= target <= arr[right]:
+        if left == right:
+            return left if arr[left] == target else -1
+
+        # Estimate position
+        pos = left + ((target - arr[left]) * (right - left)) // (arr[right] - arr[left])
+
+        if arr[pos] == target:
+            return pos
+        elif arr[pos] < target:
+            left = pos + 1
+        else:
+            right = pos - 1
+
+    return -1
+```
+
+**Time Complexity:**
+
+- Best/Average: O(log log n)
+- Worst: O(n)
+
+**Use Cases:** Uniformly distributed data, phone books, dictionaries
+
+### 5. Jump Search
+
+Block-based search for sorted arrays.
+
+```python
+import math
+
+def jump_search(arr, target):
+    n = len(arr)
+    step = int(math.sqrt(n))
+    prev = 0
+
+    # Find block where element may be present
+    while arr[min(step, n) - 1] < target:
+        prev = step
+        step += int(math.sqrt(n))
+        if prev >= n:
+            return -1
+
+    # Linear search in block
+    while arr[prev] < target:
+        prev += 1
+        if prev == min(step, n):
+            return -1
+
+    if arr[prev] == target:
+        return prev
+
+    return -1
+```
+
+**Time Complexity:** O(√n)  
+**Use Cases:** When backward movement is costly
+
+## Implementation
+
+### Complete Searching Implementation
+
+<Tabs defaultValue="python" className="pb-1">
+  <TabsList>
     <TabsTrigger value="python">Python</TabsTrigger>
-    <TabsTrigger value="c++">C++</TabsTrigger>
-
+    <TabsTrigger value="java">Java</TabsTrigger>
   </TabsList>
-    <TabsContent value="java">
-    ```java
-    public static int linearSearch(int[] arr, int target) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == target) {
-                return i; // Target found at index i
-            }
-        }
-        return -1; // Target not found
-    }
-    ```
-    </TabsContent>
-    <TabsContent value="python">
-
-    ```python
-    def linear_search(arr, target):
+  
+  <TabsContent value="python">
+```python
+class SearchingAlgorithms:
+    """Collection of searching algorithms implementations."""
+    
+    def linear_search(self, arr, target):
+        """
+        Linear search - works on unsorted arrays.
+        Time: O(n), Space: O(1)
+        """
         for i in range(len(arr)):
             if arr[i] == target:
-                return i  # Target found at index i
-        return -1  # Target not found
-    ```
+                return i
+        return -1
+    
+    def binary_search(self, arr, target):
+        """
+        Binary search - requires sorted array.
+        Time: O(log n), Space: O(1)
+        """
+        left, right = 0, len(arr) - 1
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+            
+            if arr[mid] == target:
+                return mid
+            elif arr[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return -1
+    
+    def binary_search_recursive(self, arr, target, left=0, right=None):
+        """
+        Recursive binary search.
+        Time: O(log n), Space: O(log n) due to recursion
+        """
+        if right is None:
+            right = len(arr) - 1
+        
+        if left > right:
+            return -1
+        
+        mid = left + (right - left) // 2
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            return self.binary_search_recursive(arr, target, mid + 1, right)
+        else:
+            return self.binary_search_recursive(arr, target, left, mid - 1)
+    
+    def find_first_occurrence(self, arr, target):
+        """
+        Find first (leftmost) occurrence of target.
+        Time: O(log n), Space: O(1)
+        """
+        left, right = 0, len(arr) - 1
+        result = -1
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+            
+            if arr[mid] == target:
+                result = mid
+                right = mid - 1  # Continue searching left
+            elif arr[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return result
+    
+    def find_last_occurrence(self, arr, target):
+        """
+        Find last (rightmost) occurrence of target.
+        Time: O(log n), Space: O(1)
+        """
+        left, right = 0, len(arr) - 1
+        result = -1
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+            
+            if arr[mid] == target:
+                result = mid
+                left = mid + 1  # Continue searching right
+            elif arr[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return result
+    
+    def count_occurrences(self, arr, target):
+        """
+        Count total occurrences of target.
+        Time: O(log n), Space: O(1)
+        """
+        first = self.find_first_occurrence(arr, target)
+        if first == -1:
+            return 0
+        
+        last = self.find_last_occurrence(arr, target)
+        return last - first + 1
+    
+    def search_insert_position(self, arr, target):
+        """
+        Find position where target should be inserted to maintain sorted order.
+        Time: O(log n), Space: O(1)
+        """
+        left, right = 0, len(arr)
+        
+        while left < right:
+            mid = left + (right - left) // 2
+            
+            if arr[mid] < target:
+                left = mid + 1
+            else:
+                right = mid
+        
+        return left
+    
+    def find_peak_element(self, arr):
+        """
+        Find any peak element (greater than neighbors).
+        Time: O(log n), Space: O(1)
+        """
+        left, right = 0, len(arr) - 1
+        
+        while left < right:
+            mid = left + (right - left) // 2
+            
+            if arr[mid] < arr[mid + 1]:
+                left = mid + 1
+            else:
+                right = mid
+        
+        return left
+    
+    def search_rotated_array(self, arr, target):
+        """
+        Search in rotated sorted array.
+        Time: O(log n), Space: O(1)
+        """
+        left, right = 0, len(arr) - 1
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+            
+            if arr[mid] == target:
+                return mid
+            
+            # Determine which half is sorted
+            if arr[left] <= arr[mid]:  # Left half is sorted
+                if arr[left] <= target < arr[mid]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            else:  # Right half is sorted
+                if arr[mid] < target <= arr[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+        
+        return -1
+    
+    def find_minimum_rotated(self, arr):
+        """
+        Find minimum element in rotated sorted array.
+        Time: O(log n), Space: O(1)
+        """
+        left, right = 0, len(arr) - 1
+        
+        while left < right:
+            mid = left + (right - left) // 2
+            
+            if arr[mid] > arr[right]:
+                left = mid + 1
+            else:
+                right = mid
+        
+        return left
+    
+    def search_2d_matrix(self, matrix, target):
+        """
+        Search in 2D matrix (sorted rows and columns).
+        Time: O(log(m*n)), Space: O(1)
+        """
+        if not matrix or not matrix[0]:
+            return False
+        
+        m, n = len(matrix), len(matrix[0])
+        left, right = 0, m * n - 1
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+            mid_value = matrix[mid // n][mid % n]
+            
+            if mid_value == target:
+                return True
+            elif mid_value < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return False
+    
+    def sqrt_binary_search(self, x):
+        """
+        Find square root using binary search.
+        Time: O(log x), Space: O(1)
+        """
+        if x < 2:
+            return x
+        
+        left, right = 2, x // 2
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+            num = mid * mid
+            
+            if num == x:
+                return mid
+            elif num < x:
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return right
 
-    </TabsContent>
-    <TabsContent value="c++">
-    ```cpp
-    int linearSearch(int arr[], int size, int target) {
-        for (int i = 0; i < size; i++) {
-            if (arr[i] == target) {
-                return i; // Target found at index i
-            }
-        }
-        return -1; // Target not found
-    }
-    ```
-    </TabsContent>
+# Usage Examples
 
-</Tabs>
+searcher = SearchingAlgorithms()
 
-### Binary Search
+# Linear search
 
-Binary search is a highly efficient divide-and-conquer algorithm that works exclusively on sorted datasets. By repeatedly dividing the search space in half, it achieves logarithmic time complexity
+arr1 = [64, 34, 25, 12, 22, 11, 90]
+print("Linear Search:", searcher.linear_search(arr1, 22)) # Output: 4
 
-**Algorithm Process:**
+# Binary search
 
-<Indent>
-1. Initialize Pointers
+arr2 = [1, 3, 5, 7, 9, 11, 13, 15]
+print("Binary Search:", searcher.binary_search(arr2, 7)) # Output: 3
 
-- `low = 0` (start of array)
-- `high = array.length - 1` (end of array)
+# Find first and last occurrence
 
-2. Search Loop
+arr3 = [1, 2, 2, 2, 3, 4, 5]
+print("First occurrence:", searcher.find_first_occurrence(arr3, 2)) # Output: 1
+print("Last occurrence:", searcher.find_last_occurrence(arr3, 2)) # Output: 3
+print("Count:", searcher.count_occurrences(arr3, 2)) # Output: 3
 
-- Calculate middle: `mid = low + (high - low) / 2`
+# Search in rotated array
 
-<Callout type="info" title="Why `low + (high - low) / 2`?">
-  This formula prevents potential overflow that can occur with `(low + high) /
-  2` in some programming languages when `low` and `high` are large integers. It
-  ensures that the calculation stays within the bounds of integer
-  representation.
-</Callout>
+arr4 = [4, 5, 6, 7, 0, 1, 2]
+print("Rotated search:", searcher.search_rotated_array(arr4, 0)) # Output: 4
 
-3. Compare Target with `array[mid]`
+# Find peak element
 
-- **Equal** → Return `mid`
-- **Less** → `high = mid - 1` (search left)
-- **Greater** → `low = mid + 1` (search right)
+arr5 = [1, 2, 3, 1]
+print("Peak element:", searcher.find_peak_element(arr5)) # Output: 2
 
-4. Repeat until found or `low > high`.
-
-**Complexity**
-
-- **Time:** `O(log n)`
-- **Space:** `O(1)`
-
-</Indent>
-
-<Tabs defaultValue="java" className="pb-1">
-  <TabsList>
-    <TabsTrigger value="java">Java</TabsTrigger>
-    <TabsTrigger value="python">Python</TabsTrigger>
-    <TabsTrigger value="c++">C++</TabsTrigger>
-  </TabsList>
+````
+  </TabsContent>
 
   <TabsContent value="java">
-    ```java
-    public static int binarySearch(int[] arr, int target) {
-        int low = 0, high = arr.length - 1;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
+```java
+public class SearchingAlgorithms {
 
-            if (arr[mid] == target) {
-                return mid; // Target found at index mid
-            } else if (arr[mid] < target) {
-                low = mid + 1; // Search right half
-            } else {
-                high = mid - 1; // Search left half
+    /**
+     * Linear search - works on unsorted arrays.
+     * Time: O(n), Space: O(1)
+     */
+    public int linearSearch(int[] arr, int target) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                return i;
             }
         }
-        return -1; // Target not found
+        return -1;
     }
-    ```
 
-  </TabsContent>
-  <TabsContent value="python">
-    ```python
-    def binary_search(arr, target):
-        low, high = 0, len(arr) - 1
-        while low <= high:
-            mid = (low + high) // 2
+    /**
+     * Binary search - requires sorted array.
+     * Time: O(log n), Space: O(1)
+     */
+    public int binarySearch(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
 
-            if arr[mid] == target:
-                return mid  # Target found at index mid
-            elif arr[mid] < target:
-                low = mid + 1  # Search right half
-            else:
-                high = mid - 1  # Search left half
-        return -1  # Target not found
-    ```
-
-  </TabsContent>
-    <TabsContent value="c++">
-    ```cpp
-    int binarySearch(int arr[], int size, int target) {
-        int low = 0, high = size - 1;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
 
             if (arr[mid] == target) {
-                return mid; // Target found at index mid
+                return mid;
             } else if (arr[mid] < target) {
-                low = mid + 1; // Search right half
+                left = mid + 1;
             } else {
-                high = mid - 1; // Search left half
+                right = mid - 1;
             }
         }
-        return -1; // Target not found
-    }
-    ```
-    </TabsContent>
 
+        return -1;
+    }
+
+    /**
+     * Recursive binary search.
+     * Time: O(log n), Space: O(log n)
+     */
+    public int binarySearchRecursive(int[] arr, int target, int left, int right) {
+        if (left > right) {
+            return -1;
+        }
+
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) {
+            return mid;
+        } else if (arr[mid] < target) {
+            return binarySearchRecursive(arr, target, mid + 1, right);
+        } else {
+            return binarySearchRecursive(arr, target, left, mid - 1);
+        }
+    }
+
+    /**
+     * Find first occurrence of target.
+     * Time: O(log n), Space: O(1)
+     */
+    public int findFirstOccurrence(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
+        int result = -1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] == target) {
+                result = mid;
+                right = mid - 1;  // Continue searching left
+            } else if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Find last occurrence of target.
+     * Time: O(log n), Space: O(1)
+     */
+    public int findLastOccurrence(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
+        int result = -1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] == target) {
+                result = mid;
+                left = mid + 1;  // Continue searching right
+            } else if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Count occurrences of target.
+     * Time: O(log n), Space: O(1)
+     */
+    public int countOccurrences(int[] arr, int target) {
+        int first = findFirstOccurrence(arr, target);
+        if (first == -1) {
+            return 0;
+        }
+
+        int last = findLastOccurrence(arr, target);
+        return last - first + 1;
+    }
+
+    /**
+     * Find insert position for target.
+     * Time: O(log n), Space: O(1)
+     */
+    public int searchInsertPosition(int[] arr, int target) {
+        int left = 0, right = arr.length;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return left;
+    }
+
+    /**
+     * Find peak element.
+     * Time: O(log n), Space: O(1)
+     */
+    public int findPeakElement(int[] arr) {
+        int left = 0, right = arr.length - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] < arr[mid + 1]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return left;
+    }
+
+    /**
+     * Search in rotated sorted array.
+     * Time: O(log n), Space: O(1)
+     */
+    public int searchRotatedArray(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] == target) {
+                return mid;
+            }
+
+            // Determine which half is sorted
+            if (arr[left] <= arr[mid]) {  // Left half sorted
+                if (arr[left] <= target && target < arr[mid]) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            } else {  // Right half sorted
+                if (arr[mid] < target && target <= arr[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Find minimum in rotated sorted array.
+     * Time: O(log n), Space: O(1)
+     */
+    public int findMinimumRotated(int[] arr) {
+        int left = 0, right = arr.length - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] > arr[right]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return left;
+    }
+
+    /**
+     * Search in 2D matrix.
+     * Time: O(log(m*n)), Space: O(1)
+     */
+    public boolean search2DMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+
+        int m = matrix.length, n = matrix[0].length;
+        int left = 0, right = m * n - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int midValue = matrix[mid / n][mid % n];
+
+            if (midValue == target) {
+                return true;
+            } else if (midValue < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Find square root using binary search.
+     * Time: O(log x), Space: O(1)
+     */
+    public int sqrt(int x) {
+        if (x < 2) {
+            return x;
+        }
+
+        int left = 2, right = x / 2;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            long num = (long) mid * mid;
+
+            if (num == x) {
+                return mid;
+            } else if (num < x) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return right;
+    }
+}
+````
+
+  </TabsContent>
 </Tabs>
+
+---
+
+## Time and Space Complexity
+
+### Algorithm Comparison
+
+| Algorithm            | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (Worst) | Space Complexity                   | Data Requirement              |
+| -------------------- | ---------------------- | ------------------------- | ----------------------- | ---------------------------------- | ----------------------------- |
+| Linear Search        | O(1)                   | O(n)                      | O(n)                    | O(1)                               | None                          |
+| Binary Search        | O(1)                   | O(log n)                  | O(log n)                | O(1) iterative, O(log n) recursive | Sorted                        |
+| Jump Search          | O(1)                   | O(√n)                     | O(√n)                   | O(1)                               | Sorted                        |
+| Interpolation Search | O(log log n)           | O(log log n)              | O(n)                    | O(1)                               | Sorted, uniformly distributed |
+| Exponential Search   | O(1)                   | O(log n)                  | O(log n)                | O(1)                               | Sorted                        |
+| Ternary Search       | O(1)                   | O(log₃ n)                 | O(log₃ n)               | O(1)                               | Unimodal function             |
+
+### Binary Search Variations Complexity
+
+| Variation               | Time Complexity      | Space Complexity |
+| ----------------------- | -------------------- | ---------------- |
+| Find Exact Match        | O(log n)             | O(1)             |
+| First/Last Occurrence   | O(log n)             | O(1)             |
+| Count Occurrences       | O(log n)             | O(1)             |
+| Search Insert Position  | O(log n)             | O(1)             |
+| Peak Element            | O(log n)             | O(1)             |
+| Rotated Array Search    | O(log n)             | O(1)             |
+| 2D Matrix Search        | O(log(m×n))          | O(1)             |
+| Binary Search on Answer | O(log(range) × f(x)) | O(1)             |
+
+---
+
+## Applications
+
+<ListCard
+  link={false}
+  patterns={[
+    {
+      id: 1,
+      title: "Database Indexing",
+      des: "Databases use binary search on indexed columns to quickly locate records. B-trees and B+ trees, which are variants of binary search trees, enable efficient searching, insertion, and deletion in database systems.",
+    },
+    {
+      id: 2,
+      title: "Dictionary and Spell Checkers",
+      des: "Word processors and search engines use binary search to quickly look up words in dictionaries. This enables real-time spell checking and autocomplete suggestions as you type.",
+    },
+    {
+      id: 3,
+      title: "Version Control Systems",
+      des: "Git uses binary search (git bisect) to find the commit that introduced a bug. It efficiently narrows down the problematic commit by testing middle commits and eliminating half the search space each time.",
+    },
+    {
+      id: 4,
+      title: "Computer Graphics",
+      des: "Ray tracing and collision detection use binary search on spatial data structures like KD-trees and octrees to quickly determine which objects a ray intersects, enabling real-time rendering.",
+    },
+    {
+      id: 5,
+      title: "Network Routing",
+      des: "IP routing tables use binary search (or tries) to find the longest matching prefix for packet forwarding. This enables routers to quickly determine the next hop for millions of packets per second.",
+    },
+    {
+      id: 6,
+      title: "Machine Learning",
+      des: "Decision trees use binary search-like splitting to classify data. Hyperparameter tuning often uses binary search to find optimal values efficiently across large parameter spaces.",
+    },
+    {
+      id: 7,
+      title: "Financial Systems",
+      des: "Stock trading platforms use binary search to match buy and sell orders in order books. Options pricing models use binary search to find implied volatility from market prices.",
+    },
+    {
+      id: 8,
+      title: "Operating Systems",
+      des: "Memory management systems use binary search to allocate and deallocate memory blocks efficiently. File systems use binary search on directory structures to locate files quickly.",
+    },
+  ]}
+/>
+
+---
+
+## Must-Do LeetCode Problems
+
+### Beginner Level - Binary Search Basics
+
+| #   | Problem                              | Difficulty | Importance | Key Concepts                       | Link                                                                        |
+| --- | ------------------------------------ | ---------- | ---------- | ---------------------------------- | --------------------------------------------------------------------------- |
+| 1   | Binary Search                        | Easy       | ⭐⭐⭐⭐⭐ | Basic binary search implementation | [#704](https://leetcode.com/problems/binary-search/)                        |
+| 2   | Search Insert Position               | Easy       | ⭐⭐⭐⭐⭐ | Lower bound, insert position       | [#35](https://leetcode.com/problems/search-insert-position/)                |
+| 3   | First Bad Version                    | Easy       | ⭐⭐⭐⭐   | API usage, binary search           | [#278](https://leetcode.com/problems/first-bad-version/)                    |
+| 4   | Sqrt(x)                              | Easy       | ⭐⭐⭐⭐   | Binary search for square root      | [#69](https://leetcode.com/problems/sqrtx/)                                 |
+| 5   | Peak Index in a Mountain Array       | Easy       | ⭐⭐⭐⭐   | Finding peak element               | [#852](https://leetcode.com/problems/peak-index-in-a-mountain-array/)       |
+| 6   | Find Minimum in Rotated Sorted Array | Medium     | ⭐⭐⭐⭐⭐ | Rotated array search               | [#153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) |
+| 7   | Search in Rotated Sorted Array       | Medium     | ⭐⭐⭐⭐⭐ | Rotated                            | [#33](https://leetcode.com/problems/search-in-rotated-sorted-array/)        |
+
+### Intermediate Level - Variations and Applications
+
+| #   | Problem                                                 | Difficulty | Importance | Key Concepts                    | Link                                                                                          |
+| --- | ------------------------------------------------------- | ---------- | ---------- | ------------------------------- | --------------------------------------------------------------------------------------------- |
+| 8   | Find First and Last Position of Element in Sorted Array | Medium     | ⭐⭐⭐⭐⭐ | First/last occurrence, counting | [#34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/) |
+| 9   | Count of Smaller Numbers After Self                     | Hard       | ⭐⭐⭐⭐   | Binary indexed                  | [#315](https://leetcode.com/problems/count-of-smaller-numbers-after-self/)                    |
+
+### Advanced Level - Complex Searching Techniques
+
+| #   | Problem                                 | Difficulty | Importance | Key Concepts                          | Link                                                                           |
+| --- | --------------------------------------- | ---------- | ---------- | ------------------------------------- | ------------------------------------------------------------------------------ |
+| 10  | Median of Two Sorted Arrays             | Hard       | ⭐⭐⭐⭐⭐ | Binary search on answer               | [#4](https://leetcode.com/problems/median-of-two-sorted-arrays/)               |
+| 11  | Kth Smallest Element in a Sorted Matrix | Medium     | ⭐⭐⭐⭐   | Binary search on answer, 2D matrix    | [#378](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) |
+| 12  | Find K Closest Elements                 | Medium     | ⭐⭐⭐⭐   | Binary search on answer, two pointers | [#658](https://leetcode.com/problems/find-k-closest-elements/)                 |
