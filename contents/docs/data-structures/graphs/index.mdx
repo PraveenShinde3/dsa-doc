@@ -1,0 +1,871 @@
+---
+title: "Complete Guide to Graph Data Structure"
+description: "A comprehensive guide to understanding and implementing Graph data structures with must-do LeetCode problems"
+author: "Technical Documentation"
+date: "2025-11-17"
+tags: ["data-structures", "graph", "algorithms", "leetcode"]
+---
+
+## Introduction
+
+A **Graph** is a non-linear data structure consisting of vertices (nodes) and edges that connect these vertices. Graphs are one of the most versatile and powerful data structures in computer science, used to model relationships, networks, and connections between entities.
+
+Unlike trees, graphs can have cycles, multiple paths between nodes, and don't have a hierarchical structure. They're essential for solving problems involving networks, paths, connectivity, and optimization.
+
+## What is a Graph?
+
+A graph G is defined as G = (V, E), where:
+
+- **V**: Set of vertices (nodes)
+- **E**: Set of edges (connections between vertices)
+
+### Visual Example
+
+```
+    A --- B
+    |     |
+    |     |
+    C --- D --- E
+          |
+          F
+```
+
+This graph has:
+
+- Vertices: A, B, C, D, E, F
+- Edges: (A,B), (A,C), (B,D), (C,D), (D,E), (D,F)
+
+## Types of Graphs
+
+### 1. Directed Graph (Digraph)
+
+Edges have a direction (represented by arrows). Edge (A, B) means you can go from A to B, but not necessarily from B to A.
+
+```
+A → B → C
+↑       ↓
+└───────┘
+```
+
+**Use Cases**: Web pages with hyperlinks, task scheduling, social media followers
+
+### 2. Undirected Graph
+
+Edges have no direction. If there's an edge between A and B, you can traverse both ways.
+
+```
+A — B — C
+|       |
+└───────┘
+```
+
+**Use Cases**: Social networks (friendships), road networks, computer networks
+
+### 3. Weighted Graph
+
+Edges have weights (costs) associated with them.
+
+```
+    5       3
+A ─────> B ─────> C
+│               ↗
+│ 2         1  │
+└──────────────┘
+```
+
+**Use Cases**: Maps with distances, network latency, flight costs
+
+### 4. Unweighted Graph
+
+All edges are equal (weight = 1 or no weight).
+
+**Use Cases**: Simple connections, relationships without intensity
+
+### 5. Cyclic Graph
+
+Contains at least one cycle (path that starts and ends at the same vertex).
+
+```
+A → B
+↑   ↓
+└── C
+```
+
+### 6. Acyclic Graph
+
+Contains no cycles. **DAG (Directed Acyclic Graph)** is particularly important.
+
+```
+A → B → D
+↓   ↓
+C → E
+```
+
+**Use Cases**: Task dependencies, course prerequisites, build systems
+
+### 7. Connected vs Disconnected Graph
+
+- **Connected**: Path exists between every pair of vertices
+- **Disconnected**: Some vertices are not reachable from others
+
+### 8. Complete Graph
+
+Every vertex is connected to every other vertex. A complete graph with n vertices has n(n-1)/2 edges.
+
+## Graph Representations
+
+### 1. Adjacency Matrix
+
+A 2D array where `matrix[i][j] = 1` (or weight) if edge exists from vertex i to j.
+
+**Example:**
+
+```
+     A  B  C  D
+A    0  1  1  0
+B    1  0  0  1
+C    1  0  0  1
+D    0  1  1  0
+```
+
+**Advantages:**
+
+- O(1) edge lookup
+- Simple implementation
+- Good for dense graphs
+
+**Disadvantages:**
+
+- O(V²) space complexity
+- Iterating over neighbors is O(V)
+- Inefficient for sparse graphs
+
+### 2. Adjacency List
+
+An array/map where each vertex stores a list of its neighbors.
+
+**Example:**
+
+```python
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D'],
+    'C': ['A', 'D'],
+    'D': ['B', 'C']
+}
+```
+
+**Advantages:**
+
+- O(V + E) space complexity
+- Efficient for sparse graphs
+- Easy to iterate over neighbors
+
+**Disadvantages:**
+
+- O(degree) time to check if edge exists
+- Slightly more complex implementation
+
+### 3. Edge List
+
+A list of all edges in the graph.
+
+**Example:**
+
+```python
+edges = [
+    ('A', 'B'),
+    ('A', 'C'),
+    ('B', 'D'),
+    ('C', 'D')
+]
+```
+
+**Use Cases:** Kruskal's algorithm, simple graph storage
+
+## Graph Traversal Algorithms
+
+### 1. Breadth-First Search (BFS)
+
+Explores vertices level by level, using a queue.
+
+**Algorithm:**
+
+```python
+from collections import deque
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+
+    while queue:
+        vertex = queue.popleft()
+        print(vertex)  # Process vertex
+
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+```
+
+**Use Cases:**
+
+- Shortest path in unweighted graphs
+- Level-order traversal
+- Finding connected components
+- Web crawlers
+
+**Time Complexity:** O(V + E)  
+**Space Complexity:** O(V)
+
+### 2. Depth-First Search (DFS)
+
+Explores as far as possible along each branch before backtracking, using a stack (or recursion).
+
+**Recursive Implementation:**
+
+```python
+def dfs(graph, vertex, visited=None):
+    if visited is None:
+        visited = set()
+
+    visited.add(vertex)
+    print(vertex)  # Process vertex
+
+    for neighbor in graph[vertex]:
+        if neighbor not in visited:
+            dfs(graph, neighbor, visited)
+
+    return visited
+```
+
+**Iterative Implementation:**
+
+```python
+def dfs_iterative(graph, start):
+    visited = set()
+    stack = [start]
+
+    while stack:
+        vertex = stack.pop()
+        if vertex not in visited:
+            visited.add(vertex)
+            print(vertex)  # Process vertex
+
+            # Add neighbors in reverse order for consistency
+            for neighbor in reversed(graph[vertex]):
+                if neighbor not in visited:
+                    stack.append(neighbor)
+```
+
+**Use Cases:**
+
+- Cycle detection
+- Topological sorting
+- Finding strongly connected components
+- Maze solving
+- Pathfinding
+
+**Time Complexity:** O(V + E)  
+**Space Complexity:** O(V)
+
+## Common Graph Algorithms
+
+### 1. Dijkstra's Algorithm
+
+Finds shortest path from source to all vertices in weighted graph (no negative weights).
+
+**Algorithm:**
+
+```python
+import heapq
+
+def dijkstra(graph, start):
+    distances = {vertex: float('infinity') for vertex in graph}
+    distances[start] = 0
+    pq = [(0, start)]  # (distance, vertex)
+
+    while pq:
+        current_distance, current_vertex = heapq.heappop(pq)
+
+        if current_distance > distances[current_vertex]:
+            continue
+
+        for neighbor, weight in graph[current_vertex]:
+            distance = current_distance + weight
+
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(pq, (distance, neighbor))
+
+    return distances
+```
+
+**Time Complexity:** O((V + E) log V) with min-heap  
+**Use Cases:** GPS navigation, network routing, flight paths
+
+### 2. Bellman-Ford Algorithm
+
+Finds shortest path, handles negative weights, detects negative cycles.
+
+**Time Complexity:** O(V × E)  
+**Use Cases:** Currency arbitrage, network routing with costs
+
+### 3. Floyd-Warshall Algorithm
+
+Finds shortest paths between all pairs of vertices.
+
+**Time Complexity:** O(V³)  
+**Use Cases:** Finding transitive closure, shortest paths in dense graphs
+
+### 4. Topological Sort
+
+Linear ordering of vertices in a DAG such that for every edge (u, v), u comes before v.
+
+**Algorithm (DFS-based):**
+
+```python
+def topological_sort(graph):
+    visited = set()
+    stack = []
+
+    def dfs(vertex):
+        visited.add(vertex)
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                dfs(neighbor)
+        stack.append(vertex)
+
+    for vertex in graph:
+        if vertex not in visited:
+            dfs(vertex)
+
+    return stack[::-1]  # Reverse the stack
+```
+
+**Time Complexity:** O(V + E)  
+**Use Cases:** Task scheduling, course prerequisites, build systems
+
+### 5. Kruskal's Algorithm
+
+Finds Minimum Spanning Tree (MST) using Union-Find.
+
+**Time Complexity:** O(E log E)  
+**Use Cases:** Network design, clustering
+
+### 6. Prim's Algorithm
+
+Finds MST by growing tree from a starting vertex.
+
+**Time Complexity:** O(E log V)  
+**Use Cases:** Network design, approximation algorithms
+
+### 7. Union-Find (Disjoint Set Union)
+
+Tracks connected components and efficiently merges them.
+
+**Algorithm:**
+
+```python
+class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])  # Path compression
+        return self.parent[x]
+
+    def union(self, x, y):
+        px, py = self.find(x), self.find(y)
+        if px == py:
+            return False
+
+        # Union by rank
+        if self.rank[px] < self.rank[py]:
+            px, py = py, px
+        self.parent[py] = px
+        if self.rank[px] == self.rank[py]:
+            self.rank[px] += 1
+        return True
+```
+
+**Time Complexity:** Nearly O(1) with path compression and union by rank  
+**Use Cases:** Detecting cycles, connected components, Kruskal's algorithm
+
+## Implementation
+
+### Complete Graph Class
+
+<Tabs defaultValue="python" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="java">Java</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="python">
+```python
+from collections import defaultdict, deque
+import heapq
+
+class Graph:
+def **init**(self, directed=False):
+self.graph = defaultdict(list)
+self.directed = directed
+
+    def add_edge(self, u, v, weight=1):
+        """Add an edge from u to v with optional weight."""
+        self.graph[u].append((v, weight))
+        if not self.directed:
+            self.graph[v].append((u, weight))
+
+    def bfs(self, start):
+        """Breadth-First Search traversal."""
+        visited = set()
+        queue = deque([start])
+        visited.add(start)
+        result = []
+
+        while queue:
+            vertex = queue.popleft()
+            result.append(vertex)
+
+            for neighbor, _ in self.graph[vertex]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+
+        return result
+
+    def dfs(self, start, visited=None):
+        """Depth-First Search traversal (recursive)."""
+        if visited is None:
+            visited = set()
+
+        visited.add(start)
+        result = [start]
+
+        for neighbor, _ in self.graph[start]:
+            if neighbor not in visited:
+                result.extend(self.dfs(neighbor, visited))
+
+        return result
+
+    def has_cycle_undirected(self):
+        """Detect cycle in undirected graph."""
+        visited = set()
+
+        def dfs(vertex, parent):
+            visited.add(vertex)
+            for neighbor, _ in self.graph[vertex]:
+                if neighbor not in visited:
+                    if dfs(neighbor, vertex):
+                        return True
+                elif neighbor != parent:
+                    return True
+            return False
+
+        for vertex in self.graph:
+            if vertex not in visited:
+                if dfs(vertex, None):
+                    return True
+        return False
+
+    def has_cycle_directed(self):
+        """Detect cycle in directed graph."""
+        WHITE, GRAY, BLACK = 0, 1, 2
+        color = {vertex: WHITE for vertex in self.graph}
+
+        def dfs(vertex):
+            color[vertex] = GRAY
+            for neighbor, _ in self.graph[vertex]:
+                if color.get(neighbor, WHITE) == GRAY:
+                    return True
+                if color.get(neighbor, WHITE) == WHITE:
+                    if dfs(neighbor):
+                        return True
+            color[vertex] = BLACK
+            return False
+
+        for vertex in self.graph:
+            if color[vertex] == WHITE:
+                if dfs(vertex):
+                    return True
+        return False
+
+    def shortest_path_bfs(self, start, end):
+        """Find shortest path in unweighted graph using BFS."""
+        if start == end:
+            return [start]
+
+        visited = {start}
+        queue = deque([(start, [start])])
+
+        while queue:
+            vertex, path = queue.popleft()
+
+            for neighbor, _ in self.graph[vertex]:
+                if neighbor not in visited:
+                    new_path = path + [neighbor]
+                    if neighbor == end:
+                        return new_path
+                    visited.add(neighbor)
+                    queue.append((neighbor, new_path))
+
+        return None  # No path found
+
+    def dijkstra(self, start):
+        """Find shortest paths from start to all vertices."""
+        distances = {vertex: float('infinity') for vertex in self.graph}
+        distances[start] = 0
+        pq = [(0, start)]
+
+        while pq:
+            current_dist, current = heapq.heappop(pq)
+
+            if current_dist > distances[current]:
+                continue
+
+            for neighbor, weight in self.graph[current]:
+                distance = current_dist + weight
+
+                if distance < distances[neighbor]:
+                    distances[neighbor] = distance
+                    heapq.heappush(pq, (distance, neighbor))
+
+        return distances
+
+    def topological_sort(self):
+        """Topological sort for DAG."""
+        if not self.directed:
+            raise ValueError("Topological sort only works on directed graphs")
+
+        visited = set()
+        stack = []
+
+        def dfs(vertex):
+            visited.add(vertex)
+            for neighbor, _ in self.graph[vertex]:
+                if neighbor not in visited:
+                    dfs(neighbor)
+            stack.append(vertex)
+
+        for vertex in self.graph:
+            if vertex not in visited:
+                dfs(vertex)
+
+        return stack[::-1]
+
+# Usage Example
+
+g = Graph(directed=False)
+g.add_edge('A', 'B')
+g.add_edge('A', 'C')
+g.add_edge('B', 'D')
+g.add_edge('C', 'D')
+g.add_edge('D', 'E')
+
+print("BFS:", g.bfs('A'))
+print("DFS:", g.dfs('A'))
+print("Has Cycle:", g.has_cycle_undirected())
+print("Shortest Path A to E:", g.shortest_path_bfs('A', 'E'))
+
+````
+  </TabsContent>
+
+  <TabsContent value="java">
+```java
+import java.util.*;
+
+class Graph {
+    private Map<Integer, List<Edge>> adjacencyList;
+    private boolean directed;
+
+    static class Edge {
+        int destination;
+        int weight;
+
+        Edge(int destination, int weight) {
+            this.destination = destination;
+            this.weight = weight;
+        }
+    }
+
+    public Graph(boolean directed) {
+        this.adjacencyList = new HashMap<>();
+        this.directed = directed;
+    }
+
+    public void addEdge(int source, int destination, int weight) {
+        adjacencyList.putIfAbsent(source, new ArrayList<>());
+        adjacencyList.get(source).add(new Edge(destination, weight));
+
+        if (!directed) {
+            adjacencyList.putIfAbsent(destination, new ArrayList<>());
+            adjacencyList.get(destination).add(new Edge(source, weight));
+        }
+    }
+
+    public List<Integer> bfs(int start) {
+        List<Integer> result = new ArrayList<>();
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+
+        queue.offer(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            int vertex = queue.poll();
+            result.add(vertex);
+
+            if (adjacencyList.containsKey(vertex)) {
+                for (Edge edge : adjacencyList.get(vertex)) {
+                    if (!visited.contains(edge.destination)) {
+                        visited.add(edge.destination);
+                        queue.offer(edge.destination);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public List<Integer> dfs(int start) {
+        List<Integer> result = new ArrayList<>();
+        Set<Integer> visited = new HashSet<>();
+        dfsHelper(start, visited, result);
+        return result;
+    }
+
+    private void dfsHelper(int vertex, Set<Integer> visited, List<Integer> result) {
+        visited.add(vertex);
+        result.add(vertex);
+
+        if (adjacencyList.containsKey(vertex)) {
+            for (Edge edge : adjacencyList.get(vertex)) {
+                if (!visited.contains(edge.destination)) {
+                    dfsHelper(edge.destination, visited, result);
+                }
+            }
+        }
+    }
+
+    public Map<Integer, Integer> dijkstra(int start) {
+        Map<Integer, Integer> distances = new HashMap<>();
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+
+        for (int vertex : adjacencyList.keySet()) {
+            distances.put(vertex, Integer.MAX_VALUE);
+        }
+        distances.put(start, 0);
+        pq.offer(new int[]{start, 0});
+
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int vertex = current[0];
+            int distance = current[1];
+
+            if (distance > distances.get(vertex)) {
+                continue;
+            }
+
+            if (adjacencyList.containsKey(vertex)) {
+                for (Edge edge : adjacencyList.get(vertex)) {
+                    int newDist = distance + edge.weight;
+
+                    if (newDist < distances.get(edge.destination)) {
+                        distances.put(edge.destination, newDist);
+                        pq.offer(new int[]{edge.destination, newDist});
+                    }
+                }
+            }
+        }
+
+        return distances;
+    }
+
+    public boolean hasCycleUndirected() {
+        Set<Integer> visited = new HashSet<>();
+
+        for (int vertex : adjacencyList.keySet()) {
+            if (!visited.contains(vertex)) {
+                if (hasCycleDFS(vertex, -1, visited)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean hasCycleDFS(int vertex, int parent, Set<Integer> visited) {
+        visited.add(vertex);
+
+        if (adjacencyList.containsKey(vertex)) {
+            for (Edge edge : adjacencyList.get(vertex)) {
+                if (!visited.contains(edge.destination)) {
+                    if (hasCycleDFS(edge.destination, vertex, visited)) {
+                        return true;
+                    }
+                } else if (edge.destination != parent) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+````
+
+  </TabsContent>
+</Tabs>
+
+## Time and Space Complexity
+
+### Common Operations
+
+| Operation            | Adjacency List | Adjacency Matrix |
+| -------------------- | -------------- | ---------------- |
+| Add Vertex           | O(1)           | O(V²)            |
+| Add Edge             | O(1)           | O(1)             |
+| Remove Vertex        | O(V + E)       | O(V²)            |
+| Remove Edge          | O(E)           | O(1)             |
+| Check if Edge Exists | O(V)           | O(1)             |
+| Find All Neighbors   | O(degree)      | O(V)             |
+| Space Complexity     | O(V + E)       | O(V²)            |
+
+### Algorithm Complexities
+
+| Algorithm           | Time Complexity  | Space Complexity |
+| ------------------- | ---------------- | ---------------- |
+| BFS                 | O(V + E)         | O(V)             |
+| DFS                 | O(V + E)         | O(V)             |
+| Dijkstra (min-heap) | O((V + E) log V) | O(V)             |
+| Bellman-Ford        | O(V × E)         | O(V)             |
+| Floyd-Warshall      | O(V³)            | O(V²)            |
+| Topological Sort    | O(V + E)         | O(V)             |
+| Kruskal's MST       | O(E log E)       | O(V)             |
+| Prim's MST          | O(E log V)       | O(V)             |
+| Union-Find          | O(α(n)) ≈ O(1)   | O(V)             |
+
+---
+
+## Applications
+
+<ListCard
+  link={false}
+  patterns={[
+    {
+      id: 1,
+      title: "Social Networks",
+      des: "Representing relationships between users where vertices are people and edges represent friendships, followers, or connections. Used for friend recommendations, community detection, and influence analysis.",
+    },
+    {
+      id: 2,
+      title: "Maps and Navigation",
+      des: "GPS systems use graphs where intersections are vertices and roads are weighted edges. Algorithms like Dijkstra's find the shortest route between locations, considering distance, traffic, or time.",
+    },
+    {
+      id: 3,
+      title: "Web Crawling and PageRank",
+      des: "The internet is a massive directed graph where web pages are vertices and hyperlinks are edges. Search engines use graph algorithms to crawl pages and rank them based on link structure.",
+    },
+    {
+      id: 4,
+      title: "Recommendation Systems",
+      des: "E-commerce and streaming platforms use graphs to model user-item interactions. Graph-based collaborative filtering recommends products or content based on similar users' preferences.",
+    },
+    {
+      id: 5,
+      title: "Network Routing",
+      des: "Computer networks use graphs to route data packets efficiently. Routers use shortest path algorithms to determine the optimal path for data transmission across the network.",
+    },
+    {
+      id: 6,
+      title: "Task Scheduling",
+      des: "Project management and build systems use DAGs to represent task dependencies. Topological sorting determines the order in which tasks should be executed to respect all dependencies.",
+    },
+    {
+      id: 7,
+      title: "Bioinformatics",
+      des: "Protein interaction networks, gene regulatory networks, and phylogenetic trees are modeled as graphs. Used for drug discovery, understanding biological pathways, and evolutionary analysis.",
+    },
+    {
+      id: 8,
+      title: "Compiler Design",
+      des: "Control flow graphs and data dependency graphs are used in compiler optimization. They help identify dead code, optimize register allocation, and improve code performance.",
+    },
+  ]}
+/>
+
+## Must-Do LeetCode Problems
+
+### Beginner Level - Graph Fundamentals
+
+| #   | Problem                         | Difficulty | Importance | Key Concepts                                 | Link                                                                   |
+| --- | ------------------------------- | ---------- | ---------- | -------------------------------------------- | ---------------------------------------------------------------------- |
+| 1   | Number of Islands               | Medium     | ⭐⭐⭐⭐⭐ | DFS/BFS, Grid as graph, Connected components | [#200](https://leetcode.com/problems/number-of-islands/)               |
+| 2   | Clone Graph                     | Medium     | ⭐⭐⭐⭐   | Graph traversal, Deep copy, HashMap          | [#133](https://leetcode.com/problems/clone-graph/)                     |
+| 3   | Find if Path Exists in Graph    | Easy       | ⭐⭐⭐     | BFS/DFS basics, Graph representation         | [#1971](https://leetcode.com/problems/find-if-path-exists-in-graph/)   |
+| 4   | All Paths From Source to Target | Medium     | ⭐⭐⭐     | DFS, Backtracking, Path finding              | [#797](https://leetcode.com/problems/all-paths-from-source-to-target/) |
+
+**Why Problem #1 is Critical**: This is the most fundamental graph problem. It teaches you to treat a 2D grid as a graph and apply DFS/BFS. Essential foundation for all grid-based graph problems.
+
+### Intermediate Level - BFS/DFS Applications
+
+| #   | Problem                     | Difficulty | Importance | Key Concepts                              | Link                                                               |
+| --- | --------------------------- | ---------- | ---------- | ----------------------------------------- | ------------------------------------------------------------------ |
+| 5   | Word Ladder                 | Hard       | ⭐⭐⭐⭐⭐ | BFS, Shortest path, String transformation | [#127](https://leetcode.com/problems/word-ladder/)                 |
+| 6   | Course Schedule             | Medium     | ⭐⭐⭐⭐⭐ | Topological sort, Cycle detection, DFS    | [#207](https://leetcode.com/problems/course-schedule/)             |
+| 7   | Course Schedule II          | Medium     | ⭐⭐⭐⭐   | Topological sort implementation, DAG      | [#210](https://leetcode.com/problems/course-schedule-ii/)          |
+| 8   | Pacific Atlantic Water Flow | Medium     | ⭐⭐⭐⭐   | Multi-source BFS/DFS, Matrix traversal    | [#417](https://leetcode.com/problems/pacific-atlantic-water-flow/) |
+| 9   | Surrounded Regions          | Medium     | ⭐⭐⭐     | DFS/BFS from boundary, Grid modification  | [#130](https://leetcode.com/problems/surrounded-regions/)          |
+| 10  | Rotting Oranges             | Medium     | ⭐⭐⭐⭐   | Multi-source BFS, Level-order traversal   | [#994](https://leetcode.com/problems/rotting-oranges/)             |
+
+**Why Problems #5, #6 are Critical**: Word Ladder is a classic BFS shortest path problem. Course Schedule teaches topological sort and cycle detection, which are fundamental for dependency resolution problems.
+
+### Advanced Level - Shortest Path & MST
+
+| #   | Problem                         | Difficulty | Importance | Key Concepts                                     | Link                                                                   |
+| --- | ------------------------------- | ---------- | ---------- | ------------------------------------------------ | ---------------------------------------------------------------------- |
+| 11  | Network Delay Time              | Medium     | ⭐⭐⭐⭐⭐ | Dijkstra's algorithm, Weighted graph             | [#743](https://leetcode.com/problems/network-delay-time/)              |
+| 12  | Cheapest Flights Within K Stops | Medium     | ⭐⭐⭐⭐   | Modified Dijkstra/BFS, Constrained shortest path | [#787](https://leetcode.com/problems/cheapest-flights-within-k-stops/) |
+| 13  | Path With Minimum Effort        | Medium     | ⭐⭐⭐⭐   | Dijkstra/Binary search, Priority queue           | [#1631](https://leetcode.com/problems/path-with-minimum-effort/)       |
+| 14  | Min Cost to Connect All Points  | Medium     | ⭐⭐⭐⭐   | Prim's/Kruskal's MST, Union-Find                 | [#1584](https://leetcode.com/problems/min-cost-to-connect-all-points/) |
+| 15  | Swim in Rising Water            | Hard       | ⭐⭐⭐⭐   | Dijkstra, Binary search, Union-Find              | [#778](https://leetcode.com/problems/swim-in-rising-water/)            |
+
+**Why Problem #11 is Critical**: This is the standard Dijkstra's algorithm problem. Mastering this opens up all weighted shortest path problems.
+
+### Expert Level - Union-Find & Advanced
+
+| #   | Problem                                            | Difficulty | Importance | Key Concepts                                 | Link                                                                                         |
+| --- | -------------------------------------------------- | ---------- | ---------- | -------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 16  | Number of Connected Components in Undirected Graph | Medium     | ⭐⭐⭐⭐⭐ | Union-Find, DFS, Connected components        | [#323](https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/) |
+| 17  | Graph Valid Tree                                   | Medium     | ⭐⭐⭐⭐   | Union-Find, Cycle detection, Tree properties | [#261](https://leetcode.com/problems/graph-valid-tree/)                                      |
+| 18  | Accounts Merge                                     | Medium     | ⭐⭐⭐⭐   | Union-Find, DFS, Connected components        | [#721](https://leetcode.com/problems/accounts-merge/)                                        |
+| 19  | Redundant Connection                               | Medium     | ⭐⭐⭐⭐   | Union-Find, Cycle detection                  | [#684](https://leetcode.com/problems/redundant-connection/)                                  |
+| 20  | Critical Connections in a Network                  | Hard       | ⭐⭐⭐⭐⭐ | Tarjan's algorithm, Bridges, DFS             | [#1192](https://leetcode.com/problems/critical-connections-in-a-network/)                    |
+
+**Why Problems #16, #20 are Critical**: #16 is the foundation for Union-Find mastery. #20 teaches Tarjan's algorithm for finding bridges and articulation points, crucial for network analysis.
+
+### Master Level - Complex Graph Problems
+
+| #   | Problem                          | Difficulty | Importance | Key Concepts                                | Link                                                                    |
+| --- | -------------------------------- | ---------- | ---------- | ------------------------------------------- | ----------------------------------------------------------------------- |
+| 21  | Word Ladder II                   | Hard       | ⭐⭐⭐⭐   | BFS + Backtracking, Path reconstruction     | [#126](https://leetcode.com/problems/word-ladder-ii/)                   |
+| 22  | Alien Dictionary                 | Hard       | ⭐⭐⭐⭐⭐ | Topological sort, Graph construction        | [#269](https://leetcode.com/problems/alien-dictionary/)                 |
+| 23  | Reconstruct Itinerary            | Hard       | ⭐⭐⭐⭐   | Eulerian path, DFS, Hierholzer's algorithm  | [#332](https://leetcode.com/problems/reconstruct-itinerary/)            |
+| 24  | Minimum Height Trees             | Medium     | ⭐⭐⭐⭐   | Tree centers, Topological sort, BFS         | [#310](https://leetcode.com/problems/minimum-height-trees/)             |
+| 25  | Shortest Path Visiting All Nodes | Hard       | ⭐⭐⭐⭐   | BFS with state, Bitmask, Traveling salesman | [#847](https://leetcode.com/problems/shortest-path-visiting-all-nodes/) |
+| 26  | Bus Routes                       | Hard       | ⭐⭐⭐⭐   | BFS on hypergraph, Graph modeling           | [#815](https://leetcode.com/problems/bus-routes/)                       |
+| 27  | Parallel Courses III             | Hard       | ⭐⭐⭐⭐   | Topological sort, Dynamic programming       | [#2050](https://leetcode.com/problems/parallel-courses-iii/)            |
+
+**Why Problem #22 is Critical**: Alien Dictionary is a classic interview problem that combines graph construction with topological sort. It tests your ability to model real-world problems as graphs.
+
+### Bonus - Bipartite & Coloring
+
+| #   | Problem             | Difficulty | Importance | Key Concepts | Link |
+| --- | ------------------- | ---------- | ---------- | ------------ | ---- |
+| 28  | Is Graph Bipartite? | Medium     | ⭐⭐⭐⭐   |
