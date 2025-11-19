@@ -39,7 +39,6 @@ export const ROUTES: EachRoute[] = [
     title: "Data Structures",
     href: "/data-structures",
     noLink: true,
-    tag: "New",
     items: [
       { title: "Linked Lists", href: "/linked-lists" },
       { title: "Stacks", href: "/stacks" },
@@ -53,50 +52,57 @@ export const ROUTES: EachRoute[] = [
   {
     title: "Algorithms",
     href: "/algorithms",
+    tag: "New",
     noLink: true,
     items: [
       { title: "Searching", href: "/searching" },
       { title: "Recursion", href: "/recursion" },
       { title: "Backtracking", href: "/backtracking" },
-      { title: "Sorting", href: "/sorting" },
-      { title: "Dynamic Programming", href: "/dynamic-programming" },
-      { title: "Greedy Algorithms", href: "/greedy-algorithms" },
-      { title: "Bit Manipulation", href: "/bit-manipulation" },
-    ],
-  },
-  {
-    title: "System Design",
-    href: "/system-design",
-    noLink: true,
-    items: [
+      { title: "Sorting", href: "/sorting", tag: "soon" },
       {
-        title: "Introduction to System Design",
-        href: "/introduction-to-system-design",
+        title: "Dynamic Programming",
+        href: "/dynamic-programming",
+        tag: "soon",
       },
-      { title: "Scalability", href: "/scalability" },
-      { title: "Load Balancing", href: "/load-balancing" },
-      { title: "Caching", href: "/caching" },
-      { title: "Database Design", href: "/database-design" },
-      { title: "Microservices", href: "/microservices" },
-      { title: "APIs", href: "/apis" },
-      { title: "Monitoring & Logging", href: "/monitoring-logging" },
-      { title: "Security", href: "/security" },
+      { title: "Greedy Algorithms", href: "/greedy-algorithms", tag: "soon" },
+      { title: "Bit Manipulation", href: "/bit-manipulation", tag: "soon" },
     ],
   },
-  {
-    title: "Cheatsheets",
-    href: "/cheatsheets",
-    noLink: true,
-    items: [
-      { title: "Mathematics Cheatsheet", href: "/mathematics-cheatsheet" },
-      {
-        title: "Data Structures Cheatsheet",
-        href: "/data-structures-cheatsheet",
-      },
-      { title: "Algorithms Cheatsheet", href: "/algorithms-cheatsheet" },
-      { title: "System Design Cheatsheet", href: "/system-design-cheatsheet" },
-    ],
-  },
+  // {
+  //   title: "System Design",
+  //   href: "/system-design",
+  //   noLink: true,
+  //   tag: "soon",
+  //   items: [
+  // {
+  //   title: "Introduction to System Design",
+  //   href: "/introduction-to-system-design",
+  // },
+  // { title: "Scalability", href: "/scalability" },
+  // { title: "Load Balancing", href: "/load-balancing" },
+  // { title: "Caching", href: "/caching" },
+  // { title: "Database Design", href: "/database-design" },
+  // { title: "Microservices", href: "/microservices" },
+  // { title: "APIs", href: "/apis" },
+  // { title: "Monitoring & Logging", href: "/monitoring-logging" },
+  // { title: "Security", href: "/security" },
+  //   ],
+  // },
+  // {
+  //   title: "Cheatsheets",
+  //   href: "/cheatsheets",
+  //   noLink: true,
+  //   tag: "soon",
+  //   items: [
+  // { title: "Mathematics Cheatsheet", href: "/mathematics-cheatsheet" },
+  // {
+  //   title: "Data Structures Cheatsheet",
+  //   href: "/data-structures-cheatsheet",
+  // },
+  // { title: "Algorithms Cheatsheet", href: "/algorithms-cheatsheet" },
+  // { title: "System Design Cheatsheet", href: "/system-design-cheatsheet" },
+  //   ],
+  // },
 ];
 
 type Page = { title: string; href: string };

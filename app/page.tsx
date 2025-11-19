@@ -33,7 +33,7 @@ export default function Home() {
         >
           Start Learning
         </Link>
-        <Link
+        {/* <Link
           href="/blog"
           className={buttonVariants({
             variant: "secondary",
@@ -42,7 +42,7 @@ export default function Home() {
           })}
         >
           Read Blog
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
