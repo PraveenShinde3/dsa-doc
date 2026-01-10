@@ -59,13 +59,13 @@ export const ROUTES: EachRoute[] = [
       { title: "Recursion", href: "/recursion" },
       { title: "Backtracking", href: "/backtracking" },
       { title: "Sorting", href: "/sorting", tag: "soon" },
-      {
-        title: "Dynamic Programming",
-        href: "/dynamic-programming",
-        tag: "soon",
-      },
-      { title: "Greedy Algorithms", href: "/greedy-algorithms", tag: "soon" },
-      { title: "Bit Manipulation", href: "/bit-manipulation", tag: "soon" },
+      // {
+      //   title: "Dynamic Programming",
+      //   href: "/dynamic-programming",
+      //   tag: "soon",
+      // },
+      // { title: "Greedy Algorithms", href: "/greedy-algorithms", tag: "soon" },
+      // { title: "Bit Manipulation", href: "/bit-manipulation", tag: "soon" },
     ],
   },
   // {
