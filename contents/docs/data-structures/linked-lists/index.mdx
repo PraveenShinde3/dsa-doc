@@ -5,18 +5,267 @@ description: Learn about linked lists, a powerful data structure in Data Structu
 
 ![Linked Lists Example](/images/linked-lists-diagram.png)
 
-## Linked Lists: An Introduction
+## What is a Linked List?
 
-A **linked list** is a linear data structure where elements are not stored at contiguous memory locations. Instead, each element, called a **node**, points to the next node in the sequence. This structure makes linked lists a powerful and flexible alternative to arrays, especially when frequent insertions and deletions are needed.
+A linked list is a collection of nodes, where each node contains data and a reference (pointer) to the next node.
 
-## The Structure of a Node
+## Why Use a Linked List?
 
-At its core, a linked list is a collection of nodes. Each node typically contains two parts:
+The primary reason to use a linked list over a static array is for its **dynamic size**.
 
-- **Data**: The value stored in the node.
-- **Next**: A pointer or reference to the next node in the list. The final node's `next` pointer is usually `null` to mark the end.
+- If the size of the data structure is not known during runtime
+- If the size will be decided during runtime
+- If you need a variable-size data structure
 
-The first node in a linked list is called the **head**, and it serves as the entry point for traversing the list.
+## Linked List Structure
+
+A linked list is composed of nodes. The structure of a single node generally looks like this in code (Java example):
+
+```java
+// Node structure
+class Node {
+    int value; // The data part of the node
+    Node next; // The pointer/reference to the next node
+
+    // Constructor
+    Node(int value) {
+        this.value = value;
+    }
+}
+```
+
+The `LinkedList` class itself typically maintains three private fields:
+
+- `private Node head;` (The first node)
+- `private Node tail;` (The last node)
+- `private int length;` (The number of nodes)
+
+## Time Complexity Comparison (Linked List vs. Array)
+
+The following table compares the typical time complexities for common operations in Linked Lists and Arrays:
+
+| Operation    | Linked List | Array |
+| ------------ | ----------- | ----- |
+| Append       | O(1)        | O(1)  |
+| Remove Last  | O(n)        | O(1)  |
+| Prepend      | O(1)        | O(n)  |
+| Remove First | O(1)        | O(n)  |
+| Insert       | O(n)        | O(n)  |
+| Remove       | O(n)        | O(n)  |
+| Searching    | O(n)        | O(n)  |
+
+## Key Methods
+
+### Append Method
+
+The `append` method adds a new node to the end of the list.
+
+```java
+public void append(int val) {
+    Node newNode = new Node(val);
+    if (length == 0) { // Case 1: List is empty
+        head = newNode;
+        tail = newNode;
+    } else { // Case 2: List is not empty
+        tail.next = newNode;
+        tail = newNode;
+    }
+    length++;
+}
+```
+
+**Implementation Notes:**
+
+- If the list is empty (`length == 0`), the new node becomes both the head and the tail
+- Otherwise, the current tail's `next` pointer is set to the new node, and the `tail` is updated to point to the new node
+
+### Remove Last Method
+
+The `removeLast` method removes the last node from the list.
+
+```java
+public void removeLast() {
+    if (length == 0) return null; // Case 1: List is empty
+
+    Node temp = head;
+    Node pre = head;
+
+    while (temp.next != null) { // Traverse until 'temp' is the last node
+        pre = temp; // 'pre' tracks the node before 'temp'
+        temp = temp.next;
+    }
+
+    tail = pre; // The new tail is the node before the old tail
+    tail.next = null; // Remove the link to the old tail
+    length--;
+
+    if (length == 0) { // Case 2: After removal, the list is now empty
+        head = null;
+        tail = null;
+    }
+
+    return temp; // Return the removed node
+}
+```
+
+### Prepend Method
+
+The `prepend` method adds a new node to the beginning of the list.
+
+```java
+public void prepend(int val) {
+    Node newNode = new Node(val);
+
+    if (length == 0) { // Case 1: List is empty
+        head = newNode;
+        tail = newNode;
+    } else { // Case 2: List is not empty
+        newNode.next = head; // New node points to the current head
+        head = newNode; // Head is updated to the new node
+    }
+    length++;
+}
+```
+
+**Implementation Notes:**
+
+- If the list is empty, the new node becomes both the head and the tail
+- Otherwise, the new node points to the current head, and the head is updated to the new node
+
+### Remove First Method
+
+The `removeFirst` method removes the node at the beginning of the list.
+
+```java
+public Node removeFirst() {
+    if (length == 0) return null; // Case 1: List is empty
+
+    Node temp = head; // Reference the current head to return later
+    head = head.next; // Head is moved to the next node
+    temp.next = null; // Disconnect the old head from the list
+    length--;
+
+    if (length == 0) { // Case 2: After removal, the list is now empty
+        head = null;
+        tail = null;
+    }
+
+    return temp;
+}
+```
+
+**Implementation Notes:**
+
+- Store a reference to the current head before moving it
+- Move the head pointer to the next node
+- Disconnect the old head from the list
+- If the list becomes empty after removal, set both head and tail to null
+
+### Get Method
+
+The `get` method retrieves the node at a specific index.
+
+```java
+public Node get(int index) {
+    // Check for an invalid index
+    if (index < 0 || index >= length) {
+        return null;
+    }
+
+    Node temp = head;
+    // Loop iterates up to the index
+    for (int i = 0; i < index; i++) {
+        temp = temp.next;
+    }
+    return temp;
+}
+```
+
+**Implementation Notes:**
+
+- First validate that the index is within valid bounds (0 to length-1)
+- Traverse the list from the head, moving forward until reaching the desired index
+- Return the node at that position
+
+### Insert Method
+
+The `insert` method adds a new node at a specific index.
+
+```java
+public boolean insert(int index, int val) {
+    // Check for an invalid index
+    if (index < 0 || index > length) {
+        return false;
+    }
+
+    if (index == 0) { // Case 1: Insert at the start
+        prepend(val);
+        return true;
+    }
+
+    if (index == length) { // Case 2: Insert at the end
+        append(val);
+        return true;
+    }
+
+    Node newNode = new Node(val);
+    // Get the node *before* the insertion point
+    Node prevNode = get(index - 1);
+
+    // Reroute the pointers:
+    newNode.next = prevNode.next; // New node points to the node *after* prevNode
+    prevNode.next = newNode; // prevNode points to the new node
+
+    length++;
+    return true;
+}
+```
+
+**Implementation Notes:**
+
+- Validate the index (can be from 0 to length, inclusive)
+- Use existing `prepend` method if inserting at the beginning
+- Use existing `append` method if inserting at the end
+- For middle insertions, get the node before the insertion point and reroute pointers
+
+### Remove Method
+
+The `remove` method removes a node at a specific index.
+
+```java
+public Node remove(int index) {
+    // Check for an invalid index
+    if (index < 0 || index >= length) {
+        return null;
+    }
+
+    if (index == 0) { // Case 1: Remove the first node
+        return removeFirst();
+    }
+
+    if (index == length - 1) { // Case 2: Remove the last node
+        return removeLast();
+    }
+
+    // Get the node *before* the removal point
+    Node prev = get(index - 1);
+    Node temp = prev.next; // The node to be removed
+
+    // Reroute the pointers:
+    prev.next = temp.next; // prev node skips over temp, pointing to the node *after* temp
+    temp.next = null; // Disconnect the removed node from the list
+
+    length--;
+    return temp;
+}
+```
+
+**Implementation Notes:**
+
+- Validate the index is within bounds (0 to length-1)
+- Use existing `removeFirst` method if removing the first node
+- Use existing `removeLast` method if removing the last node
+- For middle removals, get the node before the removal point and reroute pointers to skip over the removed node
 
 ## Types of Linked Lists
 
@@ -30,20 +279,6 @@ The first node in a linked list is called the **head**, and it serves as the ent
 
 - **Circular Linked List**
   - A **circular linked list** is one where the last node's `next` pointer points back to the head of the list, creating a loop. This can be either singly or doubly linked.
-
-## Why Use Linked Lists?
-
-### Advantages
-
-- **Dynamic Size**: Linked lists can easily grow or shrink, as memory is allocated dynamically.
-- **Efficient Insertions and Deletions**: Adding or removing a node is fast (O(1)) if you have a reference to the node's predecessor. You simply update a few pointers.
-
-### Disadvantages
-
-- **No Random Access**: To get to the nth node, you must traverse the list from the head, which takes O(n) time.
-- **Extra Memory Overhead**: Each node requires additional memory to store the pointer to the next node.
-
----
 
 ## LeetCode Problems for Linked Lists
 
