@@ -1,0 +1,497 @@
+---
+title: Binary Search
+description: Learn about Binary Search, an efficient searching algorithm in Data Structures and Algorithms.
+---
+
+## What is Binary Search?
+
+Binary search is a smart and fast searching algorithm that works on **sorted** arrays. Instead of checking every element one by one, it cuts the search space in half with each step!
+
+Imagine you're looking for a word in a dictionary. You don't start from page 1 and flip through every page. You open it somewhere in the middle, check if your word comes before or after that page, and then look in the correct half. That's binary search!
+
+## Important: The Array Must Be Sorted!
+
+Binary search **only works on sorted arrays**. If your array is not sorted, you must sort it first or use linear search instead.
+
+## How Does It Work?
+
+Here's the step-by-step process:
+
+1. Find the middle element of the array
+2. Compare it with the target value
+3. If it matches, you're done!
+4. If the target is smaller, search in the left half
+5. If the target is larger, search in the right half
+6. Repeat until you find it or the search space becomes empty
+
+## Real-Life Example
+
+Let's say you have a sorted list of numbers: `[2, 5, 8, 12, 16, 23, 38, 45, 56, 67, 78]`
+
+You want to find if number `23` exists in the list.
+
+**Step by step:**
+
+**Step 1:** Left = 0, Right = 10, Middle = 5
+
+- Array[5] = 23
+- Is 23 equal to 23? **Yes! Found it at index 5**
+
+Let's try another example with `56`:
+
+**Step 1:** Left = 0, Right = 10, Middle = 5
+
+- Array[5] = 23
+- Is 56 greater than 23? Yes, search in the right half
+
+**Step 2:** Left = 6, Right = 10, Middle = 8
+
+- Array[8] = 56
+- Is 56 equal to 56? **Yes! Found it at index 8**
+
+## Visual Representation
+
+Searching for `23` in `[2, 5, 8, 12, 16, 23, 38, 45, 56, 67, 78]`:
+
+```
+Step 1: [2, 5, 8, 12, 16, |23|, 38, 45, 56, 67, 78]
+                          ↑
+                    Middle = 23
+                    Found it!
+```
+
+Searching for `67`:
+
+```
+Step 1: [2, 5, 8, 12, 16, |23|, 38, 45, 56, 67, 78]
+                          ↑
+                    67 > 23, go right
+
+Step 2: [38, 45, 56, |67|, 78]
+                     ↑
+                Middle = 67
+                Found it!
+```
+
+## Code Implementation
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="cpp">C++</TabsTrigger>
+    <TabsTrigger value="javascript">JavaScript</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+    ```java
+    public class BinarySearch {
+
+        // Iterative approach
+        public static int binarySearch(int[] arr, int target) {
+            int left = 0;
+            int right = arr.length - 1;
+
+            while (left <= right) {
+                // Find the middle index
+                int mid = left + (right - left) / 2;
+
+                // Check if target is at mid
+                if (arr[mid] == target) {
+                    return mid;
+                }
+
+                // If target is greater, ignore left half
+                if (arr[mid] < target) {
+                    left = mid + 1;
+                }
+                // If target is smaller, ignore right half
+                else {
+                    right = mid - 1;
+                }
+            }
+
+            // Target not found
+            return -1;
+        }
+
+        // Recursive approach
+        public static int binarySearchRecursive(
+                int[] arr,
+                int target,
+                int left,
+                int right
+        ) {
+            if (left > right) {
+                return -1; // Base case: not found
+            }
+
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] == target) {
+                return mid;
+            }
+
+            if (arr[mid] < target) {
+                return binarySearchRecursive(arr, target, mid + 1, right);
+            } else {
+                return binarySearchRecursive(arr, target, left, mid - 1);
+            }
+        }
+
+        public static void main(String[] args) {
+            int[] numbers = {2, 5, 8, 12, 16, 23, 38, 45, 56, 67, 78};
+
+            // Iterative
+            int result = binarySearch(numbers, 23);
+            System.out.println("Iterative: " + result); // Output: 5
+
+            // Recursive
+            int result2 = binarySearchRecursive(numbers, 67, 0, numbers.length - 1);
+            System.out.println("Recursive: " + result2); // Output: 9
+
+            int notFound = binarySearch(numbers, 100);
+            System.out.println("Not found: " + notFound); // Output: -1
+        }
+    }
+    ```
+
+  </TabsContent>
+
+  <TabsContent value="python">
+    ```python
+    # Iterative approach
+    def binary_search(arr, target):
+        left = 0
+        right = len(arr) - 1
+
+        while left <= right:
+            # Find the middle index
+            mid = left + (right - left) // 2
+
+            # Check if target is at mid
+            if arr[mid] == target:
+                return mid
+
+            # If target is greater, ignore left half
+            if arr[mid] < target:
+                left = mid + 1
+            # If target is smaller, ignore right half
+            else:
+                right = mid - 1
+
+        # Target not found
+        return -1
+
+
+    # Recursive approach
+    def binary_search_recursive(arr, target, left, right):
+        if left > right:
+            return -1  # Base case: not found
+
+        mid = left + (right - left) // 2
+
+        if arr[mid] == target:
+            return mid
+
+        if arr[mid] < target:
+            return binary_search_recursive(arr, target, mid + 1, right)
+        else:
+            return binary_search_recursive(arr, target, left, mid - 1)
+
+
+    # Example usage
+    numbers = [2, 5, 8, 12, 16, 23, 38, 45, 56, 67, 78]
+
+    # Iterative
+    result = binary_search(numbers, 23)
+    print(f"Iterative: {result}")  # Output: 5
+
+    # Recursive
+    result2 = binary_search_recursive(numbers, 67, 0, len(numbers) - 1)
+    print(f"Recursive: {result2}")  # Output: 9
+
+    not_found = binary_search(numbers, 100)
+    print(f"Not found: {not_found}")  # Output: -1
+    ```
+
+  </TabsContent>
+
+  <TabsContent value="cpp">
+    ```cpp
+    #include <iostream>
+    #include <vector>
+    using namespace std;
+
+    // Iterative approach
+    int binarySearch(vector<int>& arr, int target) {
+        int left = 0;
+        int right = arr.size() - 1;
+
+        while (left <= right) {
+            // Find the middle index
+            int mid = left + (right - left) / 2;
+
+            // Check if target is at mid
+            if (arr[mid] == target) {
+                return mid;
+            }
+
+            // If target is greater, ignore left half
+            if (arr[mid] < target) {
+                left = mid + 1;
+            }
+            // If target is smaller, ignore right half
+            else {
+                right = mid - 1;
+            }
+        }
+
+        // Target not found
+        return -1;
+    }
+
+    // Recursive approach
+    int binarySearchRecursive(
+        vector<int>& arr,
+        int target,
+        int left,
+        int right
+    ) {
+        if (left > right) {
+            return -1; // Base case: not found
+        }
+
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) {
+            return mid;
+        }
+
+        if (arr[mid] < target) {
+            return binarySearchRecursive(arr, target, mid + 1, right);
+        } else {
+            return binarySearchRecursive(arr, target, left, mid - 1);
+        }
+    }
+
+    int main() {
+        vector<int> numbers = {2, 5, 8, 12, 16, 23, 38, 45, 56, 67, 78};
+
+        // Iterative
+        int result = binarySearch(numbers, 23);
+        cout << "Iterative: " << result << endl; // Output: 5
+
+        // Recursive
+        int result2 = binarySearchRecursive(numbers, 67, 0, numbers.size() - 1);
+        cout << "Recursive: " << result2 << endl; // Output: 9
+
+        int notFound = binarySearch(numbers, 100);
+        cout << "Not found: " << notFound << endl; // Output: -1
+
+        return 0;
+    }
+    ```
+
+  </TabsContent>
+
+  <TabsContent value="javascript">
+    ```javascript
+    // Iterative approach
+    function binarySearch(arr, target) {
+      let left = 0;
+      let right = arr.length - 1;
+
+      while (left <= right) {
+        // Find the middle index
+        const mid = Math.floor(left + (right - left) / 2);
+
+        // Check if target is at mid
+        if (arr[mid] === target) {
+          return mid;
+        }
+
+        // If target is greater, ignore left half
+        if (arr[mid] < target) {
+          left = mid + 1;
+        }
+        // If target is smaller, ignore right half
+        else {
+          right = mid - 1;
+        }
+      }
+
+      // Target not found
+      return -1;
+    }
+
+    // Recursive approach
+    function binarySearchRecursive(
+      arr,
+      target,
+      left = 0,
+      right = arr.length - 1
+    ) {
+      if (left > right) {
+        return -1; // Base case: not found
+      }
+
+      const mid = Math.floor(left + (right - left) / 2);
+
+      if (arr[mid] === target) {
+        return mid;
+      }
+
+      if (arr[mid] < target) {
+        return binarySearchRecursive(arr, target, mid + 1, right);
+      } else {
+        return binarySearchRecursive(arr, target, left, mid - 1);
+      }
+    }
+
+    // Example usage
+    const numbers = [2, 5, 8, 12, 16, 23, 38, 45, 56, 67, 78];
+
+    // Iterative
+    const result = binarySearch(numbers, 23);
+    console.log(`Iterative: ${result}`); // Output: 5
+
+    // Recursive
+    const result2 = binarySearchRecursive(numbers, 67);
+    console.log(`Recursive: ${result2}`); // Output: 9
+
+    const notFound = binarySearch(numbers, 100);
+    console.log(`Not found: ${notFound}`); // Output: -1
+    ```
+
+  </TabsContent>
+</Tabs>
+
+## Time and Space Complexity
+
+**Time Complexity:**
+
+- **Best Case:** O(1) - The element is at the middle position
+- **Average Case:** O(log n) - Much faster than linear search!
+- **Worst Case:** O(log n) - Even in worst case, it's very fast
+
+**Space Complexity:**
+
+- **Iterative:** O(1) - Uses constant extra space
+- **Recursive:** O(log n) - Due to recursive call stack
+
+## Why is Binary Search So Fast?
+
+With each comparison, binary search eliminates **half** of the remaining elements!
+
+For an array of 1,000,000 elements:
+
+- Linear Search: Could take up to 1,000,000 comparisons
+- Binary Search: Takes at most 20 comparisons! (log₂ 1,000,000 ≈ 20)
+
+That's the power of cutting the search space in half each time!
+
+## When to Use Binary Search?
+
+**Use Binary Search when:**
+
+- Your array is **sorted** (or you can sort it first)
+- You have a large dataset
+- You need to search multiple times
+- Speed is critical
+
+**Don't use Binary Search when:**
+
+- Your array is unsorted and you can't sort it
+- The array is very small (linear search is fine)
+- You only search once and sorting would take longer
+
+## Common Pitfalls
+
+1. **Forgetting the array must be sorted** - This is the most common mistake!
+2. **Integer overflow:** Using `(left + right) / 2` can overflow. Use `left + (right - left) / 2` instead
+3. **Off-by-one errors:** Make sure your loop condition is `left <= right` not `left < right`
+4. **Wrong comparison:** Make sure you update `left` and `right` correctly
+
+## Iterative vs Recursive
+
+**Iterative (recommended):**
+
+- More efficient (no function call overhead)
+- Uses O(1) space
+- Easier to debug
+- Preferred in interviews
+
+**Recursive:**
+
+- More elegant and easier to understand
+- Uses O(log n) space due to call stack
+- Good for learning the concept
+- Can cause stack overflow for very large arrays
+
+## Advantages and Disadvantages
+
+**Advantages:**
+
+- Extremely fast - O(log n) time complexity
+- Efficient for large datasets
+- Predictable performance
+
+**Disadvantages:**
+
+- Only works on sorted arrays
+- Requires random access (arrays, not linked lists)
+- More complex to implement than linear search
+
+## Must-Do LeetCode Questions
+
+| #   | Problem                                  | Difficulty | Link                                                                                                  |
+| --- | ---------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------- |
+| 1   | Binary Search                            | Easy       | [LeetCode 704](https://leetcode.com/problems/binary-search/)                                          |
+| 2   | Search Insert Position                   | Easy       | [LeetCode 35](https://leetcode.com/problems/search-insert-position/)                                  |
+| 3   | First Bad Version                        | Easy       | [LeetCode 278](https://leetcode.com/problems/first-bad-version/)                                      |
+| 4   | Valid Perfect Square                     | Easy       | [LeetCode 367](https://leetcode.com/problems/valid-perfect-square/)                                   |
+| 5   | Find Smallest Letter Greater Than Target | Easy       | [LeetCode 744](https://leetcode.com/problems/find-smallest-letter-greater-than-target/)               |
+| 6   | Search in Rotated Sorted Array           | Medium     | [LeetCode 33](https://leetcode.com/problems/search-in-rotated-sorted-array/)                          |
+| 7   | Find First and Last Position of Element  | Medium     | [LeetCode 34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/) |
+| 8   | Find Peak Element                        | Medium     | [LeetCode 162](https://leetcode.com/problems/find-peak-element/)                                      |
+| 9   | Find Minimum in Rotated Sorted Array     | Medium     | [LeetCode 153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)                   |
+| 10  | Koko Eating Bananas                      | Medium     | [LeetCode 875](https://leetcode.com/problems/koko-eating-bananas/)                                    |
+| 11  | Capacity To Ship Packages Within D Days  | Medium     | [LeetCode 1011](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)               |
+| 12  | Find the Duplicate Number                | Medium     | [LeetCode 287](https://leetcode.com/problems/find-the-duplicate-number/)                              |
+| 13  | Search a 2D Matrix                       | Medium     | [LeetCode 74](https://leetcode.com/problems/search-a-2d-matrix/)                                      |
+| 14  | Time Based Key-Value Store               | Medium     | [LeetCode 981](https://leetcode.com/problems/time-based-key-value-store/)                             |
+| 15  | Median of Two Sorted Arrays              | Hard       | [LeetCode 4](https://leetcode.com/problems/median-of-two-sorted-arrays/)                              |
+
+## Binary Search Template
+
+Here's a template you can use for most binary search problems:
+
+```
+
+left = 0
+right = array.length - 1
+
+while left <= right:
+mid = left + (right - left) / 2
+
+    if array[mid] == target:
+        return mid
+    else if array[mid] < target:
+        left = mid + 1
+    else:
+        right = mid - 1
+
+return -1
+
+```
+
+## Summary
+
+Binary search is one of the most important algorithms in computer science. It's incredibly efficient and forms the basis for many advanced algorithms. The key is understanding how it systematically eliminates half the search space with each iteration.
+
+**Key Takeaway:** Binary search is lightning fast (O(log n)) but requires a sorted array. It works by repeatedly dividing the search space in half until finding the target or determining it doesn't exist.
+
+```
+
+```

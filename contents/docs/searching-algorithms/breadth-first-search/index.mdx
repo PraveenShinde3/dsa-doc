@@ -1,0 +1,721 @@
+---
+title: Breadth First Search
+description: A comprehensive guide to Breadth-First Search (BFS) algorithm"
+---
+
+## What is Breadth First Search?
+
+Breadth First Search (BFS) is a graph traversal algorithm that explores all nodes at the current level before moving to the next level. Think of it like ripples in water - when you drop a stone in a pond, the ripples spread outward in circles, reaching all nearby points before moving further away.
+
+Imagine you're looking for a friend at a party. Instead of going deep into one room and exploring every corner, you quickly check everyone in the main hall first, then move to check each adjacent room, one level at a time. That's BFS!
+
+## How Does It Work?
+
+BFS uses a **queue** (First In, First Out) to keep track of which nodes to visit next. Here's the simple process:
+
+1. Start at the root (or any starting node)
+2. Add it to the queue and mark it as visited
+3. Dequeue a node and process it
+4. Add all its unvisited neighbors to the queue
+5. Repeat until the queue is empty
+
+## Real-Life Example
+
+Let's explore this graph using BFS starting from node **A**:
+
+```
+        A
+       / \
+      B   C
+     /   / \
+    D   E   F
+```
+
+**BFS Traversal Order: A → B → C → D → E → F**
+
+**Step by step:**
+
+1. Start at **A**, add to queue: [A]
+2. Dequeue **A**, add its children **B** and **C**: [B, C]
+3. Dequeue **B**, add its child **D**: [C, D]
+4. Dequeue **C**, add its children **E** and **F**: [D, E, F]
+5. Dequeue **D** (no children): [E, F]
+6. Dequeue **E** (no children): [F]
+7. Dequeue **F** (no children): []
+8. Queue is empty, done!
+
+## Visual Representation
+
+```
+Level 0:     [A]              Queue: [A]
+             / \
+            B   C
+           /   / \
+          D   E   F
+
+Level 1:     [A]              Queue: [B, C]
+            / \
+          [B] [C]
+          /   / \
+         D   E   F
+
+Level 2:     [A]              Queue: [D, E, F]
+            / \
+          [B] [C]
+         [D] / \
+           [E] [F]
+
+Final Order: A → B → C → D → E → F
+```
+
+## Code Implementation
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="cpp">C++</TabsTrigger>
+    <TabsTrigger value="javascript">JavaScript</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+```java
+import java.util.*;
+
+class Graph {
+private Map<Integer, List<Integer>> adjList;
+
+    public Graph() {
+        adjList = new HashMap<>();
+    }
+
+    public void addEdge(int v, int w) {
+        adjList.putIfAbsent(v, new ArrayList<>());
+        adjList.get(v).add(w);
+    }
+
+    // Standard BFS
+    public void bfs(int start) {
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+
+        queue.offer(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            System.out.print(node + " ");
+
+            // Add all unvisited neighbors to queue
+            if (adjList.containsKey(node)) {
+                for (int neighbor : adjList.get(node)) {
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+    }
+
+    // BFS with level tracking
+    public void bfsWithLevels(int start) {
+        Map<Integer, Integer> levels = new HashMap<>();
+        Queue<Integer> queue = new LinkedList<>();
+
+        queue.offer(start);
+        levels.put(start, 0);
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            int level = levels.get(node);
+            System.out.println("Node " + node + " at level " + level);
+
+            if (adjList.containsKey(node)) {
+                for (int neighbor : adjList.get(node)) {
+                    if (!levels.containsKey(neighbor)) {
+                        levels.put(neighbor, level + 1);
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+    }
+
+    // BFS shortest path
+    public List<Integer> bfsShortestPath(int start, int target) {
+        Map<Integer, Integer> parent = new HashMap<>();
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+
+        queue.offer(start);
+        visited.add(start);
+        parent.put(start, null);
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+
+            if (node == target) {
+                return reconstructPath(parent, start, target);
+            }
+
+            if (adjList.containsKey(node)) {
+                for (int neighbor : adjList.get(node)) {
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        parent.put(neighbor, node);
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+
+        return new ArrayList<>(); // No path found
+    }
+
+    private List<Integer> reconstructPath(Map<Integer, Integer> parent,
+                                         int start, int target) {
+        List<Integer> path = new ArrayList<>();
+        Integer current = target;
+
+        while (current != null) {
+            path.add(0, current);
+            current = parent.get(current);
+        }
+
+        return path;
+    }
+
+}
+
+````
+  </TabsContent>
+
+  <TabsContent value="python">
+```python
+from collections import deque, defaultdict
+
+class Graph:
+    def __init__(self):
+        self.adj_list = defaultdict(list)
+
+    def add_edge(self, v, w):
+        self.adj_list[v].append(w)
+
+    # Standard BFS
+    def bfs(self, start):
+        visited = set()
+        queue = deque([start])
+        visited.add(start)
+
+        while queue:
+            node = queue.popleft()
+            print(node, end=" ")
+
+            # Add all unvisited neighbors to queue
+            for neighbor in self.adj_list[node]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+
+    # BFS with level tracking
+    def bfs_with_levels(self, start):
+        levels = {start: 0}
+        queue = deque([start])
+
+        while queue:
+            node = queue.popleft()
+            level = levels[node]
+            print(f"Node {node} at level {level}")
+
+            for neighbor in self.adj_list[node]:
+                if neighbor not in levels:
+                    levels[neighbor] = level + 1
+                    queue.append(neighbor)
+
+    # BFS shortest path
+    def bfs_shortest_path(self, start, target):
+        parent = {start: None}
+        queue = deque([start])
+        visited = {start}
+
+        while queue:
+            node = queue.popleft()
+
+            if node == target:
+                return self._reconstruct_path(parent, start, target)
+
+            for neighbor in self.adj_list[node]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    parent[neighbor] = node
+                    queue.append(neighbor)
+
+        return []  # No path found
+
+    def _reconstruct_path(self, parent, start, target):
+        path = []
+        current = target
+
+        while current is not None:
+            path.insert(0, current)
+            current = parent[current]
+
+        return path
+````
+
+  </TabsContent>
+
+  <TabsContent value="cpp">
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+
+class Graph {
+private:
+unordered_map<int, vector<int>> adjList;
+
+    vector<int> reconstructPath(unordered_map<int, int>& parent,
+                                int start, int target) {
+        vector<int> path;
+        int current = target;
+
+        while (parent.find(current) != parent.end()) {
+            path.insert(path.begin(), current);
+            if (current == start) break;
+            current = parent[current];
+        }
+
+        return path;
+    }
+
+public:
+void addEdge(int v, int w) {
+adjList[v].push_back(w);
+}
+
+    // Standard BFS
+    void bfs(int start) {
+        unordered_set<int> visited;
+        queue<int> q;
+
+        q.push(start);
+        visited.insert(start);
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            cout << node << " ";
+
+            // Add all unvisited neighbors to queue
+            for (int neighbor : adjList[node]) {
+                if (visited.find(neighbor) == visited.end()) {
+                    visited.insert(neighbor);
+                    q.push(neighbor);
+                }
+            }
+        }
+    }
+
+    // BFS with level tracking
+    void bfsWithLevels(int start) {
+        unordered_map<int, int> levels;
+        queue<int> q;
+
+        q.push(start);
+        levels[start] = 0;
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            int level = levels[node];
+            cout << "Node " << node << " at level " << level << endl;
+
+            for (int neighbor : adjList[node]) {
+                if (levels.find(neighbor) == levels.end()) {
+                    levels[neighbor] = level + 1;
+                    q.push(neighbor);
+                }
+            }
+        }
+    }
+
+    // BFS shortest path
+    vector<int> bfsShortestPath(int start, int target) {
+        unordered_map<int, int> parent;
+        queue<int> q;
+        unordered_set<int> visited;
+
+        q.push(start);
+        visited.insert(start);
+        parent[start] = -1;
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            if (node == target) {
+                return reconstructPath(parent, start, target);
+            }
+
+            for (int neighbor : adjList[node]) {
+                if (visited.find(neighbor) == visited.end()) {
+                    visited.insert(neighbor);
+                    parent[neighbor] = node;
+                    q.push(neighbor);
+                }
+            }
+        }
+
+        return vector<int>(); // No path found
+    }
+
+};
+
+````
+  </TabsContent>
+
+  <TabsContent value="javascript">
+```javascript
+class Graph {
+  constructor() {
+    this.adjList = new Map();
+  }
+
+  addEdge(v, w) {
+    if (!this.adjList.has(v)) {
+      this.adjList.set(v, []);
+    }
+    this.adjList.get(v).push(w);
+  }
+
+  // Standard BFS
+  bfs(start) {
+    const visited = new Set();
+    const queue = [start];
+    visited.add(start);
+
+    while (queue.length > 0) {
+      const node = queue.shift();
+      process.stdout.write(node + " ");
+
+      // Add all unvisited neighbors to queue
+      const neighbors = this.adjList.get(node) || [];
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push(neighbor);
+        }
+      }
+    }
+  }
+
+  // BFS with level tracking
+  bfsWithLevels(start) {
+    const levels = new Map([[start, 0]]);
+    const queue = [start];
+
+    while (queue.length > 0) {
+      const node = queue.shift();
+      const level = levels.get(node);
+      console.log(`Node ${node} at level ${level}`);
+
+      const neighbors = this.adjList.get(node) || [];
+      for (const neighbor of neighbors) {
+        if (!levels.has(neighbor)) {
+          levels.set(neighbor, level + 1);
+          queue.push(neighbor);
+        }
+      }
+    }
+  }
+
+  // BFS shortest path
+  bfsShortestPath(start, target) {
+    const parent = new Map([[start, null]]);
+    const queue = [start];
+    const visited = new Set([start]);
+
+    while (queue.length > 0) {
+      const node = queue.shift();
+
+      if (node === target) {
+        return this._reconstructPath(parent, start, target);
+      }
+
+      const neighbors = this.adjList.get(node) || [];
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          parent.set(neighbor, node);
+          queue.push(neighbor);
+        }
+      }
+    }
+
+    return []; // No path found
+  }
+
+  _reconstructPath(parent, start, target) {
+    const path = [];
+    let current = target;
+
+    while (current !== null) {
+      path.unshift(current);
+      current = parent.get(current);
+    }
+
+    return path;
+  }
+}
+````
+
+  </TabsContent>
+</Tabs>
+
+## Time and Space Complexity
+
+**Time Complexity:** O(V + E)
+
+- V = number of vertices (nodes)
+- E = number of edges
+- We visit each vertex once and explore each edge once
+
+**Space Complexity:** O(V)
+
+- Queue can hold up to V nodes (in worst case, all nodes at one level)
+- Visited set also needs O(V) space
+- Total: O(V)
+
+## BFS vs DFS Comparison
+
+| Feature        | BFS                        | DFS                           |
+| -------------- | -------------------------- | ----------------------------- |
+| Data Structure | Queue (FIFO)               | Stack (LIFO) or Recursion     |
+| Traversal      | Level by level             | Deep first                    |
+| Memory         | More memory                | Less memory                   |
+| Shortest Path  | ✅ Always finds shortest   | ❌ May not find shortest      |
+| Implementation | Iterative (usually)        | Recursive or Iterative        |
+| Best For       | Shortest path, level-order | Complete search, backtracking |
+
+## Applications of BFS
+
+1. **Shortest Path** - Finding shortest path in unweighted graphs
+2. **Level Order Traversal** - Tree level-by-level traversal
+3. **Social Networks** - Finding connections within certain degrees
+4. **Web Crawlers** - Crawling web pages level by level
+5. **GPS Navigation** - Finding shortest route
+6. **Peer-to-Peer Networks** - Finding nearby neighbors
+7. **Network Broadcasting** - Broadcasting packets in networks
+8. **Garbage Collection** - Finding reachable objects
+
+## When to Use BFS?
+
+**Use BFS when:**
+
+- You need the **shortest path** in an unweighted graph
+- You need **level-by-level** traversal
+- You want to find nodes **closest** to the source
+- You're solving problems about **degrees of separation**
+- The solution is **near the root**
+
+**Don't use BFS when:**
+
+- Memory is very limited (DFS uses less memory)
+- You need to explore all paths (use DFS)
+- Graph is very wide (BFS will use too much memory)
+- You're doing backtracking (use DFS)
+
+## Key Properties of BFS
+
+1. **Shortest Path Guarantee:** BFS always finds the shortest path in unweighted graphs
+2. **Level-Order:** Visits all nodes at distance k before visiting nodes at distance k+1
+3. **Completeness:** BFS will find a solution if one exists
+4. **Optimality:** The first solution found is optimal (shortest)
+
+## Advantages and Disadvantages
+
+**Advantages:**
+
+- **Guaranteed shortest path** in unweighted graphs
+- Good for finding nodes **close** to the source
+- Won't get stuck in deep paths
+- Level-by-level exploration is intuitive
+- No risk of stack overflow
+
+**Disadvantages:**
+
+- Uses **more memory** than DFS (stores entire level)
+- Not suitable for **very wide** graphs
+- Slower than DFS for **deep** searches
+- Requires more space as graph width increases
+
+## Common Variations
+
+### 1. Multi-Source BFS
+
+```java
+// Start BFS from multiple sources simultaneously
+void multiSourceBFS(List<Integer> sources) {
+    Set<Integer> visited = new HashSet<>();
+    Queue<Integer> queue = new LinkedList<>();
+
+    // Add all sources to queue
+    for (int source : sources) {
+        queue.offer(source);
+        visited.add(source);
+    }
+
+    while (!queue.isEmpty()) {
+        int node = queue.poll();
+        // Process node
+
+        for (int neighbor : adjList.get(node)) {
+            if (!visited.contains(neighbor)) {
+                visited.add(neighbor);
+                queue.offer(neighbor);
+            }
+        }
+    }
+}
+```
+
+### 2. BFS on Grid/Matrix
+
+```java
+void bfsGrid(int[][] grid, int startRow, int startCol) {
+    int rows = grid.length, cols = grid[0].length;
+    boolean[][] visited = new boolean[rows][cols];
+    Queue<int[]> queue = new LinkedList<>();
+
+    queue.offer(new int[]{startRow, startCol});
+    visited[startRow][startCol] = true;
+
+    int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+
+    while (!queue.isEmpty()) {
+        int[] cell = queue.poll();
+        int row = cell[0], col = cell[1];
+
+        for (int[] dir : directions) {
+            int newRow = row + dir[0];
+            int newCol = col + dir[1];
+
+            if (newRow >= 0 && newRow < rows &&
+                newCol >= 0 && newCol < cols &&
+                !visited[newRow][newCol] && grid[newRow][newCol] == 1) {
+                visited[newRow][newCol] = true;
+                queue.offer(new int[]{newRow, newCol});
+            }
+        }
+    }
+}
+```
+
+### 3. BFS with Distance Tracking
+
+```java
+int bfsDistance(int start, int target) {
+    Map<Integer, Integer> distance = new HashMap<>();
+    Queue<Integer> queue = new LinkedList<>();
+
+    queue.offer(start);
+    distance.put(start, 0);
+
+    while (!queue.isEmpty()) {
+        int node = queue.poll();
+
+        if (node == target) {
+            return distance.get(node);
+        }
+
+        for (int neighbor : adjList.get(node)) {
+            if (!distance.containsKey(neighbor)) {
+                distance.put(neighbor, distance.get(node) + 1);
+                queue.offer(neighbor);
+            }
+        }
+    }
+
+    return -1; // Target not reachable
+}
+```
+
+## Must-Do LeetCode Questions
+
+| #   | Problem                                  | Difficulty | Link                                                                                    |
+| --- | ---------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
+| 1   | Binary Tree Level Order Traversal        | Medium     | [LeetCode 102](https://leetcode.com/problems/binary-tree-level-order-traversal/)        |
+| 2   | Binary Tree Zigzag Level Order Traversal | Medium     | [LeetCode 103](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/) |
+| 3   | Minimum Depth of Binary Tree             | Easy       | [LeetCode 111](https://leetcode.com/problems/minimum-depth-of-binary-tree/)             |
+| 4   | Binary Tree Right Side View              | Medium     | [LeetCode 199](https://leetcode.com/problems/binary-tree-right-side-view/)              |
+| 5   | Rotting Oranges                          | Medium     | [LeetCode 994](https://leetcode.com/problems/rotting-oranges/)                          |
+| 6   | Word Ladder                              | Hard       | [LeetCode 127](https://leetcode.com/problems/word-ladder/)                              |
+| 7   | Open the Lock                            | Medium     | [LeetCode 752](https://leetcode.com/problems/open-the-lock/)                            |
+| 8   | Walls and Gates                          | Medium     | [LeetCode 286](https://leetcode.com/problems/walls-and-gates/)                          |
+| 9   | Shortest Path in Binary Matrix           | Medium     | [LeetCode 1091](https://leetcode.com/problems/shortest-path-in-binary-matrix/)          |
+| 10  | 01 Matrix                                | Medium     | [LeetCode 542](https://leetcode.com/problems/01-matrix/)                                |
+| 11  | Perfect Squares                          | Medium     | [LeetCode 279](https://leetcode.com/problems/perfect-squares/)                          |
+| 12  | Snakes and Ladders                       | Medium     | [LeetCode 909](https://leetcode.com/problems/snakes-and-ladders/)                       |
+| 13  | Minimum Knight Moves                     | Medium     | [LeetCode 1197](https://leetcode.com/problems/minimum-knight-moves/)                    |
+| 14  | As Far from Land as Possible             | Medium     | [LeetCode 1162](https://leetcode.com/problems/as-far-from-land-as-possible/)            |
+| 15  | Shortest Bridge                          | Medium     | [LeetCode 934](https://leetcode.com/problems/shortest-bridge/)                          |
+
+## Common Mistakes to Avoid
+
+1. **Marking visited too late** - Mark as visited when adding to queue, not when processing
+2. **Using wrong data structure** - BFS needs a queue, not a stack
+3. **Forgetting to check visited** - Can lead to infinite loops
+4. **Not handling grid boundaries** - Always check row/col bounds in grid problems
+5. **Confusing BFS with DFS** - Remember: queue for BFS, stack for DFS
+
+## BFS Template (Standard)
+
+```
+function bfs(start):
+    visited = empty set
+    queue = [start]
+    visited.add(start)
+
+    while queue is not empty:
+        node = queue.dequeue()
+        // Process node
+
+        for each neighbor of node:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.enqueue(neighbor)
+```
+
+## BFS Template (With Levels)
+
+```
+function bfs(start):
+    queue = [start]
+    visited = {start}
+    level = 0
+
+    while queue is not empty:
+        size = queue.size()
+
+        for i from 0 to size:
+            node = queue.dequeue()
+            // Process node at current level
+
+            for each neighbor of node:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.enqueue(neighbor)
+
+        level++
+```
+
+## Summary
+
+Breadth First Search is a fundamental graph algorithm that explores nodes level by level, like ripples spreading in water. Its key strength is guaranteeing the shortest path in unweighted graphs, making it essential for navigation, social networks, and many real-world applications. While it uses more memory than DFS, its level-by-level exploration and shortest path guarantee make it indispensable.
+
+**Key Takeaway:** BFS explores all nodes at the current level before moving to the next level. It uses a queue (FIFO) and always finds the shortest path in unweighted graphs. Always mark nodes as visited when adding them to the queue, not when processing them!
