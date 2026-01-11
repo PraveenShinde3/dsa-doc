@@ -50,6 +50,18 @@ export const ROUTES: EachRoute[] = [
     ],
   },
   {
+    title: "Searching Algorithms",
+    href: "/searching-algorithms",
+    noLink: true,
+    items: [
+      { title: "Linear Search", href: "/linear-search" },
+      { title: "Binary Search", href: "/binary-search" },
+      { title: "Jump Search", href: "/jump-search" },
+      { title: "Depth First Search (DFS)", href: "/depth-first-search" },
+      { title: "Breadth First Search (BFS)", href: "/breadth-first-search" },
+    ],
+  },
+  {
     title: "Algorithms",
     href: "/algorithms",
     tag: "New",

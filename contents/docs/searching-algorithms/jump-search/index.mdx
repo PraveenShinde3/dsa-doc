@@ -1,0 +1,390 @@
+---
+title: "Jump Search"
+description: "Learn about Jump Search, a searching algorithm for sorted arrays, with examples and codeimplementations."
+---
+
+## What is Jump Search?
+
+Jump search is a searching algorithm that works on **sorted** arrays. It's like a smart combination of linear search and binary search. Instead of checking every element or dividing the array in half, it "jumps" ahead by fixed steps to quickly find the range where the target might be, then does a linear search in that small range.
+
+Imagine you're looking for a name in a phone book. Instead of checking every single name or opening the book exactly in the middle, you flip through pages in chunks (say, 10 pages at a time) until you find the section where your name should be, then you search through those few pages carefully.
+
+## Important: The Array Must Be Sorted!
+
+Just like binary search, jump search **only works on sorted arrays**. If your array is not sorted, you must sort it first or use linear search instead.
+
+## How Does It Work?
+
+Here's the step-by-step process:
+
+1. Calculate the optimal jump size (usually √n, where n is the array length)
+2. Jump ahead by this step size until you find a value greater than or equal to the target
+3. Once you've jumped past the target, go back one step
+4. Do a linear search in that block to find the exact position
+
+## Real-Life Example
+
+Let's say you have a sorted list of numbers: `[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25]`
+
+Array length = 13, so jump size = √13 ≈ 3
+
+You want to find number `15`.
+
+**Step by step:**
+
+**Jump Phase:**
+
+- **Jump 1:** Index 0 → Check array[0] = 1. Is 1 ≥ 15? No, keep jumping
+- **Jump 2:** Index 3 → Check array[3] = 7. Is 7 ≥ 15? No, keep jumping
+- **Jump 3:** Index 6 → Check array[6] = 13. Is 13 ≥ 15? No, keep jumping
+- **Jump 4:** Index 9 → Check array[9] = 19. Is 19 ≥ 15? Yes! We've jumped past it
+
+**Linear Search Phase:**
+
+- Go back to index 6 (previous jump position)
+- Search linearly from index 6 to 8:
+  - array[6] = 13 (not equal to 15)
+  - array[7] = 15 (found it!)
+
+**Result:** Found `15` at index 7
+
+## Visual Representation
+
+Searching for `15` in `[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25]`:
+
+```
+Jump size = 3
+
+[1, 3, 5, |7|, 9, 11, |13|, 15, 17, |19|, 21, 23, 25]
+  ↓       ↓          ↓           ↓
+Jump 1  Jump 2    Jump 3     Jump 4 (19 ≥ 15, stop!)
+
+Now linear search from index 6 to 8:
+[13, |15|, 17]
+     ↑
+  Found it!
+```
+
+## Code Implementation
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="cpp">C++</TabsTrigger>
+    <TabsTrigger value="javascript">JavaScript</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+```java
+public class JumpSearch {
+    public static int jumpSearch(int[] arr, int target) {
+        int n = arr.length;
+        
+        // Calculate the optimal jump size
+        int step = (int) Math.floor(Math.sqrt(n));
+        
+        // Find the block where element may be present
+        int prev = 0;
+        while (arr[Math.min(step, n) - 1] < target) {
+            prev = step;
+            step += (int) Math.floor(Math.sqrt(n));
+            
+            // If we've reached beyond the array
+            if (prev >= n) {
+                return -1;
+            }
+        }
+        
+        // Linear search in the identified block
+        while (arr[prev] < target) {
+            prev++;
+            
+            // If we reached next block or end of array
+            if (prev == Math.min(step, n)) {
+                return -1;
+            }
+        }
+        
+        // If element is found
+        if (arr[prev] == target) {
+            return prev;
+        }
+        
+        return -1;
+    }
+}
+```
+  </TabsContent>
+
+  <TabsContent value="python">
+```python
+import math
+
+def jump_search(arr, target):
+n = len(arr)
+
+    # Calculate the optimal jump size
+    step = int(math.sqrt(n))
+
+    # Find the block where element may be present
+    prev = 0
+    while arr[min(step, n) - 1] < target:
+        prev = step
+        step += int(math.sqrt(n))
+
+        # If we've reached beyond the array
+        if prev >= n:
+            return -1
+
+    # Linear search in the identified block
+    while arr[prev] < target:
+        prev += 1
+
+        # If we reached next block or end of array
+        if prev == min(step, n):
+            return -1
+
+    # If element is found
+    if arr[prev] == target:
+        return prev
+
+    return -1
+
+````
+  </TabsContent>
+
+  <TabsContent value="cpp">
+```cpp
+#include <cmath>
+#include <vector>
+using namespace std;
+
+int jumpSearch(vector<int>& arr, int target) {
+    int n = arr.size();
+
+    // Calculate the optimal jump size
+    int step = sqrt(n);
+
+    // Find the block where element may be present
+    int prev = 0;
+    while (arr[min(step, n) - 1] < target) {
+        prev = step;
+        step += sqrt(n);
+
+        // If we've reached beyond the array
+        if (prev >= n) {
+            return -1;
+        }
+    }
+
+    // Linear search in the identified block
+    while (arr[prev] < target) {
+        prev++;
+
+        // If we reached next block or end of array
+        if (prev == min(step, n)) {
+            return -1;
+        }
+    }
+
+    // If element is found
+    if (arr[prev] == target) {
+        return prev;
+    }
+
+    return -1;
+}
+````
+
+  </TabsContent>
+
+  <TabsContent value="javascript">
+```javascript
+function jumpSearch(arr, target) {
+  const n = arr.length;
+  
+  // Calculate the optimal jump size
+  let step = Math.floor(Math.sqrt(n));
+  
+  // Find the block where element may be present
+  let prev = 0;
+  while (arr[Math.min(step, n) - 1] < target) {
+    prev = step;
+    step += Math.floor(Math.sqrt(n));
+    
+    // If we've reached beyond the array
+    if (prev >= n) {
+      return -1;
+    }
+  }
+  
+  // Linear search in the identified block
+  while (arr[prev] < target) {
+    prev++;
+    
+    // If we reached next block or end of array
+    if (prev === Math.min(step, n)) {
+      return -1;
+    }
+  }
+  
+  // If element is found
+  if (arr[prev] === target) {
+    return prev;
+  }
+  
+  return -1;
+}
+```
+  </TabsContent>
+</Tabs>
+
+## Time and Space Complexity
+
+**Time Complexity:**
+
+- **Best Case:** O(1) - The element is at the first position
+- **Average Case:** O(√n) - Jump √n times, then linear search √n elements
+- **Worst Case:** O(√n) - Better than linear search O(n), but slower than binary search O(log n)
+
+**Space Complexity:** O(1) - Uses constant extra space
+
+## Why Jump Size is √n?
+
+The optimal jump size is √n because:
+
+- If we jump too far, we do fewer jumps but more linear searches
+- If we jump too little, we do more jumps but fewer linear searches
+- √n gives the perfect balance between jumping and linear searching
+- Mathematically, this minimizes the total number of comparisons
+
+**Example:** For an array of 100 elements:
+
+- Jump size = √100 = 10
+- Maximum jumps needed = 10
+- Maximum linear searches = 10
+- Total = 10 + 10 = 20 comparisons
+
+## Jump Search vs Other Algorithms
+
+| Algorithm     | Time Complexity | Space | Requirement  | Best For                   |
+| ------------- | --------------- | ----- | ------------ | -------------------------- |
+| Linear Search | O(n)            | O(1)  | None         | Small or unsorted arrays   |
+| Jump Search   | O(√n)           | O(1)  | Sorted array | Medium-sized sorted arrays |
+| Binary Search | O(log n)        | O(1)  | Sorted array | Large sorted arrays        |
+
+## When to Use Jump Search?
+
+**Use Jump Search when:**
+
+- Your array is **sorted**
+- You want better performance than linear search but simpler than binary search
+- You're working with systems where jumping backward (like in binary search) is costly
+- Array size is medium (100-10,000 elements)
+
+**Don't use Jump Search when:**
+
+- Your array is unsorted
+- You need the absolute fastest search (use binary search)
+- Your array is very small (use linear search)
+- Your array is huge (use binary search)
+
+## Advantages and Disadvantages
+
+**Advantages:**
+
+- Faster than linear search - O(√n) vs O(n)
+- Simpler than binary search
+- Only jumps forward, never backward (good for certain data structures)
+- Works well for systems where jumping backward is expensive
+- Easy to understand and implement
+
+**Disadvantages:**
+
+- Slower than binary search - O(√n) vs O(log n)
+- Only works on sorted arrays
+- Requires random access (arrays, not linked lists)
+- Not as commonly used as binary search
+
+## Comparison with Binary Search
+
+**Jump Search:**
+
+- Always moves forward
+- Jumps by fixed steps (√n)
+- Does linear search in the final block
+- O(√n) time complexity
+
+**Binary Search:**
+
+- Can move forward or backward
+- Divides search space in half each time
+- No linear search phase
+- O(log n) time complexity
+
+**When Jump Search is better:**
+
+- Systems where jumping backward is expensive
+- Arrays stored on external memory (like tape drives)
+- When you want a simpler algorithm
+
+## Must-Do LeetCode Questions
+
+| #   | Problem                                  | Difficulty | Link                                                                                    |
+| --- | ---------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
+| 1   | Binary Search                            | Easy       | [LeetCode 704](https://leetcode.com/problems/binary-search/)                            |
+| 2   | Search Insert Position                   | Easy       | [LeetCode 35](https://leetcode.com/problems/search-insert-position/)                    |
+| 3   | First Bad Version                        | Easy       | [LeetCode 278](https://leetcode.com/problems/first-bad-version/)                        |
+| 4   | Valid Perfect Square                     | Easy       | [LeetCode 367](https://leetcode.com/problems/valid-perfect-square/)                     |
+| 5   | Sqrt(x)                                  | Easy       | [LeetCode 69](https://leetcode.com/problems/sqrtx/)                                     |
+| 6   | Find Smallest Letter Greater Than Target | Easy       | [LeetCode 744](https://leetcode.com/problems/find-smallest-letter-greater-than-target/) |
+| 7   | Peak Index in a Mountain Array           | Medium     | [LeetCode 852](https://leetcode.com/problems/peak-index-in-a-mountain-array/)           |
+| 8   | Find Peak Element                        | Medium     | [LeetCode 162](https://leetcode.com/problems/find-peak-element/)                        |
+| 9   | Search in Rotated Sorted Array           | Medium     | [LeetCode 33](https://leetcode.com/problems/search-in-rotated-sorted-array/)            |
+| 10  | Find Minimum in Rotated Sorted Array     | Medium     | [LeetCode 153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)     |
+
+_Note: Jump search is not commonly asked in interviews, but understanding it helps you master searching algorithms. Practice with binary search problems to build your foundation._
+
+## Common Mistakes to Avoid
+
+1. **Forgetting the array must be sorted**
+2. **Wrong jump size calculation** - Remember to use √n
+3. **Array bounds errors** - Always use `Math.min(step, n)`
+4. **Missing the linear search phase** - Don't forget to search the final block
+5. **Not handling edge cases** - Test with empty arrays and single elements
+
+## Jump Search Template
+
+Here's a template you can use:
+
+```
+n = array.length
+step = sqrt(n)
+prev = 0
+
+// Jumping phase
+while array[min(step, n) - 1] < target:
+    prev = step
+    step += sqrt(n)
+    if prev >= n:
+        return -1
+
+// Linear search phase
+while array[prev] < target:
+    prev++
+    if prev == min(step, n):
+        return -1
+
+// Check if found
+if array[prev] == target:
+    return prev
+
+return -1
+```
+
+## Summary
+
+Jump search is a nice middle ground between linear and binary search. It's faster than linear search by jumping ahead in blocks of √n size, then doing a linear search in the identified block. While not as fast as binary search, it has the advantage of only moving forward, which makes it useful in certain scenarios.
+
+**Key Takeaway:** Jump search divides a sorted array into blocks of size √n, jumps through blocks until finding the right range, then does a linear search within that block. It achieves O(√n) time complexity, making it faster than linear search but slower than binary search.

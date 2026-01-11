@@ -1,0 +1,527 @@
+---
+title: Depth-First Search
+description: A comprehensive guide to Depth-First Search (DFS) algorithm with examples and code implementations.
+---
+
+## What is Depth First Search?
+
+Depth First Search (DFS) is a graph traversal algorithm that explores as far as possible along each branch before backtracking. Think of it like exploring a maze - you keep going forward down one path until you hit a dead end, then you backtrack and try a different path.
+
+Imagine you're in a library looking for a specific book. Instead of checking every shelf systematically, you go deep into one aisle, explore all its sections completely, then come back and try the next aisle. That's DFS!
+
+## How Does It Work?
+
+DFS uses a **stack** (or recursion, which uses the call stack) to remember where to go back to. Here's the simple process:
+
+1. Start at the root (or any starting node)
+2. Mark the current node as visited
+3. Explore one of its unvisited neighbors
+4. Go as deep as possible down that path
+5. When you hit a dead end (no unvisited neighbors), backtrack
+6. Repeat until all reachable nodes are visited
+
+## Real-Life Example
+
+Let's explore this graph using DFS starting from node **A**:
+
+```
+        A
+       / \
+      B   C
+     /   / \
+    D   E   F
+```
+
+**DFS Traversal Order: A → B → D → C → E → F**
+
+**Step by step:**
+
+1. Start at **A**, mark it visited
+2. Go to **B** (A's first child), mark it visited
+3. Go to **D** (B's only child), mark it visited
+4. **D** has no children, backtrack to **B**
+5. **B** has no more unvisited children, backtrack to **A**
+6. Go to **C** (A's second child), mark it visited
+7. Go to **E** (C's first child), mark it visited
+8. **E** has no children, backtrack to **C**
+9. Go to **F** (C's second child), mark it visited
+10. Done! All nodes visited
+
+## Visual Representation
+
+```
+Step 1: Visit A          Step 2: Visit B          Step 3: Visit D
+   [A]                      [A]                      [A]
+   / \                      / \                      / \
+  B   C                   [B]  C                   [B]  C
+ /   / \                  /   / \                 [D]  / \
+D   E   F                D   E   F                    E   F
+
+Step 4-6: Backtrack      Step 7: Visit E          Step 8: Visit F
+   [A]                      [A]                      [A]
+   / \                      / \                      / \
+ [B] [C]                  [B] [C]                  [B] [C]
+ [D] / \                  [D] / \                  [D] / \
+    E   F                    [E]  F                   [E] [F]
+
+Final: A → B → D → C → E → F
+```
+
+## Code Implementation
+
+<Tabs defaultValue="java" className="pb-1">
+  <TabsList>
+    <TabsTrigger value="java">Java</TabsTrigger>
+    <TabsTrigger value="python">Python</TabsTrigger>
+    <TabsTrigger value="cpp">C++</TabsTrigger>
+    <TabsTrigger value="javascript">JavaScript</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="java">
+```java
+import java.util.*;
+
+class Graph {
+private Map<Integer, List<Integer>> adjList;
+
+    public Graph() {
+        adjList = new HashMap<>();
+    }
+
+    public void addEdge(int v, int w) {
+        adjList.putIfAbsent(v, new ArrayList<>());
+        adjList.get(v).add(w);
+    }
+
+    // Recursive DFS
+    public void dfsRecursive(int start) {
+        Set<Integer> visited = new HashSet<>();
+        dfsRecursiveHelper(start, visited);
+    }
+
+    private void dfsRecursiveHelper(int node, Set<Integer> visited) {
+        // Mark current node as visited
+        visited.add(node);
+        System.out.print(node + " ");
+
+        // Recursively visit all unvisited neighbors
+        if (adjList.containsKey(node)) {
+            for (int neighbor : adjList.get(node)) {
+                if (!visited.contains(neighbor)) {
+                    dfsRecursiveHelper(neighbor, visited);
+                }
+            }
+        }
+    }
+
+    // Iterative DFS using Stack
+    public void dfsIterative(int start) {
+        Set<Integer> visited = new HashSet<>();
+        Stack<Integer> stack = new Stack<>();
+
+        stack.push(start);
+
+        while (!stack.isEmpty()) {
+            int node = stack.pop();
+
+            if (!visited.contains(node)) {
+                visited.add(node);
+                System.out.print(node + " ");
+
+                // Push all unvisited neighbors to stack
+                if (adjList.containsKey(node)) {
+                    // Reverse order to maintain left-to-right traversal
+                    List<Integer> neighbors = adjList.get(node);
+                    for (int i = neighbors.size() - 1; i >= 0; i--) {
+                        if (!visited.contains(neighbors.get(i))) {
+                            stack.push(neighbors.get(i));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+````
+  </TabsContent>
+
+  <TabsContent value="python">
+```python
+from collections import defaultdict
+
+class Graph:
+    def __init__(self):
+        self.adj_list = defaultdict(list)
+
+    def add_edge(self, v, w):
+        self.adj_list[v].append(w)
+
+    # Recursive DFS
+    def dfs_recursive(self, start):
+        visited = set()
+        self._dfs_recursive_helper(start, visited)
+
+    def _dfs_recursive_helper(self, node, visited):
+        # Mark current node as visited
+        visited.add(node)
+        print(node, end=" ")
+
+        # Recursively visit all unvisited neighbors
+        for neighbor in self.adj_list[node]:
+            if neighbor not in visited:
+                self._dfs_recursive_helper(neighbor, visited)
+
+    # Iterative DFS using Stack
+    def dfs_iterative(self, start):
+        visited = set()
+        stack = [start]
+
+        while stack:
+            node = stack.pop()
+
+            if node not in visited:
+                visited.add(node)
+                print(node, end=" ")
+
+                # Push all unvisited neighbors to stack
+                # Reverse order to maintain left-to-right traversal
+                for neighbor in reversed(self.adj_list[node]):
+                    if neighbor not in visited:
+                        stack.append(neighbor)
+````
+
+  </TabsContent>
+
+  <TabsContent value="cpp">
+```cpp
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+
+class Graph {
+private:
+unordered_map<int, vector<int>> adjList;
+
+    void dfsRecursiveHelper(int node, unordered_set<int>& visited) {
+        // Mark current node as visited
+        visited.insert(node);
+        cout << node << " ";
+
+        // Recursively visit all unvisited neighbors
+        for (int neighbor : adjList[node]) {
+            if (visited.find(neighbor) == visited.end()) {
+                dfsRecursiveHelper(neighbor, visited);
+            }
+        }
+    }
+
+public:
+void addEdge(int v, int w) {
+adjList[v].push_back(w);
+}
+
+    // Recursive DFS
+    void dfsRecursive(int start) {
+        unordered_set<int> visited;
+        dfsRecursiveHelper(start, visited);
+    }
+
+    // Iterative DFS using Stack
+    void dfsIterative(int start) {
+        unordered_set<int> visited;
+        stack<int> stk;
+
+        stk.push(start);
+
+        while (!stk.empty()) {
+            int node = stk.top();
+            stk.pop();
+
+            if (visited.find(node) == visited.end()) {
+                visited.insert(node);
+                cout << node << " ";
+
+                // Push all unvisited neighbors to stack
+                // Reverse order to maintain left-to-right traversal
+                vector<int>& neighbors = adjList[node];
+                for (int i = neighbors.size() - 1; i >= 0; i--) {
+                    if (visited.find(neighbors[i]) == visited.end()) {
+                        stk.push(neighbors[i]);
+                    }
+                }
+            }
+        }
+    }
+
+};
+
+````
+  </TabsContent>
+
+  <TabsContent value="javascript">
+```javascript
+class Graph {
+  constructor() {
+    this.adjList = new Map();
+  }
+
+  addEdge(v, w) {
+    if (!this.adjList.has(v)) {
+      this.adjList.set(v, []);
+    }
+    this.adjList.get(v).push(w);
+  }
+
+  // Recursive DFS
+  dfsRecursive(start) {
+    const visited = new Set();
+    this._dfsRecursiveHelper(start, visited);
+  }
+
+  _dfsRecursiveHelper(node, visited) {
+    // Mark current node as visited
+    visited.add(node);
+    process.stdout.write(node + " ");
+
+    // Recursively visit all unvisited neighbors
+    const neighbors = this.adjList.get(node) || [];
+    for (const neighbor of neighbors) {
+      if (!visited.has(neighbor)) {
+        this._dfsRecursiveHelper(neighbor, visited);
+      }
+    }
+  }
+
+  // Iterative DFS using Stack
+  dfsIterative(start) {
+    const visited = new Set();
+    const stack = [start];
+
+    while (stack.length > 0) {
+      const node = stack.pop();
+
+      if (!visited.has(node)) {
+        visited.add(node);
+        process.stdout.write(node + " ");
+
+        // Push all unvisited neighbors to stack
+        // Reverse order to maintain left-to-right traversal
+        const neighbors = this.adjList.get(node) || [];
+        for (let i = neighbors.length - 1; i >= 0; i--) {
+          if (!visited.has(neighbors[i])) {
+            stack.push(neighbors[i]);
+          }
+        }
+      }
+    }
+  }
+}
+````
+
+  </TabsContent>
+</Tabs>
+
+## Time and Space Complexity
+
+**Time Complexity:** O(V + E)
+
+- V = number of vertices (nodes)
+- E = number of edges
+- We visit each vertex once and explore each edge once
+
+**Space Complexity:**
+
+- **Recursive:** O(V) - for the call stack (can be O(h) where h is height for trees)
+- **Iterative:** O(V) - for the explicit stack
+- Both also need O(V) for the visited set
+
+## DFS vs BFS Comparison
+
+| Feature        | DFS                                  | BFS                        |
+| -------------- | ------------------------------------ | -------------------------- |
+| Data Structure | Stack (or recursion)                 | Queue                      |
+| Traversal      | Go deep first                        | Go wide first              |
+| Memory         | Less memory (goes deep)              | More memory (stores level) |
+| Path Finding   | May not find shortest path           | Always finds shortest path |
+| Best For       | Topological sorting, cycle detection | Shortest path, level-order |
+
+## Applications of DFS
+
+1. **Pathfinding** - Finding if a path exists between two nodes
+2. **Cycle Detection** - Detecting cycles in a graph
+3. **Topological Sorting** - Ordering tasks with dependencies
+4. **Connected Components** - Finding disconnected parts of a graph
+5. **Maze Solving** - Finding a way out of a maze
+6. **Tree Traversal** - Preorder, Inorder, Postorder traversals
+7. **Backtracking Problems** - Sudoku, N-Queens, etc.
+
+## When to Use DFS?
+
+**Use DFS when:**
+
+- You need to visit all nodes (complete traversal)
+- Memory is limited (DFS uses less memory than BFS)
+- You're solving backtracking problems
+- You need to detect cycles
+- You're doing topological sorting
+- The solution is far from the root
+
+**Don't use DFS when:**
+
+- You need the shortest path (use BFS instead)
+- The tree/graph is very deep (risk of stack overflow)
+- You need level-by-level traversal
+
+## Recursive vs Iterative DFS
+
+**Recursive (Recommended for simplicity):**
+
+- Cleaner and easier to write
+- Uses implicit call stack
+- Can cause stack overflow for very deep graphs
+- More intuitive for tree problems
+
+**Iterative (Recommended for deep graphs):**
+
+- More control over the stack
+- No risk of stack overflow
+- Uses explicit stack
+- Slightly more code but safer for production
+
+## Advantages and Disadvantages
+
+**Advantages:**
+
+- Memory efficient (uses less memory than BFS)
+- Simple to implement recursively
+- Perfect for exploring all paths
+- Great for backtracking problems
+- Works well for trees and graphs
+
+**Disadvantages:**
+
+- May not find the shortest path
+- Can get stuck in infinite loops if not careful with visited set
+- Stack overflow risk with recursive implementation
+- Doesn't work well for weighted graphs (use Dijkstra's)
+
+## Common Variations
+
+### 1. DFS on Binary Tree (Preorder)
+
+```java
+void dfsPreorder(TreeNode root) {
+    if (root == null) return;
+    System.out.print(root.val + " ");  // Process
+    dfsPreorder(root.left);            // Left
+    dfsPreorder(root.right);           // Right
+}
+```
+
+### 2. DFS with Path Tracking
+
+```java
+void dfsWithPath(int node, Set<Integer> visited, List<Integer> path) {
+    visited.add(node);
+    path.add(node);
+
+    for (int neighbor : graph.get(node)) {
+        if (!visited.contains(neighbor)) {
+            dfsWithPath(neighbor, visited, path);
+        }
+    }
+}
+```
+
+### 3. DFS for Cycle Detection
+
+```java
+boolean hasCycle(int node, Set<Integer> visited, Set<Integer> recStack) {
+    visited.add(node);
+    recStack.add(node);
+
+    for (int neighbor : graph.get(node)) {
+        if (!visited.contains(neighbor)) {
+            if (hasCycle(neighbor, visited, recStack)) return true;
+        } else if (recStack.contains(neighbor)) {
+            return true;  // Cycle detected
+        }
+    }
+
+    recStack.remove(node);
+    return false;
+}
+```
+
+## Must-Do LeetCode Questions
+
+| #   | Problem                         | Difficulty | Link                                                                           |
+| --- | ------------------------------- | ---------- | ------------------------------------------------------------------------------ |
+| 1   | Number of Islands               | Medium     | [LeetCode 200](https://leetcode.com/problems/number-of-islands/)               |
+| 2   | Clone Graph                     | Medium     | [LeetCode 133](https://leetcode.com/problems/clone-graph/)                     |
+| 3   | Path Sum                        | Easy       | [LeetCode 112](https://leetcode.com/problems/path-sum/)                        |
+| 4   | Binary Tree Paths               | Easy       | [LeetCode 257](https://leetcode.com/problems/binary-tree-paths/)               |
+| 5   | Flood Fill                      | Easy       | [LeetCode 733](https://leetcode.com/problems/flood-fill/)                      |
+| 6   | Course Schedule                 | Medium     | [LeetCode 207](https://leetcode.com/problems/course-schedule/)                 |
+| 7   | Course Schedule II              | Medium     | [LeetCode 210](https://leetcode.com/problems/course-schedule-ii/)              |
+| 8   | Pacific Atlantic Water Flow     | Medium     | [LeetCode 417](https://leetcode.com/problems/pacific-atlantic-water-flow/)     |
+| 9   | Max Area of Island              | Medium     | [LeetCode 695](https://leetcode.com/problems/max-area-of-island/)              |
+| 10  | All Paths From Source to Target | Medium     | [LeetCode 797](https://leetcode.com/problems/all-paths-from-source-to-target/) |
+| 11  | Surrounded Regions              | Medium     | [LeetCode 130](https://leetcode.com/problems/surrounded-regions/)              |
+| 12  | Number of Provinces             | Medium     | [LeetCode 547](https://leetcode.com/problems/number-of-provinces/)             |
+| 13  | Keys and Rooms                  | Medium     | [LeetCode 841](https://leetcode.com/problems/keys-and-rooms/)                  |
+| 14  | Network Delay Time              | Medium     | [LeetCode 743](https://leetcode.com/problems/network-delay-time/)              |
+| 15  | Word Search                     | Medium     | [LeetCode 79](https://leetcode.com/problems/word-search/)                      |
+
+## Common Mistakes to Avoid
+
+1. **Forgetting the visited set** - Leads to infinite loops
+2. **Not handling disconnected components** - Some nodes may never be reached
+3. **Stack overflow with deep recursion** - Use iterative for very deep graphs
+4. **Wrong base case in recursion** - Always check for null/invalid nodes
+5. **Not restoring state in backtracking** - Remember to remove from visited set when needed
+
+## DFS Template (Recursive)
+
+```
+function dfs(node, visited):
+    if node is null or node in visited:
+        return
+
+    visited.add(node)
+    // Process current node
+
+    for each neighbor of node:
+        if neighbor not in visited:
+            dfs(neighbor, visited)
+```
+
+## DFS Template (Iterative)
+
+```
+function dfs(start):
+    visited = empty set
+    stack = [start]
+
+    while stack is not empty:
+        node = stack.pop()
+
+        if node not in visited:
+            visited.add(node)
+            // Process current node
+
+            for each neighbor of node:
+                if neighbor not in visited:
+                    stack.push(neighbor)
+```
+
+## Summary
+
+Depth First Search is one of the most fundamental graph algorithms. It explores as deep as possible before backtracking, making it perfect for problems that require exploring all paths, detecting cycles, or solving backtracking puzzles. While it doesn't guarantee the shortest path like BFS, its simplicity and memory efficiency make it invaluable for many problems.
+
+**Key Takeaway:** DFS goes deep into one path before exploring other paths. It uses a stack (or recursion) and is essential for tree traversals, backtracking problems, cycle detection, and topological sorting. Always remember to track visited nodes to avoid infinite loops!
