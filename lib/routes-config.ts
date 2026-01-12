@@ -50,8 +50,8 @@ export const ROUTES: EachRoute[] = [
     ],
   },
   {
-    title: "Searching Algorithms",
-    href: "/searching-algorithms",
+    title: "Searching",
+    href: "/searching",
     noLink: true,
     items: [
       { title: "Linear Search", href: "/linear-search" },
